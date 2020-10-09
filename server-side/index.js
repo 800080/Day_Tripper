@@ -7,7 +7,7 @@ const passport = require('passport')
 
 const db = require('./db')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const sessionStore = new SequelizeStore({db})
+const sessionStore = new SequelizeStore({ db })
 
 
 
@@ -49,7 +49,7 @@ const createApp = () => {
 
   // body parsing middleware
   app.use(express.json())
-  app.use(express.urlencoded({extended: true}))
+  app.use(express.urlencoded({ extended: true }))
 
   // compression middleware
   app.use(compression())
@@ -108,7 +108,7 @@ const startListening = () => {
   // require('./socket')(io)
 }
 
-const syncDb = () => db.sync()
+const syncDb = () => db.sync({ force: true })
 
 async function bootApp() {
   await sessionStore.sync()
