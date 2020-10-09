@@ -1,5 +1,5 @@
 {
-  "name": "server-side",
+  "name": "daytripper-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,8 +10,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "compression": "^1.7.4",
+    "connect-session-sequelize": "^7.0.3",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "path": "^0.12.7",
     "pg": "^8.4.1",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "session": "^0.1.0",
+    "socket.io": "^2.3.0"
   }
 }
