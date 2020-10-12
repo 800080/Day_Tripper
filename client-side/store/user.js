@@ -22,7 +22,7 @@ const removeUser = () => ({type: REMOVE_USER})
  */
 export const me = () => async dispatch => {
   try {
-    const res = await axios.get('https://git.heroku.com/daytripper800080/auth/me')
+    const res = await axios.get('https://daytripper800080.herokuapp.com/auth/me')
     dispatch(getUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
@@ -32,7 +32,9 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method, navigation) => async dispatch => {
   let res
   try {
-    res = await axios.post(`https://git.heroku.com/daytripper800080/auth/${method}`, {email, password})
+    console.log('email, password --->', email, password)
+    res = await axios.post(`https://daytripper800080.herokuapp.com/auth/login`, {email, password})
+    console.log('res.data ---->', res.data)
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
@@ -47,7 +49,7 @@ export const auth = (email, password, method, navigation) => async dispatch => {
 
 export const logout = (navigation) => async dispatch => {
   try {
-    await axios.post('https://git.heroku.com/daytripper800080/auth/logout')
+    await axios.post('https://daytripper800080.herokuapp.com/auth/logout')
     dispatch(removeUser())
     navigation.navigate('Login')
   } catch (err) {

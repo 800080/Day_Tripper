@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { auth } from '../store/user'
+import { connect } from 'react-redux'
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -40,7 +42,7 @@ export default class Login extends Component {
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => onLoginPress()}
+            onPress={() => this.props.login(this.state.email, this.state.password, this.props.navigation)}
           >
             <Text style={styles.buttonTitle}>Log in</Text>
           </TouchableOpacity>
@@ -57,6 +59,12 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatch = (dispatch) => ({
+  login: (email, password, navigation) => dispatch(auth(email, password, 'login', navigation))
+})
+
+export default connect(null, mapDispatch)(Login)
 
 const styles = StyleSheet.create({
   container: {
