@@ -3,8 +3,9 @@ import { Text, View } from 'react-native'
 import io from 'socket.io-client'
 
 export default class Chat extends Component {
+
   componentDidMount() {
-    const socket = io('http://localhost:7070', {
+    const socket = io('http://10.0.2.2:7070', {
       transports: ['websocket'], jsonp: false
     });
     socket.connect();
