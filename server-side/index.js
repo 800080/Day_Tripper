@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
+const socket = require('socket.io')
 
 const db = require('./db')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
@@ -103,9 +104,8 @@ const startListening = () => {
     console.log(`Mixing it up on port ${PORT}`)
   )
 
-  // // set up our socket control center - COMMENTED OUT FOR NOW
-  // const io = socketio(server)
-  // require('./socket')(io)
+  const io = socketio(server)
+  require('./socket')(io)
 }
 
 const syncDb = () => db.sync({ force: true })
