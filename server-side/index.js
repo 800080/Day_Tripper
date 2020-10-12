@@ -66,9 +66,8 @@ const createApp = () => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  // auth and api routes - COMMENTED OUT FOR NOW
-  // app.use('/auth', require('./auth'))
-  // app.use('/api', require('./api'))
+  app.use('/auth', require('./auth'))
+  app.use('/api', require('./api'))
 
   // // static file-serving middleware
   // app.use(express.static(path.join(__dirname, '..', 'public')))
@@ -107,7 +106,7 @@ const startListening = () => {
   require('./socket')(io)
 }
 
-const syncDb = () => db.sync({ force: true })
+const syncDb = () => db.sync()
 
 async function bootApp() {
   await sessionStore.sync()
