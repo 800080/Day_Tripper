@@ -4,7 +4,6 @@ const morgan = require('morgan')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
-const socket = require('socket.io')
 
 const db = require('./db')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
