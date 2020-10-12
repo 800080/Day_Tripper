@@ -102,9 +102,8 @@ const startListening = () => {
     console.log(`Mixing it up on port ${PORT}`)
   )
 
-  // // set up our socket control center - COMMENTED OUT FOR NOW
-  // const io = socketio(server)
-  // require('./socket')(io)
+  const io = socketio(server)
+  require('./socket')(io)
 }
 
 const syncDb = () => db.sync()
