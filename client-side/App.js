@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import store from './store';
 import Chat from './screens/Chat';
 import { Login, HomeScreen } from './screens';
+import './socket'
 
 const Stack = createStackNavigator();
 

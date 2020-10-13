@@ -1,9 +1,9 @@
 import io from 'socket.io-client'
 
-const socket = io("http://192.168.0.9:7070")
+const socket = io("https://daytripper800080.herokuapp.com")
 
 socket.on('connect', () => {
-  console.log('Connected!')
+  console.log('Connected!!!!!!!!!!!!!!!!!!!!!!')
 })
 
 export default socket

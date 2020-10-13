@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import io from 'socket.io-client'
+import socket from '../socket'
 
 export default class Chat extends Component {
 
   componentDidMount() {
-    const socket = io('http://10.0.2.2:7070', {
-      transports: ['websocket'], jsonp: false
-    });
-    socket.connect();
-    socket.on('connect', () => {
-      console.log('connected to socket server');
-    });
+    socket.emit('room', 'vacationTrip123')
+  }
+
+  componentWillUnmount() {
+    socket.emit('leaveRoom', 'vacationTrip123')
   }
 
   render() {
