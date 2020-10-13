@@ -87,15 +87,12 @@ const seedEvent = [
 const seedChatMessages = [
   {
     message:"Can't wait to graduate!",
-    time: new Date("10/25/20 10:00:00")
   },
   {
     message:"What should I pack?",
-    time: new Date("10/25/20 10:10:00")
   },
   {
     message:"Bring an umbrella",
-    time: new Date("10/25/20 10:12:00")
   },
 ]
 

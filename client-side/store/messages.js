@@ -5,6 +5,7 @@ const GET_NEW_MESSAGE = 'GET_NEW_MESSAGE'
 const GET_ALL_MESSAGES = 'GET_ALL_MESSAGES'
 
 
+
 //Action Creator
 const getNewMessage = (message) => ({
   type: GET_NEW_MESSAGE,
@@ -16,22 +17,20 @@ const getAllMessages = (messages) => ({
   messages
 })
 
+
 //Thunk Creators
 
 //Initial State
-const initialState = {
-  allMessages:[],
-  newMessage: ''
-}
+const initialState = []
 
 
 //Reducer
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_NEW_MESSAGE:
-      return {...state, newMessage: action.message}
+      return [...state, action.message]
     case GET_ALL_MESSAGES:
-      return {...state, allMessages:[action.messages]}
+      return action.messages
     default:
       return state
   }
