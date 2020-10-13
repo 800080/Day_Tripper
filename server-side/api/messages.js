@@ -1,11 +1,12 @@
 const router = require('express').Router()
-const {ChatMessage} = require('../db/models')
+const { ChatMessage } = require('../db/models')
 module.exports = router
 
 //GET mounted on /api/messages
 router.get('/trip/:tripId', async (req, res, next) => {
   try {
     const messages = await ChatMessage.findAll({
+      order: [['createdAt', 'ASC']],
       where: {
         tripId: req.params.tripId
       }
@@ -20,7 +21,7 @@ router.get('/trip/:tripId', async (req, res, next) => {
 router.post('/trip/:tripId/user/:userId', async (req, res, next) => {
   try {
     const newMessage = await ChatMessage.create({
-      message: req.body.message,
+      message: req.body,
       tripId: req.params.tripId,
       userId: req.params.userId
     })
