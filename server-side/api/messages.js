@@ -4,6 +4,7 @@ module.exports = router
 
 //GET mounted on /api/messages
 router.get('/trip/:tripId', async (req, res, next) => {
+  console.log("MESSAGES ON API")
   try {
     const messages = await ChatMessage.findAll({
       order: [['createdAt', 'ASC']],
@@ -11,6 +12,7 @@ router.get('/trip/:tripId', async (req, res, next) => {
         tripId: req.params.tripId
       }
     })
+
     res.send(messages)
   } catch (error) {
     next(error)

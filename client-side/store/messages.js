@@ -5,10 +5,8 @@ import socket from '../socket'
 const GET_NEW_MESSAGE = 'GET_NEW_MESSAGE'
 const GET_ALL_MESSAGES = 'GET_ALL_MESSAGES'
 
-
-
 //Action Creator
-const getNewMessage = (message) => ({
+export const getNewMessage = (message) => ({
   type: GET_NEW_MESSAGE,
   message
 })
@@ -21,9 +19,11 @@ const getAllMessages = (messages) => ({
 
 //Thunk Creators
 export const fetchMessages = (tripId) => async dispatch => {
+  console.log("TRIP ID----", tripId)
   try {
-    const messages = await axios.get(`/api/messages/trip/${tripId}`)
-    dispatch(getAllMessages(messages.data))
+    await axios.get(`/api/messages/trip/${tripId}`)
+    console.log("IN TRY BLOCK")
+    // dispatch(getAllMessages(messages.data))
   } catch (error) {
     console.error(error)
   }
@@ -33,6 +33,9 @@ export const sendMessage = (message, tripId, userId) => async dispatch => {
   try {
     const newMessage = await axios.post(`/api/messages/trip/${tripId}/user/${userId}`, message)
     dispatch(getNewMessage(newMessage.data))
+    socket.emit("new-message", newMessage.data)
+
+
   } catch (error) {
     console.error(error)
   }
