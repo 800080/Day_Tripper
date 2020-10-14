@@ -6,6 +6,7 @@ import store from './store';
 import Chat from './screens/Chat';
 import { Login, HomeScreen } from './screens';
 import './socket'
+import { SingleTrip } from './screens/SingleTrip';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ function App() {
             })}
           />
           <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="SingleTrip" component={SingleTrip} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
