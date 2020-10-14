@@ -11,6 +11,7 @@ const reducer = combineReducers({user, messages, trips})
 const middleware = applyMiddleware(thunkMiddleware)
 //, createLogger({ collapsed: false }))
 
+
 const store = createStore(reducer, middleware)
 
 export default store

@@ -10,6 +10,12 @@ const UserTrip = require('./userTrips')
 User.belongsToMany(Trip, { through: UserTrip });
 Trip.belongsToMany(User, { through: UserTrip });
 
+UserTrip.belongsTo(User)
+User.hasMany(UserTrip)
+
+UserTrip.belongsTo(Trip)
+Trip.hasMany(UserTrip)
+
 Event.belongsTo(Trip)
 Trip.hasMany(Event)
 

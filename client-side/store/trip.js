@@ -17,10 +17,20 @@ const getSingleTrip = (trip) => ({
 })
 
 //Thunk Creator
+export const fetchAllTrips = (userId) => async dispatch => {
+  try {
+    const trips = await axios.get(`${serverUrl}/api/trips/user/${userId}`)
+    dispatch(getAllTrips(trips.data))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const fetchSingleTrip = (tripId) => async dispatch => {
   try {
     const singleTrip = await axios.get(`${serverUrl}/api/trips/${tripId}`)
     dispatch(getSingleTrip(singleTrip.data))
+
   } catch (error) {
     console.error(error)
   }

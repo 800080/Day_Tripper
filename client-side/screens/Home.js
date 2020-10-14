@@ -7,6 +7,10 @@ function HomeScreen({ navigation, user }) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Welcome {user.name}!</Text>
       <Button
+        title="View Trips"
+        onPress={() => navigation.navigate('AllTrips')}
+      />
+      <Button
         title="Go to Chat"
         onPress={() => navigation.navigate('Chat')}
       />
