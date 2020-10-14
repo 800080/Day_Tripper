@@ -27,6 +27,7 @@ class Chat extends Component {
   }
 
   render() {
+    console.log('chat.js this.props-------> ', this.props)
     return (
       <View>
         {this.props.messages.map((message) => {
