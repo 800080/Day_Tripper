@@ -1,14 +1,15 @@
 import io from 'socket.io-client'
 import store, { getNewMessage } from './store'
+import serverUrl from './serverUrl'
 
-const socket = io("https://daytripper800080.herokuapp.com")
-// const socket = io("http://localhost:7070")
+const socket = io(serverUrl)
 
 socket.on('connect', () => {
   console.log('Connected!!!!!!!!!!!!!!!!!!!!!!')
 })
 
 socket.on('new-message', message => {
+  console.log('received message!!!!!!!!!!!!!!!!!')
   store.dispatch(getNewMessage(message))
 })
 
