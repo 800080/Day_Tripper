@@ -31,7 +31,7 @@ export const fetchMessages = (tripId) => async dispatch => {
 export const sendMessage = (message, tripId, userId) => async dispatch => {
   try {
     const newMessage = await axios.post(`${serverUrl}/api/messages/trip/${tripId}/user/${userId}`, {message})
-    // dispatch(getNewMessage(newMessage.data))
+    dispatch(getNewMessage(newMessage.data))
     socket.emit("new-message", newMessage.data)
   } catch (error) {
     console.error(error)
