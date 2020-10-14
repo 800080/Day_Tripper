@@ -1,5 +1,6 @@
 import axios from 'axios'
 import socket from '../socket'
+import serverUrl from '../serverUrl'
 
 //Action Types
 const GET_NEW_MESSAGE = 'GET_NEW_MESSAGE'
@@ -20,7 +21,7 @@ const getAllMessages = (messages) => ({
 //Thunk Creators
 export const fetchMessages = (tripId) => async dispatch => {
   try {
-    const messages = await axios.get(`https://daytripper800080.herokuapp.com/api/messages/trip/${tripId}`)
+    const messages = await axios.get(`${serverUrl}/api/messages/trip/${tripId}`)
     dispatch(getAllMessages(messages.data))
   } catch (error) {
     console.error(error)
@@ -29,7 +30,7 @@ export const fetchMessages = (tripId) => async dispatch => {
 
 export const sendMessage = (message, tripId, userId) => async dispatch => {
   try {
-    const newMessage = await axios.post(`https://daytripper800080.herokuapp.com/api/messages/trip/${tripId}/user/${userId}`, {message})
+    const newMessage = await axios.post(`${serverUrl}/api/messages/trip/${tripId}/user/${userId}`, {message})
     // dispatch(getNewMessage(newMessage.data))
     socket.emit("new-message", newMessage.data)
   } catch (error) {

@@ -22,7 +22,7 @@ class Chat extends Component {
   }
 
   handlesubmit() {
-    this.props.sendMessage(this.state.newMessage, '1', '3')
+    this.props.sendMessage(this.state.newMessage, '1', this.props.user.id)
     this.setState({newMessage: ''})
   }
 
@@ -30,7 +30,7 @@ class Chat extends Component {
     return (
       <View>
         {this.props.messages.map((message) => {
-          return <Text key={message.id}>{message.message}</Text>;
+          return <Text key={message.id}>{message.user.username}: {message.message}</Text>;
         })}
         <TextInput style={{ height: 40, borderWidth: 2, marginTop: 20 }} onChangeText={newMessage => this.setState({newMessage})} value={this.state.newMessage} />
         <Button
@@ -43,6 +43,7 @@ class Chat extends Component {
 }
 
 const mapState = (state) => ({
+  user: state.user,
   messages: state.messages,
 });
 
