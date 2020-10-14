@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import { connect } from 'react-redux'
+import { fetchSingleTrip } from '../store'
 
 export class SingleTrip extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
   }
 
   render() {
@@ -23,7 +24,11 @@ export class SingleTrip extends Component {
 }
 
 const mapState = (state) => ({
-  singleTrip: state.singleTrip //may need editing based on naming convention
+  singleTrip: state.trips.singleTrip //may need editing based on naming convention
 })
 
-export default connect(mapState)(SingleTrip)
+const mapDispatch = (dispatch) => ({
+  fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId))
+})
+
+export default connect(mapState, mapDispatch)(SingleTrip)

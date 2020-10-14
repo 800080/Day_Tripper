@@ -3,12 +3,13 @@ import { createLogger } from "redux-logger"
 import thunkMiddleware from "redux-thunk"
 import user from "./user"
 import messages from "./messages"
-import trip from './trip'
+import trips from './trip'
 
 
-const reducer = combineReducers({user, messages, trip})
+const reducer = combineReducers({user, messages, trips})
 
-const middleware = applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+const middleware = applyMiddleware(thunkMiddleware)
+//, createLogger({ collapsed: false }))
 
 const store = createStore(reducer, middleware)
 

@@ -4,9 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import store from './store';
 import Chat from './screens/Chat';
-import { Login, HomeScreen } from './screens';
+import { Login, HomeScreen, SingleTrip } from './screens';
 import './socket'
-import { SingleTrip } from './screens/SingleTrip';
 
 const Stack = createStackNavigator();
 
