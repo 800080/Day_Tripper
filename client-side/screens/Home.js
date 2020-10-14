@@ -14,6 +14,10 @@ function HomeScreen({ navigation, user }) {
         title="Go to Chat"
         onPress={() => navigation.navigate('Chat')}
       />
+      <Button
+        title="Go to SingleTrip 1"
+        onPress={() => navigation.navigate('SingleTrip')}
+      />
     </View>
   );
 }

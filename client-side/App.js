@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import store from './store';
-import { Login, HomeScreen, Chat, AllTrips } from './screens';
+import { Login, HomeScreen, Chat, AllTrips, SingleTrip } from './screens';
 import './socket'
 
 const Stack = createStackNavigator();
@@ -23,6 +23,7 @@ function App() {
           />
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="AllTrips" component={AllTrips} />
+          <Stack.Screen name="SingleTrip" component={SingleTrip} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

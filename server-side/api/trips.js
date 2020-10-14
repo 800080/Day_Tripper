@@ -19,3 +19,13 @@ router.get('/user/:userId', async (req, res, next) => {
     next(error)
   }
 })
+
+//GET mounted on /api/trips
+router.get('/:tripId', async (req, res, next) => {
+  try {
+    const singleTrip = await Trip.findByPk(req.params.tripId)
+    res.send(singleTrip)
+  } catch (error) {
+    next(error)
+  }
+})
