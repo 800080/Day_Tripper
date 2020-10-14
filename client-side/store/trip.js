@@ -11,6 +11,14 @@ const getAllTrips = (trips) => ({
 })
 
 //Thunk Creator
+export const gotAlltrips = (userId) => async dispatch => {
+  try {
+    const trips = await axios.get(`${serverUrl}/api/trips/user/${userId}`)
+    dispatch(getAllTrips(trips))
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 //Initial State
 const initialState = {
