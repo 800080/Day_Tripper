@@ -8,7 +8,6 @@ router.get('/me', (req, res) => {
 
 router.post('/login', async (req, res, next) => {
   try {
-    console.log('IN HERRREEEEEEE')
     const user = await User.findOne({where: {email: req.body.email}})
     if (!user) {
       console.log('No such user found:', req.body.email)
