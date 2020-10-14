@@ -22,8 +22,9 @@ router.get('/trip/:tripId', async (req, res, next) => {
 //POST mounted on /api/messages
 router.post('/trip/:tripId/user/:userId', async (req, res, next) => {
   try {
+    console.log('req.body --------->', req.body)
     const newMessage = await ChatMessage.create({
-      message: req.body,
+      message: req.body.message,
       tripId: req.params.tripId,
       userId: req.params.userId
     })

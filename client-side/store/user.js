@@ -32,9 +32,7 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method, navigation) => async dispatch => {
   let res
   try {
-    console.log('email, password --->', email, password)
     res = await axios.post(`https://daytripper800080.herokuapp.com/auth/login`, {email, password})
-    console.log('res.data ---->', res.data)
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
