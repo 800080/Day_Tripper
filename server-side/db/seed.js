@@ -18,7 +18,7 @@ const seedUser = [
   },
   {
     name: "Amadi",
-    username: "sambista",
+    username: "Samba Queen💃🏾",
     email: "amadi@email.com",
     password: "123"
   },
@@ -106,6 +106,8 @@ async function seed() {
 
   await createdTrips[0].addEvents(createdEvents)
   await createdTrips[0].addUsers(createdUsers)
+  await createdTrips[1].addUsers(createdUsers)
+  await createdTrips[2].addUsers(createdUsers)
   await createdTrips[0].addChatMessages(createdChatMessages)
   await createdChatMessages[0].setUser(createdUsers[1])
   await createdChatMessages[1].setUser(createdUsers[2])
