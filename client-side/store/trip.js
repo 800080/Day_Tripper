@@ -45,7 +45,7 @@ export const createTripServer = (tripInfo, navigation) => async dispatch => {
   try {
     const newTrip = await axios.post(`${serverUrl}/api/trips`, tripInfo)
     dispatch(createdTrip(newTrip.data))
-    navigation.navigate('AllTrips')
+    navigation.navigate('SingleTrip')
   } catch (error) {
     console.error(error)
   }
@@ -57,7 +57,6 @@ const initialState = {
   singleTrip: {}
 }
 
-
 //Reducer
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -65,6 +64,8 @@ export default function (state = initialState, action) {
       return { ...state, allTrips: action.trips }
     case GET_SINGLE_TRIP:
       return { ...state, singleTrip: action.trip }
+    case CREATE_TRIP:
+      return { ...state, singleTrip: action.newTrip }
     default:
       return state
   }

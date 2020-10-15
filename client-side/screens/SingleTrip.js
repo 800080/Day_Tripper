@@ -12,7 +12,7 @@ export class SingleTrip extends Component {
     console.log("THE PROPPPSSS: ", this.props.singleTrip.title)
     return (
       <View>
-        <Text>${this.props.singleTrip.title}</Text>
+        <Text>{this.props.singleTrip.title}</Text>
         <Text>START: {this.props.singleTrip.startDate}</Text>
         <Text>END: {this.props.singleTrip.endDate}</Text>
         <Text>NOTES: {this.props.singleTrip.notes}</Text>
