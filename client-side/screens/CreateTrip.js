@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
   Text,
   TextInput,
@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
-import { createTripServer } from '../store'
+import { createTripServer, findAddGuest } from '../store';
+import { List } from 'react-native-paper'
 
 class CreateTrip extends Component {
   constructor(props) {
@@ -19,12 +20,18 @@ class CreateTrip extends Component {
       startDate: '',
       endDate: '',
       notes: '',
-      guests: [],
+      guest: '',
     };
   }
 
   onCreateTrip = () => {
-    this.props.createTrip(this.state, this.props.navigation)
+    this.props.createTrip(this.state);
+    this.props.navigation.navigate('SingleTrip')
+  };
+
+  onAddGuest = () => {
+    this.props.addsGuest(this.state.guest);
+    this.setState({guest: ''})
   };
 
   render() {
@@ -57,14 +64,14 @@ class CreateTrip extends Component {
           <TextInput
             style={styles.input}
             placeholderTextColor="#aaaaaa"
-            placeholder="Start Date"
+            placeholder="MM/DD/YY(Start Date)"
             onChangeText={(startDate) => this.setState({ startDate })}
             value={this.state.startDate}
             autoCapitalize="none"
           />
           <TextInput
             style={styles.input}
-            placeholder="End Date"
+            placeholder="MM/DD/YY(End Date)"
             placeholderTextColor="#aaaaaa"
             onChangeText={(endDate) => this.setState({ endDate })}
             value={this.state.endDate}
@@ -80,12 +87,27 @@ class CreateTrip extends Component {
           />
           <TextInput
             style={styles.input}
-            placeholder="Guests"
+            placeholder="Guest's Email"
             placeholderTextColor="#aaaaaa"
-            onChangeText={(guests) => this.setState({ guests })}
-            value={this.state.guests}
+            onChangeText={(guest) => this.setState({ guest })}
+            value={this.state.guest}
             autoCapitalize="none"
           />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.onAddGuest()}
+          >
+            <Text style={styles.buttonTitle}>Add Guest</Text>
+          </TouchableOpacity>
+          {this.props.guestList.map((guest) => {
+            return (
+              <List.Item
+              key={guest.id}
+                title={guest.name}
+                // left={(props) => <List.Icon {...props} icon="folder" />}
+              />
+            );
+          })}
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.onCreateTrip()}
@@ -98,12 +120,17 @@ class CreateTrip extends Component {
   }
 }
 
+const mapState = (state) => ({
+  guestList: state.trips.guestList,
+});
+
 const mapDispatch = (dispatch) => ({
   createTrip: (tripInfo, navigation) =>
     dispatch(createTripServer(tripInfo, navigation)),
+  addsGuest: (email) => dispatch(findAddGuest(email)),
 });
 
-export default connect(null, mapDispatch)(CreateTrip);
+export default connect(mapState, mapDispatch)(CreateTrip);
 
 const styles = StyleSheet.create({
   container: {
