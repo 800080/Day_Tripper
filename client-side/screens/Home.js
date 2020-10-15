@@ -10,10 +10,10 @@ function HomeScreen({ navigation, user }) {
         title="View Trips"
         onPress={() => navigation.navigate('AllTrips')}
       />
-      <Button
-        title="Go to Chat"
-        onPress={() => navigation.navigate('Chat')}
-      />
+      {/* <Button
+        title="Go to Itin 1"
+        onPress={() => navigation.navigate('Itinerary')}
+      /> */}
     </View>
   );
 }

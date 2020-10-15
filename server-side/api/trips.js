@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { UserTrip, Trip, User } = require('../db/models')
+const { UserTrip, Trip, User, Event } = require('../db/models')
 module.exports = router
 
 //GET mounted on /api/trips
