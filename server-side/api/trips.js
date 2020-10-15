@@ -21,10 +21,31 @@ router.get('/user/:userId', async (req, res, next) => {
 })
 
 //GET mounted on /api/trips
-router.get('/:tripId', async (req, res, next) => {
+router.get('/:tripId/user/:userId', async (req, res, next) => {
   try {
-    const singleTrip = await Trip.findByPk(req.params.tripId)
+    const singleTrip = await Trip.findByPk(req.params.tripId, {
+      include: {
+        model: UserTrip,
+        where: {
+          userId: req.params.userId
+        }
+      }
+    })
     res.send(singleTrip)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//POST mounted on /api/trips
+router.post('/', async (req, res, next) => {
+  try {
+    const { tripInfo, user, guestList } = req.body
+    const allGuests = [...guestList, user]
+    const allGuestsIds = allGuests.map(guest => guest.id)
+    const newTrip = await Trip.create(tripInfo)
+    await newTrip.addUsers(allGuestsIds)
+    res.send(newTrip)
   } catch (error) {
     next(error)
   }

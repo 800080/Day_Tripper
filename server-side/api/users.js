@@ -18,3 +18,21 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+// GET mounted on /api/user/email/:email
+router.get('/email/:email', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.params.email
+      },
+      attributes: ['id', 'name', 'username', 'email']
+    })
+    if (!user) {
+      return res.send({error: 'No user found'})
+    }
+    res.send(user)
+  } catch (error) {
+    next(error)
+  }
+})
