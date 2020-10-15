@@ -17,7 +17,7 @@ export class SingleTrip extends Component {
         <Text>END: {this.props.singleTrip.endDate}</Text>
         <Text>NOTES: {this.props.singleTrip.notes}</Text>
         <Text>Guest list</Text>
-        <Text>Itenerary</Text>
+        <Text>Itinerary</Text>
         <Text onPress={() => this.props.navigation.navigate('Chat')}>CHAT</Text>
         <Text>MAP</Text>
       </View>

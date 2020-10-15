@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider as PaperProvider } from 'react-native-paper';
 import store from './store';
-import { Login, HomeScreen, Chat, AllTrips, SingleTrip } from './screens';
+import { Login, HomeScreen, Chat, AllTrips, SingleTrip, Itinerary } from './screens';
 import './socket';
 
 const Stack = createStackNavigator();
@@ -26,6 +26,7 @@ function App() {
             <Stack.Screen name="Chat" component={Chat} />
             <Stack.Screen name="AllTrips" component={AllTrips} />
             <Stack.Screen name="SingleTrip" component={SingleTrip} />
+            <Stack.Screen name="Itinerary" component={Itinerary} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
