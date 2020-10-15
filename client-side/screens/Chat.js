@@ -48,16 +48,6 @@ class Chat extends Component {
           onSend={this.handlesubmit}
           user={{ _id: +this.props.user.id }}
         />
-      // <View>
-      //   {this.props.messages.map((message) => {
-      //     return <Text key={message.id}>{message.user.username}: {message.message}</Text>;
-      //   })}
-      //   <TextInput style={{ height: 40, borderWidth: 2, marginTop: 20 }} onChangeText={newMessage => this.setState({newMessage})} value={this.state.newMessage} />
-      //   <Button
-      //     title="Send"
-      //     onPress={() => this.handlesubmit()}
-      //   />
-      // </View>
     );
   }
 }
