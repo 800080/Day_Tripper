@@ -3,14 +3,15 @@ import { Text, View, TextInput, Button } from 'react-native';
 import socket from '../socket';
 import { connect } from 'react-redux';
 import { fetchMessages, sendMessage } from '../store/messages';
+import { GiftedChat } from 'react-native-gifted-chat';
 
 class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newMessage: ''
-    }
-    this.handlesubmit = this.handlesubmit.bind(this)
+      newMessage: '',
+    };
+    this.handlesubmit = this.handlesubmit.bind(this);
   }
 
   componentDidMount() {
@@ -22,23 +23,41 @@ class Chat extends Component {
   }
 
   handlesubmit() {
-    this.props.sendMessage(this.state.newMessage, '1', this.props.user.id)
-    this.setState({newMessage: ''})
+    this.props.sendMessage(this.state.newMessage, '1', this.props.user.id);
+    this.setState({ newMessage: '' });
   }
 
   render() {
-    console.log('chat.js this.props-------> ', this.props)
+    let giftedChatMessages = this.props.messages.map((chatMessage) => {
+      let gcm = {
+        _id: +chatMessage.id,
+        text: chatMessage.message,
+        createdAt: chatMessage.createdAt,
+        user: {
+          _id: +chatMessage.user.id,
+          name: chatMessage.user.username,
+          // avatar: 'https://placeimg.com/140/140/any'
+        }
+      };
+      return gcm;
+    });
     return (
-      <View>
-        {this.props.messages.map((message) => {
-          return <Text key={message.id}>{message.user.username}: {message.message}</Text>;
-        })}
-        <TextInput style={{ height: 40, borderWidth: 2, marginTop: 20 }} onChangeText={newMessage => this.setState({newMessage})} value={this.state.newMessage} />
-        <Button
-          title="Send"
-          onPress={() => this.handlesubmit()}
+        <GiftedChat
+          messages={giftedChatMessages}
+          onInputTextChanged={newMessage => this.setState({newMessage})}
+          onSend={this.handlesubmit}
+          user={{ _id: +this.props.user.id }}
         />
-      </View>
+      // <View>
+      //   {this.props.messages.map((message) => {
+      //     return <Text key={message.id}>{message.user.username}: {message.message}</Text>;
+      //   })}
+      //   <TextInput style={{ height: 40, borderWidth: 2, marginTop: 20 }} onChangeText={newMessage => this.setState({newMessage})} value={this.state.newMessage} />
+      //   <Button
+      //     title="Send"
+      //     onPress={() => this.handlesubmit()}
+      //   />
+      // </View>
     );
   }
 }

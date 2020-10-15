@@ -6,7 +6,7 @@ module.exports = router
 router.get('/trip/:tripId', async (req, res, next) => {
   try {
     const messages = await ChatMessage.findAll({
-      order: [['createdAt', 'ASC']],
+      order: [['createdAt', 'DESC']],
       where: {
         tripId: req.params.tripId
       },

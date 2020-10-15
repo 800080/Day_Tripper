@@ -45,7 +45,7 @@ const initialState = []
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_NEW_MESSAGE:
-      return [...state, action.message]
+      return [action.message, ...state]
     case GET_ALL_MESSAGES:
       return action.messages
     default:

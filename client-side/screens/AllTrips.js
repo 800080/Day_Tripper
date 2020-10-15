@@ -14,7 +14,7 @@ class AllTrips extends Component {
   }
 
   handleClick(tripId) {
-    this.props.navigation.navigate('SingleTrip');
+    this.props.navigation.navigate('SingleTrip'); // Maybe refactor?
     this.props.fetchSingleTrip(tripId);
   }
 
