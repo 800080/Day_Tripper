@@ -7,9 +7,16 @@ import { fetchAllEvents, getSingleEvent } from '../store'
 class Itinerary extends Component {
   constructor() {
     super()
+    this.handleClick = this.handleClick.bind(this)
   }
   componentDidMount(){
     this.props.fetchEvents(this.props.trip.id)
+  }
+
+  handleClick(eventId) {
+    const singleEvent = this.props.events.filter(event => event.id === eventId)
+    this.props.fetchSingleEvent(singleEvent[0])
+    this.props.navigation.navigate('Event Details')
   }
 
   render() {
@@ -24,7 +31,7 @@ class Itinerary extends Component {
               title={event.title}
               description={event.notes}
               left={() => <List.Icon color="#800080" icon="airplane-takeoff" />}
-              // onPress={() => this.handleClick(trip.id)}
+              onPress={() => this.handleClick(event.id)}
             />
             })
           }

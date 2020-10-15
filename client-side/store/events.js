@@ -11,7 +11,7 @@ const getAllEvents = (events) => ({
   events
 })
 
-const getSingleEvent = (event) => ({
+export const getSingleEvent = (event) => ({
   type: GET_SINGLE_EVENT,
   event
 })
