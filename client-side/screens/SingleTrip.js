@@ -9,13 +9,15 @@ export class SingleTrip extends Component {
   }
 
   render() {
+    console.log("THE PROPPPSSS: ", this.props.singleTrip.title)
     return (
       <View>
-        <Text>Single Trip TITLE</Text>
-        <Text>DATE RANGE</Text>
-        <Text>NOTES</Text>
-        <Text>GUEST LIST</Text>
-        <Text>ITINERARY</Text>
+        <Text>${this.props.singleTrip.title}</Text>
+        <Text>START: {this.props.singleTrip.startDate}</Text>
+        <Text>END: {this.props.singleTrip.endDate}</Text>
+        <Text>NOTES: {this.props.singleTrip.notes}</Text>
+        <Text>Guest list</Text>
+        <Text>Itenerary</Text>
         <Text onPress={() => this.props.navigation.navigate('Chat')}>CHAT</Text>
         <Text>MAP</Text>
       </View>
