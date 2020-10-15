@@ -25,6 +25,7 @@ class CreateEvent extends Component {
 
   onCreateEvent = () => {
     this.props.createEvent(this.state)
+    this.props.navigation.navigate("Itinerary")
   };
 
   render(){
@@ -64,7 +65,7 @@ class CreateEvent extends Component {
         />
         <TextInput
           style={styles.input}
-          placeholder="End Date"
+          placeholder="End Time"
           placeholderTextColor="#aaaaaa"
           onChangeText={(endTime) => this.setState({ endTime })}
           value={this.state.endTime}

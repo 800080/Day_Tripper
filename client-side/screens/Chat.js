@@ -15,15 +15,15 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchMessages('1');
-    socket.emit('room', '1'); //NOTE - hardcoding tripId
+    this.props.fetchMessages(this.props.tripId);
+    socket.emit('room', this.props.tripId); //NOTE - hardcoding tripId
   }
   componentWillUnmount() {
-    socket.emit('leaveRoom', '1');
+    socket.emit('leaveRoom', this.props.tripId);
   }
 
   handlesubmit() {
-    this.props.sendMessage(this.state.newMessage, '1', this.props.user.id);
+    this.props.sendMessage(this.state.newMessage, this.props.tripId, this.props.user.id);
     this.setState({ newMessage: '' });
   }
 
@@ -55,6 +55,7 @@ class Chat extends Component {
 const mapState = (state) => ({
   user: state.user,
   messages: state.messages,
+  tripId: state.trips.singleTrip.id
 });
 
 const mapDispatch = (dispatch) => ({

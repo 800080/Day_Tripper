@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Button } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchSingleTrip } from '../store'
 import { List } from 'react-native-paper'
@@ -20,7 +20,12 @@ export class SingleTrip extends Component {
         <Text onPress={() => this.props.navigation.navigate('Itinerary')}>Itinerary</Text>
         <Text onPress={() => this.props.navigation.navigate('Chat')}>CHAT</Text>
         <Text>MAP</Text>
+        <Button
+        title="Go to Chat"
+        onPress={() => this.props.navigation.navigate('Chat')}
+      />
       </View>
+
     )
   }
 }
