@@ -1,20 +1,39 @@
 import React, { Component } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { auth } from '../store/user'
-import { connect } from 'react-redux'
+import { auth } from '../store/user';
+import { connect } from 'react-redux';
 
-class Login extends Component {
+class Signup extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
+      name: '',
+      username: '',
       email: '',
-      password: ''
-    }
+      password: '',
+      confirmPassword: ''
+    };
   }
 
+  onRegisterPress = () => {
+    const {name, username, email, password, confirmPassword} = this.state
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!')
+    } else {
+      this.props.signup(name, username, email, password, this.props.navigation)
+    }
+  };
+
   onFooterLinkPress = () => {
-    this.props.navigation.navigate('Signup');
+    this.props.navigation.navigate('Login');
   };
 
   render() {
@@ -25,14 +44,14 @@ class Login extends Component {
           keyboardShouldPersistTaps="always"
         >
           {/* <Image
-            style={styles.logo}
-            source={require('../../../assets/icon.png')}
-          /> */}
+          style={styles.logo}
+          source={require('../../../assets/icon.png')}
+        /> */}
           <TextInput
             style={styles.input}
             placeholder="E-mail"
             placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => this.setState({email: text})}
+            onChangeText={(email) => this.setState({email})}
             value={this.state.email}
             autoCapitalize="none"
           />
@@ -41,21 +60,46 @@ class Login extends Component {
             placeholderTextColor="#aaaaaa"
             secureTextEntry
             placeholder="Password"
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={(password) => this.setState({password})}
             value={this.state.password}
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholderTextColor="#aaaaaa"
+            secureTextEntry
+            placeholder="Confirm Password"
+            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+            value={this.state.confirmPassword}
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Full Name"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(name) => this.setState({ name })}
+            value={this.state.name}
+            autoCapitalize="words"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(username) => this.setState({ username })}
+            value={this.state.username}
             autoCapitalize="none"
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.login(this.state.email, this.state.password, this.props.navigation)}
+            onPress={() => this.onRegisterPress()}
           >
-            <Text style={styles.buttonTitle}>Log in</Text>
+            <Text style={styles.buttonTitle}>Create account</Text>
           </TouchableOpacity>
           <View style={styles.footerView}>
             <Text style={styles.footerText}>
-              Don't have an account?{' '}
+              Already got an account?{' '}
               <Text onPress={this.onFooterLinkPress} style={styles.footerLink}>
-                Sign up
+                Log in
               </Text>
             </Text>
           </View>
@@ -66,10 +110,11 @@ class Login extends Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  login: (email, password, navigation) => dispatch(auth(email, password, 'login', navigation))
-})
+  signup: (name, username, email, password, navigation) =>
+    dispatch(auth(email, password, 'signup', navigation, name, username)),
+});
 
-export default connect(null, mapDispatch)(Login)
+export default connect(null, mapDispatch)(Signup);
 
 const styles = StyleSheet.create({
   container: {

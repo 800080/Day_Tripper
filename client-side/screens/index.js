@@ -6,3 +6,5 @@ export { default as SingleTrip } from './SingleTrip'
 export { default as Itinerary } from './Itinerary'
 export { default as SingleEvent } from './SingleEvent'
 export { default as CreateEvent } from './CreateEvent'
+export { default as Signup } from './Signup'
+
