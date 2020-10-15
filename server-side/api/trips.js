@@ -29,3 +29,13 @@ router.get('/:tripId', async (req, res, next) => {
     next(error)
   }
 })
+
+//POST mounted on /api/trips
+router.post('/', async (req, res, next) => {
+  try {
+    const newTrip = await Trip.create(req.body)
+    res.send(newTrip)
+  } catch (error) {
+    next(error)
+  }
+})

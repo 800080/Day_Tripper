@@ -26,30 +26,33 @@ class AllTrips extends Component {
         <List.Section>
           <List.Subheader style={styles.listSubheader}>Upcoming Trips</List.Subheader>
           {
-          upcomingTrips.map((trip) => {
-            return <List.Item
-            key={trip.id}
-            title={trip.title}
-            description={trip.notes}
-            left={() => <List.Icon color="#800080" icon="airplane-takeoff" />}
-            onPress={() => this.handleClick(trip.id)}
-          />
-          })
-        }
+            upcomingTrips.map((trip) => {
+              return <List.Item
+                key={trip.id}
+                title={trip.title}
+                description={trip.notes}
+                left={() => <List.Icon color="#800080" icon="airplane-takeoff" />}
+                onPress={() => this.handleClick(trip.id)}
+              />
+            })
+          }
         </List.Section>
         <List.Section>
           <List.Subheader style={styles.listSubheader}>Pending Trips</List.Subheader>
           {
-          pendingTrips.map((trip) => {
-            return <List.Item
-            key={trip.id}
-            title={trip.title}
-            description={trip.notes}
-            left={() => <List.Icon color="#800080" icon="alert-outline" />}
-            onPress={() => this.handleClick(trip.id)}
-          />
-          })
-        }
+            pendingTrips.map((trip) => {
+              return <List.Item
+                key={trip.id}
+                title={trip.title}
+                description={trip.notes}
+                left={() => <List.Icon color="#800080" icon="alert-outline" />}
+                onPress={() => this.handleClick(trip.id)}
+              />
+            })
+          }
+        </List.Section>
+        <List.Section>
+          <List.Subheader style={styles.listSubheader} onPress={() => this.props.navigation.navigate('CreateTrip')}>Create Trip</List.Subheader>
         </List.Section>
       </ScrollView>
     );
