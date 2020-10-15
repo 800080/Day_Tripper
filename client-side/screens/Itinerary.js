@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, Button } from 'react-native'
 import { List } from 'react-native-paper'
 import { connect } from 'react-redux'
 import { fetchAllEvents, getSingleEvent } from '../store'
@@ -36,6 +36,10 @@ class Itinerary extends Component {
             })
           }
         </List.Section>
+        <Button
+        title="Create Event"
+        onPress={() => this.props.navigation.navigate('Create Event')}
+      />
       </ScrollView>
       )
   }

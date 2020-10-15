@@ -26,3 +26,13 @@ router.get('/:eventId', async (req, res, next) => {
     next(error)
   }
 })
+
+//POST mounted on /api/events
+router.post('/', async (req, res, next) => {
+  try {
+    const event = await Event.create(req.body)
+    res.send(event)
+  } catch (error) {
+    next(error)
+  }
+})
