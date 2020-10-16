@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, Button } from 'react-native'
 import { connect } from 'react-redux'
-import { fetchSingleTrip, updateStatus } from '../store'
+import { fetchSingleTrip, fetchAllTrips, updateStatus } from '../store'
 import { List } from 'react-native-paper'
 
 export class SingleTrip extends Component {
@@ -11,18 +11,19 @@ export class SingleTrip extends Component {
 
   acceptInvite = () => {
     this.props.updateStatus(this.props.singleTrip.id, this.props.user.id, "accepted")
+    this.props.fetchAllTrips(this.props.user.id);
   }
   declineInvite = () => {
     this.props.updateStatus(this.props.singleTrip.id, this.props.user.id, "rejected")
     this.props.navigation.navigate("AllTrips")
+    this.props.fetchAllTrips(this.props.user.id);
   }
 
   render() {
-    // console.log("TRIP_------", this.props.singleTrip.userTrips[0].status)
     return (
       <View>
         {
-          this.props.singleTrip.userTrips[0] && this.props.singleTrip.userTrips[0].status === "pending" ?
+          this.props.singleTrip.userTrips && this.props.singleTrip.userTrips[0].status === "pending" ?
           <View>
             <Button
               title="Accept"
@@ -60,7 +61,8 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
   fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId)),
-  updateStatus: (tripId, userId, status) => dispatch(updateStatus(tripId, userId, status))
+  updateStatus: (tripId, userId, status) => dispatch(updateStatus(tripId, userId, status)),
+  fetchAllTrips: (userId) => dispatch(fetchAllTrips(userId)),
 })
 
 export default connect(mapState, mapDispatch)(SingleTrip)
