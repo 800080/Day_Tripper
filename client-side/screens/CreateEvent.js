@@ -5,8 +5,12 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Button
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+// import DatePicker from 'react-native-date-picker'
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment'
 import { connect } from 'react-redux';
 import { createEvent } from '../store'
 
@@ -16,16 +20,27 @@ class CreateEvent extends Component {
     this.state = {
       title: '',
       location: '',
-      startTime: '',
+      startTime: new Date(),
       endTime: '',
       notes: '',
-      tripId: this.props.tripId
+      tripId: this.props.tripId,
+      showTime: false
     }
   }
 
   onCreateEvent = () => {
     this.props.createEvent(this.state)
     this.props.navigation.navigate("Itinerary")
+  };
+
+  showTimePicker = () => {
+    this.setState({showTime: true})
+  };
+
+  onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || this.state.startTime;
+    this.setState({startTime: currentDate});
+    this.setState({showTime: false})
   };
 
   render(){
@@ -55,14 +70,26 @@ class CreateEvent extends Component {
             value={this.state.location}
             autoCapitalize="none"
         />
-        <TextInput
+        <Button
+          onPress={this.showTimePicker}
+          title={moment(this.state.startTime).format("MMMM Do YYYY, h:mm a")}
+        />
+        {this.state.showTime && (
+        <DateTimePicker
+          value={this.state.startTime}
+          mode='datetime'
+          is24Hour={true}
+          display="default"
+          onChange={this.onChange}
+        />)}
+        {/* <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
           placeholder="Start Time"
           onChangeText={(startTime) => this.setState({ startTime })}
           value={this.state.startTime}
           autoCapitalize="none"
-        />
+        /> */}
         <TextInput
           style={styles.input}
           placeholder="End Time"
