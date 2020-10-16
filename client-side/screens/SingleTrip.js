@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Button } from 'react-native'
+import { Text, View, Button, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchSingleTrip, fetchAllTrips, updateStatus } from '../store'
 import { List } from 'react-native-paper'
@@ -24,32 +24,42 @@ export class SingleTrip extends Component {
       <View>
         {
           this.props.singleTrip.userTrips && this.props.singleTrip.userTrips[0].status === "pending" ?
-          <View>
-            <Button
-              title="Accept"
-              onPress={() => this.acceptInvite()}>
-            </Button>
-            <Button
-              title="Decline"
-              onPress={() => this.declineInvite()}>
-            </Button>
-          </View>
-          : true
+            <View>
+              <Button
+                title="Accept"
+                onPress={() => this.acceptInvite()}>
+              </Button>
+              <Button
+                title="Decline"
+                onPress={() => this.declineInvite()}>
+              </Button>
+            </View>
+            : true
         }
-        <Text>{this.props.singleTrip.title}</Text>
-        <Text>START: {this.props.singleTrip.startDate}</Text>
-        <Text>END: {this.props.singleTrip.endDate}</Text>
-        <Text>NOTES: {this.props.singleTrip.notes}</Text>
-        <Text onPress={() => this.props.navigation.navigate('Guest List')}>Guest list</Text>
-        <Text onPress={() => this.props.navigation.navigate('Itinerary')}>Itinerary</Text>
-        <Text onPress={() => this.props.navigation.navigate('Chat')}>CHAT</Text>
-        <Text>MAP</Text>
-        <Button
-        title="Go to Chat"
-        onPress={() => this.props.navigation.navigate('Chat')}
-      />
-      </View>
 
+        <List.Section style={styles.list}>
+          <Text style={styles.text}>{this.props.singleTrip.title}</Text>
+          <Text style={styles.text}>Start: {this.props.singleTrip.startDate}</Text>
+          <Text style={styles.text}>End: {this.props.singleTrip.endDate}</Text>
+          <Text style={styles.text}>Notes: {this.props.singleTrip.notes}</Text>
+        </List.Section>
+        <Button
+          title="Go to Guest List"
+          onPress={() => this.props.navigation.navigate('Guest List')}
+        />
+        <Button
+          title="Go to Itinerary"
+          onPress={() => this.props.navigation.navigate('Itinerary')}
+        />
+        <Button
+          title="Go to Chat"
+          onPress={() => this.props.navigation.navigate('Chat')}
+        />
+        <Button
+          title="Back to All Trips"
+          onPress={() => this.props.navigation.navigate('AllTrips')}
+        />
+      </View >
     )
   }
 }
@@ -67,3 +77,15 @@ const mapDispatch = (dispatch) => ({
 
 export default connect(mapState, mapDispatch)(SingleTrip)
 
+const styles = StyleSheet.create({
+  list: {
+    color: 'white',
+    alignSelf: "flex-start",
+    marginLeft: 20
+  },
+  text: {
+    fontSize: 20,
+    padding: 10,
+    textAlign: 'center',
+  }
+})
