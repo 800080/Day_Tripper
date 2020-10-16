@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
   Text,
   TextInput,
   TouchableOpacity,
   View,
   StyleSheet,
-  Button
+  Button,
+  Platform,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import DatePicker from 'react-native-date-picker'
 import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment'
+import moment from 'moment';
 import { connect } from 'react-redux';
-import { createEvent } from '../store'
+import { createEvent } from '../store';
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -20,31 +21,58 @@ class CreateEvent extends Component {
     this.state = {
       title: '',
       location: '',
-      startTime: new Date(),
+      startTime: moment().format("MMMM Do YYYY, h:mm a"),
       endTime: '',
       notes: '',
       tripId: this.props.tripId,
-      showTime: false
-    }
+      show: false,
+      date: new Date(),
+      time: new Date(),
+      mode: 'date',
+    };
   }
 
   onCreateEvent = () => {
-    this.props.createEvent(this.state)
-    this.props.navigation.navigate("Itinerary")
+    this.props.createEvent(this.state);
+    this.props.navigation.navigate('Itinerary');
   };
 
-  showTimePicker = () => {
-    this.setState({showTime: true})
+  onChangeStart = (event, selectedValue) => {
+    // const currentDate = selectedDate || this.state.startTime;
+    // this.setState({startTime: currentDate});
+    // this.setState({showTime: false})
+    this.setState({show: Platform.OS === 'ios'});
+    if (this.state.mode == 'date') {
+      const currentDate = selectedValue;
+      this.setState({date: currentDate});
+      this.setState({mode: 'time'});
+      // this.setState({show: Platform.OS !== 'ios'}); // to show time
+    } else {
+      const selectedTime = selectedValue;
+      this.setState({time: selectedTime});
+      this.setState({show: Platform.OS === 'ios'}); // to hide back the picker
+      this.setState({mode: 'date'}); // defaulting to date for next open
+      this.setState({show: false})
+    }
+    this.formatDate(this.state.date, this.state.time, 'start')
   };
 
-  onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || this.state.startTime;
-    this.setState({startTime: currentDate});
-    this.setState({showTime: false})
+  showPicker = () => {
+    this.setState({ show: true });
+    this.setState({ mode: 'date' });
   };
 
-  render(){
-    return(
+  formatDate = (date, time, startOrEnd) => {
+    const formated = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
+    if (startOrEnd === 'start') {
+      this.setState({ startTime: formated });
+    } else {
+      this.setState({ endTime: formated });
+    }
+  };
+
+  render() {
+    return (
       <View style={styles.container}>
         <KeyboardAwareScrollView
           style={{ flex: 1, width: '100%' }}
@@ -54,35 +82,35 @@ class CreateEvent extends Component {
           style={styles.logo}
           source={require('../../../assets/icon.png')}
         /> */}
-        <TextInput
-          style={styles.input}
-          placeholder="Title"
+          <TextInput
+            style={styles.input}
+            placeholder="Title"
             placeholderTextColor="#aaaaaa"
             onChangeText={(title) => this.setState({ title })}
             value={this.state.title}
             autoCapitalize="words"
-        />
-        <TextInput
+          />
+          <TextInput
             style={styles.input}
             placeholderTextColor="#aaaaaa"
             placeholder="Location"
             onChangeText={(location) => this.setState({ location })}
             value={this.state.location}
             autoCapitalize="none"
-        />
-        <Button
-          onPress={this.showTimePicker}
-          title={moment(this.state.startTime).format("MMMM Do YYYY, h:mm a")}
-        />
-        {this.state.showTime && (
-        <DateTimePicker
-          value={this.state.startTime}
-          mode='datetime'
-          is24Hour={true}
-          display="default"
-          onChange={this.onChange}
-        />)}
-        {/* <TextInput
+          />
+          <Button
+            onPress={this.showPicker}
+            title={this.state.startTime}
+          />
+          {this.state.show && (
+            <DateTimePicker
+              value={new Date()}
+              mode={this.state.mode}
+              display="default"
+              onChange={this.onChangeStart}
+            />
+          )}
+          {/* <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
           placeholder="Start Time"
@@ -90,28 +118,28 @@ class CreateEvent extends Component {
           value={this.state.startTime}
           autoCapitalize="none"
         /> */}
-        <TextInput
-          style={styles.input}
-          placeholder="End Time"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(endTime) => this.setState({ endTime })}
-          value={this.state.endTime}
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Notes"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(notes) => this.setState({ notes })}
-          value={this.state.notes}
-          autoCapitalize="none"
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.onCreateEvent()}
-        >
-          <Text style={styles.buttonTitle}>Create Event</Text>
-        </TouchableOpacity>
+          <TextInput
+            style={styles.input}
+            placeholder="End Time"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(endTime) => this.setState({ endTime })}
+            value={this.state.endTime}
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Notes"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(notes) => this.setState({ notes })}
+            value={this.state.notes}
+            autoCapitalize="none"
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.onCreateEvent()}
+          >
+            <Text style={styles.buttonTitle}>Create Event</Text>
+          </TouchableOpacity>
         </KeyboardAwareScrollView>
       </View>
     );
@@ -119,15 +147,14 @@ class CreateEvent extends Component {
 }
 
 const mapState = (state) => ({
-  tripId: state.trips.singleTrip.id
-})
+  tripId: state.trips.singleTrip.id,
+});
 
 const mapDispatch = (dispatch) => ({
-  createEvent: (eventInfo) => dispatch(createEvent(eventInfo))
-})
+  createEvent: (eventInfo) => dispatch(createEvent(eventInfo)),
+});
 
-export default connect(mapState, mapDispatch)(CreateEvent)
-
+export default connect(mapState, mapDispatch)(CreateEvent);
 
 const styles = StyleSheet.create({
   container: {
