@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// GET mounted on /api/users/email/:email (get guest to add to created trip list)
+// GET mounted on /api/users/email/:email (get guest to add to create trip list)
 router.get('/email/:email', async (req, res, next) => {
   try {
     const user = await User.findOne({

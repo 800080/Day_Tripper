@@ -24,6 +24,10 @@ class CreateTrip extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.clearGuestList()
+  }
+
   componentWillUnmount() {
     this.props.clearGuestList()
   }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, Button } from 'react-native';
 import socket from '../socket';
 import { connect } from 'react-redux';
 import { fetchMessages, sendMessage } from '../store/messages';
@@ -16,7 +15,7 @@ class Chat extends Component {
 
   componentDidMount() {
     this.props.fetchMessages(this.props.tripId);
-    socket.emit('room', this.props.tripId); //NOTE - hardcoding tripId
+    socket.emit('room', this.props.tripId);
   }
   componentWillUnmount() {
     socket.emit('leaveRoom', this.props.tripId);
