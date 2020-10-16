@@ -24,10 +24,10 @@ class Login extends Component {
           style={{ flex: 1, width: '100%' }}
           keyboardShouldPersistTaps="always"
         >
-          {/* <Image
+          <Image
             style={styles.logo}
-            source={require('../../../assets/icon.png')}
-          /> */}
+            source={require('../assets/DayTripperLogoSmall.png')}
+          />
           <TextInput
             style={styles.input}
             placeholder="E-mail"
@@ -78,10 +78,11 @@ const styles = StyleSheet.create({
   },
   logo: {
     flex: 1,
-    height: 120,
-    width: 90,
+    height: 100,
+    width: 100,
     alignSelf: 'center',
     margin: 30,
+    borderRadius: 5
   },
   input: {
     height: 48,
