@@ -48,7 +48,7 @@ export const auth = (email, password, method, navigation, name, username) => asy
 
 export const logout = (navigation) => async dispatch => {
   try {
-    await axios.post(`${serverUrl}/auth/logout`)
+    // await axios.post(`${serverUrl}/auth/logout`)
     dispatch(removeUser())
     navigation.navigate('Login')
   } catch (err) {
@@ -64,7 +64,7 @@ export default function(state = defaultUser, action) {
     case GET_USER:
       return action.user
     case REMOVE_USER:
-      return defaultUser
+      return {}
     default:
       return state
   }

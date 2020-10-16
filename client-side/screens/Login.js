@@ -13,6 +13,13 @@ class Login extends Component {
     }
   }
 
+  clearState = () => {
+    this.setState({
+      email: '',
+      password: ''
+    })
+  }
+
   onFooterLinkPress = () => {
     this.props.navigation.navigate('Signup');
   };
@@ -47,7 +54,12 @@ class Login extends Component {
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.login(this.state.email, this.state.password, this.props.navigation)}
+            onPress={() =>{
+
+              this.props.login(this.state.email, this.state.password, this.props.navigation);
+              this.clearState()
+            }
+            }
           >
             <Text style={styles.buttonTitle}>Log in</Text>
           </TouchableOpacity>
