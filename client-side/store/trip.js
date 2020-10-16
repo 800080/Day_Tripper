@@ -6,6 +6,8 @@ const GET_ALL_TRIPS = 'GET_ALL_TRIPS'
 const GET_SINGLE_TRIP = 'GET_SINGLE_TRIP'
 const ADD_GUEST = 'ADD_GUEST'
 const CREATE_TRIP = 'CREATE_TRIP'
+const CLEAR_GUEST_LIST = 'CLEAR_GUEST_LIST'
+const GET_GUESTS_SINGLETRIP = 'GET_GUESTS_SINGLETRIP'
 
 //Action Creator
 const getAllTrips = (trips) => ({
@@ -26,6 +28,15 @@ const addGuest = (guest) => ({
 const createTrip = (trip) => ({
   type: CREATE_TRIP,
   trip
+})
+
+export const clearGuestList = () => ({
+  type: CLEAR_GUEST_LIST
+})
+
+const getGuestSingleTrip = (guests) => ({
+  type: GET_GUESTS_SINGLETRIP,
+  guests
 })
 
 //Thunk Creator
@@ -55,15 +66,21 @@ export const createTripServer = (tripInfo) => async (dispatch, getState) => {
     const newTrip = await axios.post(`${serverUrl}/api/trips`, {tripInfo, user, guestList})
     const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
     dispatch(createTrip(trip.data))
+    dispatch(clearGuestList())
   } catch (error) {
     console.error(error)
   }
 }
 
-export const findAddGuest = (email) => async (dispatch, getState) => {
+export const findAddGuest = (email, tripId) => async (dispatch, getState) => {
   try {
     if (!getState().trips.guestList.some(guest => guest.email === email)) {
-      const foundGuest = await axios.get(`${serverUrl}/api/users/email/${email}`)
+      let foundGuest
+      if (!tripId) {
+        foundGuest = await axios.get(`${serverUrl}/api/users/email/${email}`)
+      } else {
+        foundGuest = await axios.get(`${serverUrl}/api/users/email/${email}/trips/${tripId}`)
+      }
       if(foundGuest.data.error) {
         alert(foundGuest.data.error)
       } else {
@@ -72,6 +89,15 @@ export const findAddGuest = (email) => async (dispatch, getState) => {
     } else {
       alert('Guest already invited!')
     }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const fetchGuests = (tripId) => async dispatch => {
+  try {
+    const guests = await axios.get(`${serverUrl}/api/users/trip/${tripId}`)
+    dispatch(getGuestSingleTrip(guests.data))
   } catch (error) {
     console.error(error)
   }
@@ -92,9 +118,13 @@ export default function (state = initialState, action) {
     case GET_SINGLE_TRIP:
       return { ...state, singleTrip: action.trip }
     case CREATE_TRIP:
-      return { ...state, allTrips: [...state.allTrips, action.trip], singleTrip: action.trip, guestList: [] }
+      return { ...state, allTrips: [...state.allTrips, action.trip], singleTrip: action.trip }
     case ADD_GUEST:
       return { ...state, guestList: [...state.guestList, action.guest] }
+    case GET_GUESTS_SINGLETRIP:
+      return { ...state, guestList: action.guests }
+    case CLEAR_GUEST_LIST:
+      return { ...state, guestList: [] }
     default:
       return state
   }

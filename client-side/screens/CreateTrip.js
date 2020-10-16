@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
-import { createTripServer, findAddGuest } from '../store';
+import { createTripServer, findAddGuest, clearGuestList } from '../store';
 import { List } from 'react-native-paper'
 
 class CreateTrip extends Component {
@@ -22,6 +22,14 @@ class CreateTrip extends Component {
       notes: '',
       guest: '',
     };
+  }
+
+  componentDidMount() {
+    this.props.clearGuestList()
+  }
+
+  componentWillUnmount() {
+    this.props.clearGuestList()
   }
 
   onCreateTrip = () => {
@@ -128,6 +136,7 @@ const mapDispatch = (dispatch) => ({
   createTrip: (tripInfo, navigation) =>
     dispatch(createTripServer(tripInfo, navigation)),
   addsGuest: (email) => dispatch(findAddGuest(email)),
+  clearGuestList: () => dispatch(clearGuestList())
 });
 
 export default connect(mapState, mapDispatch)(CreateTrip);
