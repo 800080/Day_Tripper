@@ -37,6 +37,22 @@ router.get('/:tripId/user/:userId', async (req, res, next) => {
   }
 })
 
+//PUT mounted on /api/trips
+router.put('/:tripId/user/:userId', async (req, res, next) => {
+  try {
+    const currentUserTrip = await UserTrip.findOne({
+      where: {
+        userId: req.params.userId,
+        tripId: req.params.tripId
+      }
+    })
+    currentUserTrip.update(req.body)
+    res.sendStatus(200)
+  } catch (error) {
+    next(error)
+  }
+})
+
 //POST mounted on /api/trips
 router.post('/', async (req, res, next) => {
   try {
