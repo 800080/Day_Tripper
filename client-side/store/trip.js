@@ -103,6 +103,17 @@ export const fetchGuests = (tripId) => async dispatch => {
   }
 }
 
+export const updateStatus = (tripId, userId, status) => async dispatch => {
+  try {
+    await axios.put(`${serverUrl}/api/trips/${tripId}/user/${userId}`, {"status": status})
+    const updatedTrip = axios.get(`${serverUrl}/api/trips/${tripId}/user/${userId}`)
+    dispatch(getSingleTrip(updatedTrip))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+
 //Initial State
 const initialState = {
   allTrips: [],
