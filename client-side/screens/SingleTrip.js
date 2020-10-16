@@ -8,15 +8,15 @@ export class SingleTrip extends Component {
   constructor() {
     super()
   }
+
   render() {
-    console.log(this.props)
     return (
       <View>
         <Text>{this.props.singleTrip.title}</Text>
         <Text>START: {this.props.singleTrip.startDate}</Text>
         <Text>END: {this.props.singleTrip.endDate}</Text>
         <Text>NOTES: {this.props.singleTrip.notes}</Text>
-        <Text>Guest list</Text>
+        <Text onPress={() => this.props.navigation.navigate('Guest List')}>Guest list</Text>
         <Text onPress={() => this.props.navigation.navigate('Itinerary')}>Itinerary</Text>
         <Text onPress={() => this.props.navigation.navigate('Chat')}>CHAT</Text>
         <Text>MAP</Text>
@@ -35,7 +35,7 @@ const mapState = (state) => ({
 })
 
 const mapDispatch = (dispatch) => ({
-  fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId))
+  fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId)),
 })
 
 export default connect(mapState, mapDispatch)(SingleTrip)
