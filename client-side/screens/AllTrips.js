@@ -77,6 +77,6 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: '#800080',
     alignSelf: "flex-start",
-    marginLeft: 20
+    marginLeft: 20,
   }
 })

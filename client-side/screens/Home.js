@@ -1,8 +1,10 @@
 import React from 'react';
 import { Text, View, Button, StyleSheet, Image } from 'react-native';
+import { accessibilityProps } from 'react-native-paper';
 import { connect } from 'react-redux';
+import { logout } from '../store';
 
-function HomeScreen({ navigation, user }) {
+function HomeScreen({ navigation, user, logout }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Image
@@ -14,6 +16,10 @@ function HomeScreen({ navigation, user }) {
         title="View Trips"
         onPress={() => navigation.navigate('AllTrips')}
       />
+      <Button
+        title="Logout"
+        onPress={() => logout(navigation)}
+      />
     </View>
   );
 }
@@ -22,7 +28,11 @@ const mapState = (state) => ({
   user: state.user,
 });
 
-export default connect(mapState)(HomeScreen);
+const mapDispatch = (dispatch) => ({
+  logout: navigation => dispatch(logout(navigation))
+})
+
+export default connect(mapState, mapDispatch)(HomeScreen);
 
 const styles = StyleSheet.create({
   logo: {
