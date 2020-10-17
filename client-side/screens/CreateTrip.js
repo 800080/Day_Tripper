@@ -162,8 +162,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  createTrip: (tripInfo, navigation) =>
-    dispatch(createTripServer(tripInfo, navigation)),
+  createTrip: (tripInfo) =>
+    dispatch(createTripServer(tripInfo)),
   addsGuest: (email) => dispatch(findAddGuest(email)),
   clearGuestList: () => dispatch(clearGuestList())
 });

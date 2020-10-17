@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { UserTrip, Trip, User, Event } = require('../db/models')
+const { UserTrip, Trip, MapLocation } = require('../db/models')
 module.exports = router
 
 //GET mounted on /api/trips
@@ -12,7 +12,8 @@ router.get('/user/:userId', async (req, res, next) => {
         where: {
           userId: req.params.userId
         }
-      }
+      },
+      include: MapLocation
     })
     res.send(trips)
   } catch (error) {
@@ -29,7 +30,8 @@ router.get('/:tripId/user/:userId', async (req, res, next) => {
         where: {
           userId: req.params.userId
         }
-      }
+      },
+      include: MapLocation
     })
     res.send(singleTrip)
   } catch (error) {
