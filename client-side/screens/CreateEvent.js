@@ -6,11 +6,10 @@ import {
   View,
   StyleSheet,
   Button,
-  Platform,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import DatePicker from 'react-native-date-picker'
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { createEvent } from '../store';
@@ -21,14 +20,15 @@ class CreateEvent extends Component {
     this.state = {
       title: '',
       location: '',
-      startTime: moment().format("MMMM Do YYYY, h:mm a"),
-      endTime: '',
+      startTime: new Date(),
+      endTime: new Date(),
       notes: '',
       tripId: this.props.tripId,
       show: false,
       date: new Date(),
       time: new Date(),
-      mode: 'date',
+      mode: '',
+      currentTime: new Date()
     };
   }
 
@@ -37,37 +37,43 @@ class CreateEvent extends Component {
     this.props.navigation.navigate('Itinerary');
   };
 
-  onChangeStart = (event, selectedValue) => {
-    // const currentDate = selectedDate || this.state.startTime;
-    // this.setState({startTime: currentDate});
-    // this.setState({showTime: false})
-    this.setState({show: Platform.OS === 'ios'});
+  onChange = (selectedValue) => {
+    const current = this.state.currentTime === this.state.startTime ? 'start' : 'end'
     if (this.state.mode == 'date') {
       const currentDate = selectedValue;
       this.setState({date: currentDate});
-      this.setState({mode: 'time'});
-      // this.setState({show: Platform.OS !== 'ios'}); // to show time
+      this.formatDate(currentDate, this.state.currentTime, current)
     } else {
       const selectedTime = selectedValue;
       this.setState({time: selectedTime});
-      this.setState({show: Platform.OS === 'ios'}); // to hide back the picker
-      this.setState({mode: 'date'}); // defaulting to date for next open
-      this.setState({show: false})
+      this.formatDate(this.state.currentTime, selectedTime, current)
     }
-    this.formatDate(this.state.date, this.state.time, 'start')
+    this.setState({show: false})
   };
 
-  showPicker = () => {
+  showDatePicker = (current) => {
     this.setState({ show: true });
     this.setState({ mode: 'date' });
+    this.setState({ currentTime: current })
   };
+
+  showTimePicker = (current) => {
+    this.setState({ show: true });
+    this.setState({ mode: 'time' });
+    this.setState({ currentTime: current })
+  };
+
+  hideDatePicker = () => {
+    this.setState({ show: false })
+  }
 
   formatDate = (date, time, startOrEnd) => {
     const formated = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
+    const formatedDate = new Date(formated)
     if (startOrEnd === 'start') {
-      this.setState({ startTime: formated });
+      this.setState({ startTime: formatedDate });
     } else {
-      this.setState({ endTime: formated });
+      this.setState({ endTime: formatedDate });
     }
   };
 
@@ -98,34 +104,38 @@ class CreateEvent extends Component {
             value={this.state.location}
             autoCapitalize="none"
           />
-          <Button
-            onPress={this.showPicker}
-            title={this.state.startTime}
-          />
+          <View style={styles.dateTimeButtonView}>
+            <Text>Start:</Text>
+            <Button
+              onPress={() => this.showDatePicker(this.state.startTime)}
+              title={moment(this.state.startTime).format("MMM D, YYYY")}
+            />
+            <Button
+              onPress={() => this.showTimePicker(this.state.startTime)}
+              title={moment(this.state.startTime).format("h:mm a")}
+            />
+          </View>
+          <View style={styles.dateTimeButtonView}>
+            <Text>End:</Text>
+            <Button
+              onPress={() => this.showDatePicker(this.state.endTime)}
+              title={moment(this.state.endTime).format("MMM D, YYYY")}
+            />
+            <Button
+              onPress={() => this.showTimePicker(this.state.endTime)}
+              title={moment(this.state.endTime).format("h:mm a")}
+            />
+          </View>
           {this.state.show && (
-            <DateTimePicker
-              value={new Date()}
+            <DateTimePickerModal
+              isVisible= {this.state.show}
+              date={this.state.currentTime}
               mode={this.state.mode}
               display="default"
-              onChange={this.onChangeStart}
+              onConfirm={this.onChange}
+              onCancel={this.hideDatePicker}
             />
           )}
-          {/* <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          placeholder="Start Time"
-          onChangeText={(startTime) => this.setState({ startTime })}
-          value={this.state.startTime}
-          autoCapitalize="none"
-        /> */}
-          <TextInput
-            style={styles.input}
-            placeholder="End Time"
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(endTime) => this.setState({ endTime })}
-            value={this.state.endTime}
-            autoCapitalize="none"
-          />
           <TextInput
             style={styles.input}
             placeholder="Notes"
@@ -194,18 +204,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  footerView: {
-    flex: 1,
+  dateTimeButtonView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    marginTop: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    color: '#2e2e2d',
-  },
-  footerLink: {
-    color: '#788eec',
-    fontWeight: 'bold',
-    fontSize: 16,
+    height: 48,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: 'white',
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
   },
 });
