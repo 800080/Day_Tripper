@@ -5,8 +5,11 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Button,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { createTripServer, findAddGuest, clearGuestList } from '../store';
 import { List } from 'react-native-paper'
@@ -17,10 +20,12 @@ class CreateTrip extends Component {
     this.state = {
       title: '',
       location: '',
-      startDate: '',
-      endDate: '',
+      startDate: new Date(),
+      endDate: new Date(),
       notes: '',
       guest: '',
+      show: false,
+      selected: new Date(),
     };
   }
 
@@ -41,6 +46,24 @@ class CreateTrip extends Component {
     this.props.addsGuest(this.state.guest);
     this.setState({guest: ''})
   };
+
+  onChange = (currentDate) => {
+    if (this.state.selected === this.state.startDate) {
+      this.setState({startDate: currentDate});
+    } else {
+      this.setState({endDate: currentDate});
+    }
+    this.setState({show: false})
+  };
+
+  showDatePicker = (selected) => {
+    this.setState({ show: true });
+    this.setState({ selected })
+  };
+
+  hideDatePicker = () => {
+    this.setState({ show: false })
+  }
 
   render() {
     return (
@@ -69,21 +92,27 @@ class CreateTrip extends Component {
             value={this.state.location}
             autoCapitalize="none"
           />
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="#aaaaaa"
-            placeholder="MM/DD/YY(Start Date)"
-            onChangeText={(startDate) => this.setState({ startDate })}
-            value={this.state.startDate}
-            autoCapitalize="none"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="MM/DD/YY(End Date)"
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(endDate) => this.setState({ endDate })}
-            value={this.state.endDate}
-            autoCapitalize="none"
+          <View style={styles.dateTimeButtonView}>
+            <Text>Start Date:</Text>
+            <Button
+              onPress={() => this.showDatePicker(this.state.startDate)}
+              title={moment(this.state.startDate).format("MMM D, YYYY")}
+            />
+          </View>
+          <View style={styles.dateTimeButtonView}>
+            <Text>End Date:</Text>
+            <Button
+              onPress={() => this.showDatePicker(this.state.endDate)}
+              title={moment(this.state.endDate).format("MMM D, YYYY")}
+            />
+          </View>
+          <DateTimePickerModal
+            isVisible= {this.state.show}
+            date={this.state.selected}
+            mode='date'
+            display="default"
+            onConfirm={this.onChange}
+            onCancel={this.hideDatePicker}
           />
           <TextInput
             style={styles.input}
@@ -179,18 +208,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  footerView: {
-    flex: 1,
+  dateTimeButtonView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    marginTop: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    color: '#2e2e2d',
-  },
-  footerLink: {
-    color: '#788eec',
-    fontWeight: 'bold',
-    fontSize: 16,
+    height: 48,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: 'white',
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
   },
 });

@@ -28,7 +28,7 @@ class CreateEvent extends Component {
       date: new Date(),
       time: new Date(),
       mode: '',
-      currentTime: new Date()
+      selected: new Date()
     };
   }
 
@@ -38,29 +38,29 @@ class CreateEvent extends Component {
   };
 
   onChange = (selectedValue) => {
-    const current = this.state.currentTime === this.state.startTime ? 'start' : 'end'
+    const current = this.state.selected === this.state.startTime ? 'start' : 'end'
     if (this.state.mode == 'date') {
       const currentDate = selectedValue;
       this.setState({date: currentDate});
-      this.formatDate(currentDate, this.state.currentTime, current)
+      this.formatDate(currentDate, this.state.selected, current)
     } else {
       const selectedTime = selectedValue;
       this.setState({time: selectedTime});
-      this.formatDate(this.state.currentTime, selectedTime, current)
+      this.formatDate(this.state.selected, selectedTime, current)
     }
     this.setState({show: false})
   };
 
-  showDatePicker = (current) => {
+  showDatePicker = (selected) => {
     this.setState({ show: true });
     this.setState({ mode: 'date' });
-    this.setState({ currentTime: current })
+    this.setState({ selected })
   };
 
-  showTimePicker = (current) => {
+  showTimePicker = (selected) => {
     this.setState({ show: true });
     this.setState({ mode: 'time' });
-    this.setState({ currentTime: current })
+    this.setState({ selected })
   };
 
   hideDatePicker = () => {
@@ -126,16 +126,14 @@ class CreateEvent extends Component {
               title={moment(this.state.endTime).format("h:mm a")}
             />
           </View>
-          {this.state.show && (
-            <DateTimePickerModal
-              isVisible= {this.state.show}
-              date={this.state.currentTime}
-              mode={this.state.mode}
-              display="default"
-              onConfirm={this.onChange}
-              onCancel={this.hideDatePicker}
-            />
-          )}
+          <DateTimePickerModal
+            isVisible= {this.state.show}
+            date={this.state.selected}
+            mode={this.state.mode}
+            display="default"
+            onConfirm={this.onChange}
+            onCancel={this.hideDatePicker}
+          />
           <TextInput
             style={styles.input}
             placeholder="Notes"
