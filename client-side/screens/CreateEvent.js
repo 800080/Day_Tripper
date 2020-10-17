@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   dateTimeButtonView: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     height: 48,
     borderRadius: 5,
@@ -213,5 +213,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 30,
     marginRight: 30,
+    paddingLeft: 16,
+    paddingRight: 16
   },
 });
