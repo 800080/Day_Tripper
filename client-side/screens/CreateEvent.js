@@ -8,7 +8,6 @@ import {
   Button,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-// import DatePicker from 'react-native-date-picker'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { connect } from 'react-redux';
