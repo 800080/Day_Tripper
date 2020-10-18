@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { UserTrip, Trip, MapLocation } = require("../db/models");
 module.exports = router;
 
-//GET mounted on /api/trips
+//GET mounted on /api/trips (get all trips for a user)
 router.get("/user/:userId", async (req, res, next) => {
   try {
     const trips = await Trip.findAll({
@@ -23,7 +23,7 @@ router.get("/user/:userId", async (req, res, next) => {
   }
 });
 
-//GET mounted on /api/trips
+//GET mounted on /api/trips (get single trip for a user)
 router.get("/:tripId/user/:userId", async (req, res, next) => {
   try {
     const singleTrip = await Trip.findByPk(req.params.tripId, {

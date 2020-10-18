@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Event } = require('../db/models')
+const { Event, MapLocation } = require('../db/models')
 module.exports = router
 
 //GET mounter on /api/events
@@ -9,7 +9,8 @@ router.get('/trip/:tripId', async (req, res, next) => {
       order: [['startTime', 'ASC']],
       where: {
         tripId: req.params.tripId
-      }
+      },
+      include: MapLocation
     })
     res.send(events)
   } catch (error) {

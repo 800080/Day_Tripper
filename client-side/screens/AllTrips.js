@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchAllTrips, fetchSingleTrip } from '../store';
+import { fetchAllTrips, fetchSingleTrip, fetchAllEvents } from '../store';
 import { List } from 'react-native-paper'
 
 class AllTrips extends Component {
@@ -15,6 +15,7 @@ class AllTrips extends Component {
 
   handleClick(tripId) {
     this.props.fetchSingleTrip(tripId);
+    this.props.fetchAllEvents(tripId)
     this.props.navigation.navigate('SingleTrip'); // Maybe refactor?
   }
 
@@ -67,6 +68,7 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch) => ({
   fetchAllTrips: (userId) => dispatch(fetchAllTrips(userId)),
   fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId)),
+  fetchAllEvents: (tripId) => dispatch(fetchAllEvents(tripId))
 });
 
 export default connect(mapState, mapDispatch)(AllTrips);

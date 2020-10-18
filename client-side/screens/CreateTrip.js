@@ -39,7 +39,7 @@ class CreateTrip extends Component {
 
   onCreateTrip = () => {
     this.props.createTrip(this.state);
-    this.props.navigation.navigate('SingleTrip')
+    this.props.navigation.navigate('AllTrips')
   };
 
   onAddGuest = () => {

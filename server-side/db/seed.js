@@ -99,26 +99,20 @@ const seedChatMessages = [
 const seedMapLocations = [
   {
     coordinate:{
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      lat: 37.78825,
+      lng: -122.4324,
     },
   },
   {
     coordinate:{
-      latitude: 37.78825,
-      longitude: -102.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      lat: 37.79825,
+      lng: -122.4324,
     },
   },
   {
     coordinate:{
-      latitude: 27.78825,
-      longitude: -142.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      lat: 37.78825,
+      lng: -122.4224,
     },
   },
 ]
@@ -148,7 +142,6 @@ async function seed() {
 
   const userTrip = await UserTrip.findOne({where: {userId: 2}})
   await userTrip.update({isHost: true, status: "accepted"})
-  console.log('magic methods mapLocation>>>>>> ', createdMapLocations[0].__proto__)
   console.log("db synced!")
 }
 
