@@ -148,7 +148,7 @@ async function seed() {
 
   const userTrip = await UserTrip.findOne({where: {userId: 2}})
   await userTrip.update({isHost: true, status: "accepted"})
-
+  console.log('magic methods mapLocation>>>>>> ', createdMapLocations[0].__proto__)
   console.log("db synced!")
 }
 

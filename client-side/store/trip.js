@@ -1,5 +1,6 @@
 import axios from 'axios'
 import serverUrl from '../serverUrl'
+import { GOOGLE_MAPS_API_KEY } from '../secrets'
 
 //Action Types
 const GET_ALL_TRIPS = 'GET_ALL_TRIPS'
@@ -63,6 +64,7 @@ export const createTripServer = (tripInfo) => async (dispatch, getState) => {
   try {
     const user = getState().user
     const guestList = getState().trips.guestList
+    const mapLocation = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${tripInfo.location}&key={GOOGLE_MAPS_API_KEY}`)
     const newTrip = await axios.post(`${serverUrl}/api/trips`, {tripInfo, user, guestList})
     const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
     dispatch(createTrip(trip.data))
