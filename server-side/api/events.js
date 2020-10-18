@@ -21,7 +21,9 @@ router.get('/trip/:tripId', async (req, res, next) => {
 //GET mounted on /api/events/:eventId
 router.get('/:eventId', async (req, res, next) => {
   try {
-    const event = await Event.findByPk(req.params.eventId)
+    const event = await Event.findByPk(req.params.eventId,{
+      include: MapLocation
+    })
     res.send(event)
   } catch (error) {
     next(error)
