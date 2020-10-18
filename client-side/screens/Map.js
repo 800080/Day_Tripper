@@ -2,8 +2,13 @@ import React from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { connect } from 'react-redux'
+import { fetchAllEvents } from '../store'
 
 class Map extends React.Component {
+  componentDidMount() {
+    this.props.fetchAllEvents(this.props.singleTrip.id)
+  }
+
   render() {
     const initialCoordinate = this.props.route.params.initialCoordinate
     return (
@@ -29,11 +34,15 @@ class Map extends React.Component {
 }
 
 const mapState = (state) => ({
-  // initialCoordinate: state.trips.singleTrip.mapLocation.coordinate
-  events: state.events.allEvents
+  events: state.events.allEvents,
+  singleTrip: state.trips.singleTrip
 })
 
-export default connect(mapState)(Map)
+const mapDispatch = (dispatch) => ({
+  fetchAllEvents: (tripId) => dispatch(fetchAllEvents(tripId))
+})
+
+export default connect(mapState, mapDispatch)(Map)
 
 const styles = StyleSheet.create({
   container: {

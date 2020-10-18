@@ -9,9 +9,9 @@ class Itinerary extends Component {
     super()
     this.handleClick = this.handleClick.bind(this)
   }
-  // componentDidMount(){
-  //   this.props.fetchEvents(this.props.trip.id)
-  // }
+  componentDidMount(){
+    this.props.fetchEvents(this.props.trip.id)
+  }
 
   handleClick(eventId) {
     const singleEvent = this.props.events.filter(event => event.id === eventId)
