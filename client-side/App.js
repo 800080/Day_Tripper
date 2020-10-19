@@ -1,10 +1,11 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import store from './store';
+import React from "react";
+import { Provider } from "react-redux";
+import { Image } from "react-native"
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Provider as PaperProvider } from "react-native-paper";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import store from "./store";
 import {
   Login,
   HomeScreen,
@@ -18,13 +19,23 @@ import {
   CreateTrip,
   GuestList,
   Map,
-} from './screens';
-import './socket';
+  UserProfile,
+} from "./screens";
+import "./socket";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function App() {
+  function LogoTitle() {
+    return (
+      <Image
+        style={{ width: 50, height: 50 }}
+        source={{ uri: 'https://img.icons8.com/windows/452/person-male.png' }}
+      />
+    );
+  }
+
   return (
     <Provider store={store}>
       <PaperProvider>
@@ -41,7 +52,13 @@ function App() {
               })}
             />
 
-            <Stack.Screen name="AllTrips" component={AllTrips} />
+            <Stack.Screen name="UserProfile" component={UserProfile} />
+            <Stack.Screen
+              name="AllTrips"
+              component={AllTrips}
+              options={{ title: "All Trips", headerTitleAlign: "right", headerRight: props => <LogoTitle {...props} />}}
+              //<button icon={{}} ()=> OnPress..navigate to UserProfile/>
+            />
             <Stack.Screen name="SingleTrip">
               {() => (
                 <Tab.Navigator>
