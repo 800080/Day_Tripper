@@ -52,6 +52,10 @@ export class SingleTrip extends Component {
           onPress={() => this.props.navigation.navigate('Itinerary')}
         />
         <Button
+          title="See Map of Events"
+          onPress={() => this.props.navigation.navigate('Map', {initialCoordinate: this.props.singleTrip.mapLocation.coordinate})}
+        />
+        <Button
           title="Go to Chat"
           onPress={() => this.props.navigation.navigate('Chat')}
         />

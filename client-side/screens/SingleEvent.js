@@ -15,7 +15,9 @@ class SingleEvent extends Component {
         <Text style={styles.text}>{this.props.event.title}</Text>
         <Text style={styles.text}>Start Time: {startTime.toLocaleString('en-US')}</Text>
         <Text style={styles.text}>End Time: {endTime.toLocaleString('en-US')}</Text>
-        <Text style={styles.text}>MAP Coming Soon...</Text>
+        <Text
+          onPress={() => this.props.navigation.navigate('Map', {initialCoordinate: this.props.event.mapLocation.coordinate})}
+          style={styles.text}>See MAP</Text>
         <Text style={styles.text}>Notes: {this.props.event.notes}</Text>
       </List.Section>
     )
@@ -26,11 +28,7 @@ const mapState = (state) => ({
   event: state.events.singleEvent
 })
 
-const mapDispatch = (dispatch) => ({
-
-})
-
-export default connect(mapState, mapDispatch)(SingleEvent)
+export default connect(mapState)(SingleEvent)
 
 
 const styles = StyleSheet.create({

@@ -39,7 +39,7 @@ class CreateTrip extends Component {
 
   onCreateTrip = () => {
     this.props.createTrip(this.state);
-    this.props.navigation.navigate('SingleTrip')
+    this.props.navigation.navigate('AllTrips')
   };
 
   onAddGuest = () => {
@@ -162,8 +162,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  createTrip: (tripInfo, navigation) =>
-    dispatch(createTripServer(tripInfo, navigation)),
+  createTrip: (tripInfo) =>
+    dispatch(createTripServer(tripInfo)),
   addsGuest: (email) => dispatch(findAddGuest(email)),
   clearGuestList: () => dispatch(clearGuestList())
 });
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   },
   dateTimeButtonView: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     height: 48,
     borderRadius: 5,
@@ -220,5 +220,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 30,
     marginRight: 30,
+    paddingLeft: 16,
+    paddingRight: 16
   },
 });

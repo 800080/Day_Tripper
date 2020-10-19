@@ -96,6 +96,27 @@ const seedChatMessages = [
   },
 ]
 
+const seedMapLocations = [
+  {
+    coordinate:{
+      lat: 37.78825,
+      lng: -122.4324,
+    },
+  },
+  {
+    coordinate:{
+      lat: 37.79825,
+      lng: -122.4324,
+    },
+  },
+  {
+    coordinate:{
+      lat: 37.78825,
+      lng: -122.4224,
+    },
+  },
+]
+
 async function seed() {
   await db.sync({ force: true })
 
@@ -103,6 +124,7 @@ async function seed() {
   const createdTrips = await Promise.all(seedTrip.map(trip => Trip.create(trip)))
   const createdEvents = await Promise.all(seedEvent.map(event => Event.create(event)))
   const createdChatMessages = await Promise.all(seedChatMessages.map(message => ChatMessage.create(message)))
+  const createdMapLocations = await Promise.all(seedMapLocations.map(location => MapLocation.create(location)))
 
   await createdTrips[0].addEvents(createdEvents)
   await createdTrips[0].addUsers(createdUsers)
@@ -113,9 +135,13 @@ async function seed() {
   await createdChatMessages[1].setUser(createdUsers[2])
   await createdChatMessages[2].setUser(createdUsers[3])
 
+  await createdTrips[0].setMapLocation(createdMapLocations[0])
+  await createdEvents[0].setMapLocation(createdMapLocations[0])
+  await createdEvents[1].setMapLocation(createdMapLocations[1])
+  await createdEvents[2].setMapLocation(createdMapLocations[2])
+
   const userTrip = await UserTrip.findOne({where: {userId: 2}})
   await userTrip.update({isHost: true, status: "accepted"})
-
   console.log("db synced!")
 }
 

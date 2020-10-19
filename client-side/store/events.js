@@ -1,5 +1,6 @@
 import axios from 'axios'
 import serverUrl from '../serverUrl'
+import { GOOGLE_MAPS_API_KEY } from '../secrets'
 
 //Action Types
 const GET_ALL_EVENTS = 'GET_ALL_EVENTS'
@@ -43,8 +44,12 @@ export const fetchSingleEvent = (eventId) => async dispatch => {
 
 export const createEvent = (event) => async dispatch => {
   try {
+    const { data: mapLocation } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${event.location}&key=${GOOGLE_MAPS_API_KEY}`)
+    const coordinate = mapLocation.results[0].geometry.location
     const singleEvent = await axios.post(`${serverUrl}/api/events`, event)
-    dispatch(createNewEvent(singleEvent.data))
+    await axios.post(`${serverUrl}/api/maps/event`, {eventId: singleEvent.data.id, coordinate})
+    const fetchedEvent = await axios.get(`${serverUrl}/api/events/${singleEvent.data.id}`)
+    dispatch(createNewEvent(fetchedEvent.data))
   } catch (error) {
     console.error(error)
   }
