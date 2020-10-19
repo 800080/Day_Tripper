@@ -5,9 +5,6 @@ import { connect } from 'react-redux'
 import { fetchAllEvents } from '../store'
 
 class Map extends React.Component {
-  // componentDidMount() {
-  //   this.props.fetchAllEvents(this.props.singleTrip.id)
-  // }
 
   render() {
     return (
@@ -34,7 +31,6 @@ class Map extends React.Component {
 
 const mapState = (state) => ({
   events: state.events.allEvents,
-  singleTrip: state.trips.singleTrip,
   mapCoords: state.map
 })
 
