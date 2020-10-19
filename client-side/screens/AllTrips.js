@@ -13,7 +13,7 @@ class AllTrips extends Component {
     this.props.fetchAllTrips(this.props.user.id);
   }
 
-  handleClick(tripId) {
+  handleClick = (tripId) => {
     this.props.fetchSingleTrip(tripId);
     this.props.navigation.navigate('SingleTrip'); // Maybe refactor?
   }

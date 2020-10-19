@@ -5,16 +5,15 @@ import { connect } from 'react-redux'
 import { fetchAllEvents } from '../store'
 
 class Map extends React.Component {
-  componentDidMount() {
-    this.props.fetchAllEvents(this.props.singleTrip.id)
-  }
+  // componentDidMount() {
+  //   this.props.fetchAllEvents(this.props.singleTrip.id)
+  // }
 
   render() {
-    const initialCoordinate = this.props.route.params.initialCoordinate
     return (
       <View style={styles.container}>
         <MapView
-          initialRegion={initialCoordinate}
+          initialRegion={this.props.mapCoords}
           style={styles.mapStyle}
         >
           {this.props.events.map((event => {
@@ -35,7 +34,8 @@ class Map extends React.Component {
 
 const mapState = (state) => ({
   events: state.events.allEvents,
-  singleTrip: state.trips.singleTrip
+  singleTrip: state.trips.singleTrip,
+  mapCoords: state.map
 })
 
 const mapDispatch = (dispatch) => ({

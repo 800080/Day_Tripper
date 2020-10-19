@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import { Text, View, Button, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import { fetchSingleTrip, fetchAllTrips, updateStatus } from '../store'
+import { fetchAllTrips, updateStatus, fetchAllEvents, setCoords } from '../store'
 import { List } from 'react-native-paper'
 
 export class SingleTrip extends Component {
   constructor() {
     super()
+  }
+
+  componentDidUpdate(){
+    this.props.fetchAllEvents(this.props.singleTrip.id)
+    this.props.setCoords(this.props.singleTrip.mapLocation.coordinate)
   }
 
   acceptInvite = () => {
@@ -74,9 +79,10 @@ const mapState = (state) => ({
 })
 
 const mapDispatch = (dispatch) => ({
-  fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId)),
   updateStatus: (tripId, userId, status) => dispatch(updateStatus(tripId, userId, status)),
   fetchAllTrips: (userId) => dispatch(fetchAllTrips(userId)),
+  fetchAllEvents: (tripId) => dispatch(fetchAllEvents(tripId)),
+  setCoords: (coords) => dispatch(setCoords(coords))
 })
 
 export default connect(mapState, mapDispatch)(SingleTrip)
