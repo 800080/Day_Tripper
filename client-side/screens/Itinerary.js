@@ -14,7 +14,7 @@ class Itinerary extends Component {
   }
 
   handleClick(eventId) {
-    const singleEvent = this.props.events.filter(event => event.id === eventId)
+    const singleEvent = this.props.events.filter(event => event.id === eventId)// refactor with .find()?
     this.props.fetchSingleEvent(singleEvent[0])
     this.props.navigation.navigate('Event Details')
   }
