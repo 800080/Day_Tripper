@@ -5,8 +5,8 @@ import user from "./user"
 import messages from "./messages"
 import trips from './trip'
 import events from './events'
-
-const reducer = combineReducers({user, messages, trips, events})
+import map from './map'
+const reducer = combineReducers({user, messages, trips, events, map})
 
 const middleware = applyMiddleware(thunkMiddleware)
 //, createLogger({ collapsed: false }))
@@ -19,3 +19,4 @@ export * from "./user"
 export * from "./messages"
 export * from './trip'
 export * from './events'
+export * from './map'
