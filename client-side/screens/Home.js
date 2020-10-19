@@ -17,6 +17,10 @@ function HomeScreen({ navigation, user, logout }) {
         onPress={() => navigation.navigate('AllTrips')}
       />
       <Button
+        title="User Profile"
+        onPress={() => navigation.navigate('UserProfile')}
+      />
+      <Button
         title="Logout"
         onPress={() => logout(navigation)}
       />

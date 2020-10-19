@@ -18,6 +18,7 @@ import {
   CreateTrip,
   GuestList,
   Map,
+  UserProfile,
 } from './screens';
 import './socket';
 
@@ -41,6 +42,7 @@ function App() {
               })}
             />
 
+            <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen name="AllTrips" component={AllTrips} />
             <Stack.Screen name="SingleTrip">
               {() => (
