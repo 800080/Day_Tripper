@@ -3,11 +3,26 @@ import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import store from './store';
-import { Login, HomeScreen, Chat, AllTrips, SingleTrip, Itinerary, SingleEvent, CreateEvent, Signup, CreateTrip, GuestList, Map } from './screens';
+import {
+  Login,
+  HomeScreen,
+  Chat,
+  AllTrips,
+  SingleTrip,
+  Itinerary,
+  SingleEvent,
+  CreateEvent,
+  Signup,
+  CreateTrip,
+  GuestList,
+  Map,
+} from './screens';
 import './socket';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function App() {
   return (
@@ -25,14 +40,21 @@ function App() {
                 headerLeft: null,
               })}
             />
-            <Stack.Screen name="Chat" component={Chat} />
+
             <Stack.Screen name="AllTrips" component={AllTrips} />
-            <Stack.Screen name="SingleTrip" component={SingleTrip} />
-            <Stack.Screen name="Itinerary" component={Itinerary} />
+            <Stack.Screen name="SingleTrip">
+              {() => (
+                <Tab.Navigator>
+                  <Tab.Screen name="SingleTrip" component={SingleTrip} />
+                  <Tab.Screen name="Itinerary" component={Itinerary} />
+                  <Tab.Screen name="Chat" component={Chat} />
+                  <Tab.Screen name="Guest List" component={GuestList} />
+                  <Tab.Screen name="Map" component={Map} />
+                </Tab.Navigator>
+              )}
+            </Stack.Screen>
             <Stack.Screen name="Event Details" component={SingleEvent} />
             <Stack.Screen name="Create Event" component={CreateEvent} />
-            <Stack.Screen name="Guest List" component={GuestList} />
-            <Stack.Screen name="Map" component={Map} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
