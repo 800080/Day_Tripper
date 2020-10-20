@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, Image, View } from 'react-native'
+import { Text, StyleSheet, Image, View, Button } from 'react-native'
 import { List } from 'react-native-paper'
 import { connect } from 'react-redux'
+import { logout } from '../store';
 
 class UserProfile extends Component {
   constructor() {
@@ -20,6 +21,12 @@ class UserProfile extends Component {
           <Text style={styles.text}>Username: {this.props.user.username}</Text>
           <Text style={styles.text}>Email: {this.props.user.email}</Text>
         </List.Section>
+
+        <Button
+          title="Logout"
+          onPress={() => this.props.logout(this.props.navigation)}
+        />
+
       </View>
     )
   }
@@ -27,6 +34,10 @@ class UserProfile extends Component {
 
 const mapState = (state) => ({
   user: state.user
+})
+
+const mapDispatch = (dispatch) => ({
+  logout: navigation => dispatch(logout(navigation))
 })
 
 const styles = StyleSheet.create({
@@ -51,4 +62,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect(mapState)(UserProfile)
+export default connect(mapState, mapDispatch)(UserProfile)
