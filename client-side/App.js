@@ -85,7 +85,14 @@ function App() {
                 </Tab.Navigator>
               )}
             </Stack.Screen>
-            <Stack.Screen name="Event Details" component={SingleEvent} />
+            <Stack.Screen
+              name="Event Details"
+              component={SingleEvent}
+              options={({ navigation }) => ({
+                title: "Event",
+                headerRight: () => <UserButton navigation={navigation} />,
+              })}
+            />
             <Stack.Screen name="Create Event" component={CreateEvent} />
           </Stack.Navigator>
         </NavigationContainer>
