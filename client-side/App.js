@@ -28,6 +28,23 @@ const Tab = createBottomTabNavigator();
 
 function App() {
 
+  function UserButton ({navigation}) {
+    return (
+      <TouchableOpacity
+                    onPress={() => navigation.navigate("UserProfile")}
+                    style={{ marginRight: 12 }}
+                  >
+                    <Image
+                      style={{ width: 50, height: 50 }}
+                      source={{
+                        uri:
+                          "https://img.icons8.com/windows/452/person-male.png",
+                      }}
+                    />
+                  </TouchableOpacity>
+    )
+  }
+
   return (
     <Provider store={store}>
       <PaperProvider>
@@ -50,31 +67,11 @@ function App() {
               options={({ navigation }) => ({
                 title: "All Trips",
                 headerRight: () => (
-                  <TouchableOpacity
-                    // activeOpacity={0.4}
-                    // underlayColor="transparent"
-                    onPress={() => navigation.navigate("UserProfile")}
-                    style={{ marginRight: 12 }}
-                  >
-                    <Image
-                      style={{ width: 50, height: 50 }}
-                      source={{
-                        uri:
-                          "https://img.icons8.com/windows/452/person-male.png",
-                      }}
-                    />
-                  </TouchableOpacity>
-                ),
+                  <UserButton navigation={navigation} />
+                )
               })}
             />
 
-            {/* <Stack.Screen
-              name="AllTrips"
-              component={AllTrips}
-              options={{ title: "All Trips", headerTitleAlign: "right", headerRight:
-
-              (props) => <UserButton {...props} />}}
-            /> */}
             <Stack.Screen name="SingleTrip">
               {() => (
                 <Tab.Navigator>
