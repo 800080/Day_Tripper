@@ -1,16 +1,25 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, Button } from 'react-native'
+import { View, Button, FlatList } from 'react-native'
+import { Text, ListItem, Left, Body, Icon, Right, Title } from "native-base";
 import { List } from 'react-native-paper'
 import { connect } from 'react-redux'
 import { fetchAllEvents, getSingleEvent } from '../store'
+import moment from 'moment'
 
 class Itinerary extends Component {
   constructor() {
     super()
+    this.state = {
+      data: [],
+      stickyHeader: []
+    }
     this.handleClick = this.handleClick.bind(this)
   }
-  componentDidMount(){
-    this.props.fetchEvents(this.props.trip.id)
+  componentDidMount = async () => {
+    await this.props.fetchEvents(this.props.trip.id)
+    const newEvts = this.formatEvents()
+    const stickyHeader = this.stickyHeaderArr(newEvts)
+    this.setState({data: newEvts, stickyHeader})
   }
 
   handleClick(eventId) {
@@ -19,11 +28,71 @@ class Itinerary extends Component {
     this.props.navigation.navigate('Event Details')
   }
 
-  render() {
+  formatEvents = () => {
     const itinEvents = this.props.events
+    const newEvts = []
+    itinEvents.forEach(evt => {
+      const subHeader = {title: moment(evt.startTime).format("dddd MMMM Do"), header: true}
+      if (!newEvts.length) {
+        newEvts.push(subHeader)
+      } else {
+        const lastTime = moment(newEvts[newEvts.length - 1].startTime).format("dddd MMMM Do")
+        const curEvtTime = moment(evt.startTime).format("dddd MMMM Do")
+        if (lastTime !== curEvtTime) {
+          newEvts.push(subHeader)
+        }
+      }
+      newEvts.push(evt)
+    })
+    return newEvts
+  }
+
+  stickyHeaderArr = (evtArr) => {
+    const arr = [];
+    evtArr.map(obj => {
+      if (obj.header) {
+        arr.push(evtArr.indexOf(obj));
+      }
+    });
+    arr.push(0);
+    return arr
+  }
+
+  renderItem = ({ item }) => {
+    if (item.header) {
+      return (
+        <ListItem itemDivider>
+          <Left />
+          <Body style={{ marginRight: 40 }}>
+            <Text style={{ fontWeight: "bold" }}>
+              {item.title}
+            </Text>
+          </Body>
+          <Right />
+        </ListItem>
+      );
+    } else if (!item.header) {
+      return (
+        <ListItem style={{ marginLeft: 20 }}>
+          <Body>
+            <Text>{item.title} {moment(item.startTime).format("h:mm a")} to {moment(item.endTime).format("h:mm a")}</Text>
+          </Body>
+        </ListItem>
+      );
+    }
+  };
+
+  render() {
+
     return (
-      <ScrollView>
-        <List.Section>
+      <View>
+        <FlatList
+        data={this.state.data}
+        renderItem={this.renderItem}
+        keyExtractor={item => item.title}
+        stickyHeaderIndices={this.state.stickyHeader}
+      />
+        {/* <List.Section>
           {
             itinEvents.map((event) => {
               return <List.Item
@@ -35,12 +104,12 @@ class Itinerary extends Component {
             />
             })
           }
-        </List.Section>
+        </List.Section> */}
         <Button
         title="Create Event"
         onPress={() => this.props.navigation.navigate('Create Event')}
       />
-      </ScrollView>
+    </View>
       )
   }
 }
