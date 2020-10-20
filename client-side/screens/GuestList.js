@@ -12,7 +12,6 @@ import {
   ScrollView,
 } from 'react-native';
 import { List } from 'react-native-paper';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { fetchGuests, findAddGuest } from '../store';
 
 function GuestList(props) {
@@ -28,6 +27,8 @@ function GuestList(props) {
     setEmail('');
   };
 
+  const toggleModal = () => setVisibility(!isVisible)
+
   const goingGuests = props.guestList.filter(
     (guest) => guest.userTrips[0].status === 'accepted'
   );
@@ -38,9 +39,8 @@ function GuestList(props) {
   return (
     <View
       style={{ flex: 1, width: '100%', height: '100%' }}
-      keyboardShouldPersistTaps="handled"
     >
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <List.Section>
           <List.Subheader style={styles.listSubheader}>Going</List.Subheader>
           {goingGuests.map((guest) => {
@@ -67,31 +67,35 @@ function GuestList(props) {
             );
           })}
         </List.Section>
-        <Modal style={styles.modal} isVisible={isVisible}>
-          <View style={{ flex: 1 }}>
-            <TextInput
-              style={styles.input}
-              placeholder="Guest's Email"
-              placeholderTextColor="#aaaaaa"
-              onChangeText={(email) => setEmail(email)}
-              value={email}
-              autoCapitalize="none"
-            />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => onAddGuest()}
-            >
-              <Text style={styles.buttonTitle}>Add Guest</Text>
-            </TouchableOpacity>
-            <Button title="Cancel" onPress={() => setVisibility(false)} />
-          </View>
-        </Modal>
       </ScrollView>
+      <Modal
+        style={styles.modal}
+        isVisible={isVisible}
+        onBackdropPress={toggleModal}
+      >
+        <View>
+          <TextInput
+            style={styles.input}
+            placeholder="Guest's Email"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(email) => setEmail(email)}
+            value={email}
+            autoCapitalize="none"
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onAddGuest()}
+          >
+            <Text style={styles.buttonTitle}>Add Guest</Text>
+          </TouchableOpacity>
+          <Button title="Cancel" onPress={toggleModal} />
+        </View>
+      </Modal>
       <FAB
         style={styles.fab}
         large
         icon="plus"
-        onPress={() => setVisibility(true)}
+        onPress={toggleModal}
       />
     </View>
   );
@@ -152,10 +156,9 @@ const styles = StyleSheet.create({
     right: 20,
     bottom: 20,
   },
-  // modal: {
-  //   position: 'absolute',
-  //   top: '50%',
-  //   left: '50%',
-  //   transform: translate('-50%', '-50%')
-  // }
+  modal: {
+    backgroundColor: '#E8E8E8',
+    maxHeight: 250,
+    marginTop: '50%'
+  }
 });
