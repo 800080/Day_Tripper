@@ -53,19 +53,13 @@ function App() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="CreateTrip" component={CreateTrip} />
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={() => ({
-                headerLeft: null,
-              })}
-            />
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen
               name="AllTrips"
               component={AllTrips}
               options={({ navigation }) => ({
                 title: "All Trips",
+                headerLeft: null,
                 headerRight: () => <UserButton navigation={navigation} />,
               })}
             />

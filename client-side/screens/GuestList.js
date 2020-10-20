@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import Modal from 'react-native-modal';
+import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux';
 import {
-  ScrollView,
+  View,
   StyleSheet,
   TextInput,
   Text,
   TouchableOpacity,
+  Button,
+  ScrollView,
 } from 'react-native';
 import { List } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -13,6 +17,7 @@ import { fetchGuests, findAddGuest } from '../store';
 
 function GuestList(props) {
   const [email, setEmail] = useState('');
+  const [isVisible, setVisibility] = useState(false);
 
   useEffect(() => {
     props.fetchGuests(props.singleTrip.id);
@@ -31,46 +36,64 @@ function GuestList(props) {
   );
 
   return (
-    <KeyboardAwareScrollView
-      style={{ flex: 1, width: '100%' }}
+    <View
+      style={{ flex: 1, width: '100%', height: '100%' }}
       keyboardShouldPersistTaps="handled"
     >
-      <List.Section>
-        <List.Subheader style={styles.listSubheader}>Going</List.Subheader>
-        {goingGuests.map((guest) => {
-          return (
-            <List.Item
-              key={guest.id}
-              title={guest.name}
-              left={() => <List.Icon color="#800080" icon="airplane-takeoff" />}
+      <ScrollView>
+        <List.Section>
+          <List.Subheader style={styles.listSubheader}>Going</List.Subheader>
+          {goingGuests.map((guest) => {
+            return (
+              <List.Item
+                key={guest.id}
+                title={guest.name}
+                left={() => (
+                  <List.Icon color="#800080" icon="airplane-takeoff" />
+                )}
+              />
+            );
+          })}
+        </List.Section>
+        <List.Section>
+          <List.Subheader style={styles.listSubheader}>Pending</List.Subheader>
+          {pendingGuests.map((guest) => {
+            return (
+              <List.Item
+                key={guest.id}
+                title={guest.name}
+                left={() => <List.Icon color="#800080" icon="alert-outline" />}
+              />
+            );
+          })}
+        </List.Section>
+        <Modal style={styles.modal} isVisible={isVisible}>
+          <View style={{ flex: 1 }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Guest's Email"
+              placeholderTextColor="#aaaaaa"
+              onChangeText={(email) => setEmail(email)}
+              value={email}
+              autoCapitalize="none"
             />
-          );
-        })}
-      </List.Section>
-      <List.Section>
-        <List.Subheader style={styles.listSubheader}>Pending</List.Subheader>
-        {pendingGuests.map((guest) => {
-          return (
-            <List.Item
-              key={guest.id}
-              title={guest.name}
-              left={() => <List.Icon color="#800080" icon="alert-outline" />}
-            />
-          );
-        })}
-      </List.Section>
-      <TextInput
-        style={styles.input}
-        placeholder="Guest's Email"
-        placeholderTextColor="#aaaaaa"
-        onChangeText={(email) => setEmail(email)}
-        value={email}
-        autoCapitalize="none"
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => onAddGuest()}
+            >
+              <Text style={styles.buttonTitle}>Add Guest</Text>
+            </TouchableOpacity>
+            <Button title="Cancel" onPress={() => setVisibility(false)} />
+          </View>
+        </Modal>
+      </ScrollView>
+      <FAB
+        style={styles.fab}
+        large
+        icon="plus"
+        onPress={() => setVisibility(true)}
       />
-      <TouchableOpacity style={styles.button} onPress={() => onAddGuest()}>
-        <Text style={styles.buttonTitle}>Add Guest</Text>
-      </TouchableOpacity>
-    </KeyboardAwareScrollView>
+    </View>
   );
 }
 
@@ -120,4 +143,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  scrollView: {
+    height: '100%',
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 20,
+    bottom: 20,
+  },
+  // modal: {
+  //   position: 'absolute',
+  //   top: '50%',
+  //   left: '50%',
+  //   transform: translate('-50%', '-50%')
+  // }
 });
