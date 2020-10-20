@@ -71,7 +71,7 @@ function App() {
             <Stack.Screen
               name="SingleTrip"
               options={({ navigation }) => ({
-                title: "All Trips",
+                title: "Single Trip",
                 headerRight: () => <UserButton navigation={navigation} />,
               })}
             >
