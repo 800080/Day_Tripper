@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { auth } from '../store/user';
+import { auth, logout } from '../store/user';
 import { connect } from 'react-redux';
 
 class Signup extends Component {
@@ -40,7 +40,8 @@ class Signup extends Component {
     if (this.props.error && this.props.error.response){
 
     alert(`${this.props.error.response.data}. Please sign in.`)
-    this.props.navigation.navigate('Login')
+    this.props.removeUser(this.props.navigation)
+    // this.props.navigation.navigate('Login')
 
     }
   };
@@ -125,6 +126,7 @@ class Signup extends Component {
 const mapDispatch = (dispatch) => ({
   signup: (name, username, email, password, navigation) =>
     dispatch(auth(email, password, 'signup', navigation, name, username)),
+  removeUser: (navigation) => dispatch(logout(navigation))
 });
 
 const mapState = (state) => ({
