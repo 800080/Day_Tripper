@@ -75,7 +75,7 @@ class Itinerary extends Component {
       return (
         <ListItem style={{ marginLeft: 20 }}>
           <Body>
-            <Text>{item.title} {moment(item.startTime).format("h:mm a")} to {moment(item.endTime).format("h:mm a")}</Text>
+            <Text onPress={() => this.handleClick(item.id)}>{item.title} {moment(item.startTime).format("h:mm a")} to {moment(item.endTime).format("h:mm a")}</Text>
           </Body>
         </ListItem>
       );
