@@ -24,9 +24,15 @@ class Signup extends Component {
   }
 
   onRegisterPress = () => {
-    const {name, username, email, password, confirmPassword} = this.state
+    const { name, username, email, password, confirmPassword } = this.state
     if (password !== confirmPassword) {
       alert('Passwords do not match!')
+    } else if (!email.includes("@")) {
+      alert('Email is not valid!')
+    } else if (username === "") {
+      alert('Username is required!')
+    } else if (name === "") {
+      alert('Name is required!')
     } else {
       this.props.signup(name, username, email, password, this.props.navigation)
     }
@@ -51,7 +57,7 @@ class Signup extends Component {
             style={styles.input}
             placeholder="E-mail"
             placeholderTextColor="#aaaaaa"
-            onChangeText={(email) => this.setState({email})}
+            onChangeText={(email) => this.setState({ email })}
             value={this.state.email}
             autoCapitalize="none"
           />
@@ -60,7 +66,7 @@ class Signup extends Component {
             placeholderTextColor="#aaaaaa"
             secureTextEntry
             placeholder="Password"
-            onChangeText={(password) => this.setState({password})}
+            onChangeText={(password) => this.setState({ password })}
             value={this.state.password}
             autoCapitalize="none"
           />
@@ -69,7 +75,7 @@ class Signup extends Component {
             placeholderTextColor="#aaaaaa"
             secureTextEntry
             placeholder="Confirm Password"
-            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+            onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
             value={this.state.confirmPassword}
             autoCapitalize="none"
           />
