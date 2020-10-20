@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { Image, Button, TouchableOpacity, Icon } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Provider as PaperProvider } from "react-native-paper";
@@ -27,22 +27,20 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function App() {
-
-  function UserButton ({navigation}) {
+  function UserButton({ navigation }) {
     return (
       <TouchableOpacity
-                    onPress={() => navigation.navigate("UserProfile")}
-                    style={{ marginRight: 12 }}
-                  >
-                    <Image
-                      style={{ width: 50, height: 50 }}
-                      source={{
-                        uri:
-                          "https://img.icons8.com/windows/452/person-male.png",
-                      }}
-                    />
-                  </TouchableOpacity>
-    )
+        onPress={() => navigation.navigate("UserProfile")}
+        style={{ marginRight: 12 }}
+      >
+        <Image
+          style={{ width: 50, height: 50 }}
+          source={{
+            uri: "https://img.icons8.com/windows/452/person-male.png",
+          }}
+        />
+      </TouchableOpacity>
+    );
   }
 
   return (
@@ -66,13 +64,17 @@ function App() {
               component={AllTrips}
               options={({ navigation }) => ({
                 title: "All Trips",
-                headerRight: () => (
-                  <UserButton navigation={navigation} />
-                )
+                headerRight: () => <UserButton navigation={navigation} />,
               })}
             />
 
-            <Stack.Screen name="SingleTrip">
+            <Stack.Screen
+              name="SingleTrip"
+              options={({ navigation }) => ({
+                title: "All Trips",
+                headerRight: () => <UserButton navigation={navigation} />,
+              })}
+            >
               {() => (
                 <Tab.Navigator>
                   <Tab.Screen name="SingleTrip" component={SingleTrip} />
