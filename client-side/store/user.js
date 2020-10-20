@@ -36,7 +36,6 @@ export const auth = (email, password, method, navigation, name, username) => asy
   try {
     res = await axios.post(`${serverUrl}/auth/${method}`, {email, password, name, username})
   } catch (authError) {
-    alert('Email and/or password incorrect')
     return dispatch(getUser({error: authError}))
   }
 

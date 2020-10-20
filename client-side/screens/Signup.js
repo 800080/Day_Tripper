@@ -19,7 +19,7 @@ class Signup extends Component {
       username: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     };
   }
 
@@ -27,7 +27,7 @@ class Signup extends Component {
     const { name, username, email, password, confirmPassword } = this.state
     if (password !== confirmPassword) {
       alert('Passwords do not match!')
-    } else if (!email.includes("@")) {
+    } else if (!email.includes("@") || !email.includes(".")) {
       alert('Email is not valid!')
     } else if (username === "") {
       alert('Username is required!')
@@ -35,6 +35,13 @@ class Signup extends Component {
       alert('Name is required!')
     } else {
       this.props.signup(name, username, email, password, this.props.navigation)
+    }
+
+    if (this.props.error && this.props.error.response){
+
+    alert(`${this.props.error.response.data}. Please sign in.`)
+    this.props.navigation.navigate('Login')
+
     }
   };
 
@@ -120,7 +127,11 @@ const mapDispatch = (dispatch) => ({
     dispatch(auth(email, password, 'signup', navigation, name, username)),
 });
 
-export default connect(null, mapDispatch)(Signup);
+const mapState = (state) => ({
+  error: state.user.error
+})
+
+export default connect(mapState, mapDispatch)(Signup);
 
 const styles = StyleSheet.create({
   container: {
