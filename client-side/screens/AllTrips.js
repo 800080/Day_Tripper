@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchAllTrips, fetchSingleTrip } from '../store';
+import { fetchAllTrips, fetchSingleTrip, setCoords } from '../store';
 import { List, FAB } from 'react-native-paper';
 
 class AllTrips extends Component {
@@ -13,8 +13,9 @@ class AllTrips extends Component {
     this.props.fetchAllTrips(this.props.user.id);
   }
 
-  handleClick = (tripId) => {
-    this.props.fetchSingleTrip(tripId);
+  handleClick = async (tripId) => {
+    await this.props.fetchSingleTrip(tripId);
+    await this.props.setCoords(this.props.singleTrip.mapLocation.coordinate);
     this.props.navigation.navigate('SingleTrip'); // Maybe refactor?
   };
 
@@ -79,11 +80,13 @@ class AllTrips extends Component {
 const mapState = (state) => ({
   user: state.user,
   trips: state.trips.allTrips,
+  singleTrip: state.trips.singleTrip,
 });
 
 const mapDispatch = (dispatch) => ({
   fetchAllTrips: (userId) => dispatch(fetchAllTrips(userId)),
   fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId)),
+  setCoords: (coords) => dispatch(setCoords(coords))
 });
 
 export default connect(mapState, mapDispatch)(AllTrips);

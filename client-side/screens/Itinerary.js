@@ -22,9 +22,9 @@ class Itinerary extends Component {
     this.setState({data: newEvts, stickyHeader})
   }
 
-  handleClick(eventId) {
+  handleClick = async (eventId) => {
     const singleEvent = this.props.events.filter(event => event.id === eventId)// refactor with .find()?
-    this.props.fetchSingleEvent(singleEvent[0])
+    await this.props.fetchSingleEvent(singleEvent[0])
     this.props.navigation.navigate('Event Details')
   }
 
@@ -105,7 +105,8 @@ class Itinerary extends Component {
 
 const mapState = (state) => ({
   events: state.events.allEvents,
-  trip: state.trips.singleTrip
+  trip: state.trips.singleTrip,
+  singleEvent: state.events.singleEvent
 })
 const mapDispatch = (dispatch) => ({
   fetchEvents: (tripId) => dispatch(fetchAllEvents(tripId)),

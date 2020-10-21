@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
-import { Text, View, Button, StyleSheet } from 'react-native'
+import { Text, View, Button, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchAllTrips, updateStatus, fetchAllEvents, setCoords } from '../store'
 import { List } from 'react-native-paper'
+import MapView, { Marker } from 'react-native-maps';
 
 export class SingleTrip extends Component {
   constructor() {
     super()
   }
 
-  componentDidUpdate(){
-    this.props.fetchAllEvents(this.props.singleTrip.id)
-    this.props.setCoords(this.props.singleTrip.mapLocation.coordinate)
+  componentDidUpdate = async () => {
+    await this.props.fetchAllEvents(this.props.singleTrip.id)
+    await this.props.setCoords(this.props.singleTrip.mapLocation.coordinate)
   }
 
   acceptInvite = () => {
@@ -26,7 +27,7 @@ export class SingleTrip extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         {
           this.props.singleTrip.userTrips && this.props.singleTrip.userTrips[0].status === "pending" ?
             <View>
@@ -48,26 +49,16 @@ export class SingleTrip extends Component {
           <Text style={styles.text}>End: {this.props.singleTrip.endDate}</Text>
           <Text style={styles.text}>Notes: {this.props.singleTrip.notes}</Text>
         </List.Section>
-        <Button
-          title="Go to Guest List"
-          onPress={() => this.props.navigation.navigate('Guest List')}
-        />
-        <Button
-          title="Go to Itinerary"
-          onPress={() => this.props.navigation.navigate('Itinerary')}
-        />
-        <Button
-          title="See Map of Events"
-          onPress={() => this.props.navigation.navigate('Map', {initialCoordinate: this.props.singleTrip.mapLocation.coordinate})}
-        />
-        <Button
-          title="Go to Chat"
-          onPress={() => this.props.navigation.navigate('Chat')}
-        />
-        <Button
-          title="Back to All Trips"
-          onPress={() => this.props.navigation.navigate('AllTrips')}
-        />
+        <MapView
+          initialRegion={this.props.mapCoords}
+          style={styles.mapStyle}
+        >
+          <Marker
+            coordinate={this.props.mapCoords}
+            title={this.props.singleTrip.title}
+            description={this.props.singleTrip.notes}
+          />
+        </MapView>
       </View >
     )
   }
@@ -75,7 +66,8 @@ export class SingleTrip extends Component {
 
 const mapState = (state) => ({
   singleTrip: state.trips.singleTrip,
-  user: state.user
+  user: state.user,
+  mapCoords: state.map
 })
 
 const mapDispatch = (dispatch) => ({
@@ -88,14 +80,28 @@ const mapDispatch = (dispatch) => ({
 export default connect(mapState, mapDispatch)(SingleTrip)
 
 const styles = StyleSheet.create({
+  container: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
   list: {
     color: 'white',
-    alignSelf: "flex-start",
-    marginLeft: 20
   },
   text: {
     fontSize: 20,
     padding: 10,
     textAlign: 'center',
+  },
+
+  mapStyle: {
+    width: '60%',
+    height: '30%',
+    borderWidth: 1,
+    borderRadius: 7
   }
+
 })
