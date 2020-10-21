@@ -107,7 +107,7 @@ class Itinerary extends Component {
         <FlatList
         data={this.state.data}
         renderItem={this.renderItem}
-        keyExtractor={item => item.title+Math.floor(Math.random()*1000)}
+        keyExtractor={item => item.title+Math.floor(Math.random()*100000)}
         stickyHeaderIndices={this.state.stickyHeader}
       />
       <FAB
