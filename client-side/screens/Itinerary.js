@@ -16,6 +16,7 @@ class Itinerary extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
   componentDidMount = async () => {
+    console.log('Itinerary componentDidMount')
     await this.props.fetchEvents(this.props.trip.id)
     const newEvts = this.formatEvents()
     const stickyHeader = this.stickyHeaderArr(newEvts)
@@ -32,7 +33,7 @@ class Itinerary extends Component {
     const itinEvents = this.props.events
     const newEvts = []
     itinEvents.forEach(evt => {
-      const subHeader = {title: moment(evt.startTime).format("dddd MMMM Do"), header: true}
+      const subHeader = {title: moment(evt.startTime).format("dddd MMMM Do"), header: true, id: evt.id +1000 }
       if (!newEvts.length) {
         newEvts.push(subHeader)
       } else {
@@ -89,7 +90,7 @@ class Itinerary extends Component {
         <FlatList
         data={this.state.data}
         renderItem={this.renderItem}
-        keyExtractor={item => item.title}
+        // keyExtractor={item => item.id}
         stickyHeaderIndices={this.state.stickyHeader}
       />
       <FAB

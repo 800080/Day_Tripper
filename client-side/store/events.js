@@ -6,6 +6,7 @@ import { GOOGLE_MAPS_API_KEY } from '../secrets'
 const GET_ALL_EVENTS = 'GET_ALL_EVENTS'
 const GET_SINGLE_EVENT = 'GET_SINGLE_EVENT'
 const CREATE_NEW_EVENT = 'CREATE_NEW_EVENT'
+const CLEAR_SINGLE_EVENT = 'CLEAR_SINGLE_EVENT'
 
 //Action Creator
 const getAllEvents = (events) => ({
@@ -22,6 +23,12 @@ const createNewEvent = (event) => ({
   type: CREATE_NEW_EVENT,
   event
 })
+
+export const clearSingleEvent = () => ({
+  type: CLEAR_SINGLE_EVENT
+})
+
+
 
 //Thunk Creator
 export const fetchAllEvents = (tripId) => async dispatch => {
@@ -45,11 +52,17 @@ export const fetchSingleEvent = (eventId) => async dispatch => {
 export const createEvent = (event) => async dispatch => {
   try {
     const { data: mapLocation } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${event.location}&key=${GOOGLE_MAPS_API_KEY}`)
+
+    if (!mapLocation.results.length) {
+      alert ('Invalid location')
+    } else {
     const coordinate = mapLocation.results[0].geometry.location
     const singleEvent = await axios.post(`${serverUrl}/api/events`, event)
     await axios.post(`${serverUrl}/api/maps/event`, {eventId: singleEvent.data.id, coordinate})
     const fetchedEvent = await axios.get(`${serverUrl}/api/events/${singleEvent.data.id}`)
     dispatch(createNewEvent(fetchedEvent.data))
+
+    }
   } catch (error) {
     console.error(error)
   }
@@ -73,6 +86,8 @@ export default function (state = initialState, action) {
         allEvents: [...state.allEvents, action.event],
         singleEvent: action.event
       }
+    case CLEAR_SINGLE_EVENT:
+      return initialState
     default:
       return state
   }
