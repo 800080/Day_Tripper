@@ -6,6 +6,7 @@ import { GOOGLE_MAPS_API_KEY } from '../secrets'
 const GET_ALL_EVENTS = 'GET_ALL_EVENTS'
 const GET_SINGLE_EVENT = 'GET_SINGLE_EVENT'
 const CREATE_NEW_EVENT = 'CREATE_NEW_EVENT'
+const CLEAR_SINGLE_EVENT = 'CLEAR_SINGLE_EVENT'
 
 //Action Creator
 const getAllEvents = (events) => ({
@@ -22,6 +23,12 @@ const createNewEvent = (event) => ({
   type: CREATE_NEW_EVENT,
   event
 })
+
+export const clearSingleEvent = () => ({
+  type: CLEAR_SINGLE_EVENT
+})
+
+
 
 //Thunk Creator
 export const fetchAllEvents = (tripId) => async dispatch => {
@@ -79,6 +86,8 @@ export default function (state = initialState, action) {
         allEvents: [...state.allEvents, action.event],
         singleEvent: action.event
       }
+    case CLEAR_SINGLE_EVENT:
+      return initialState
     default:
       return state
   }

@@ -11,7 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { createEvent } from '../store';
+import { createEvent, clearSingleEvent } from '../store';
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -31,15 +31,23 @@ class CreateEvent extends Component {
     };
   }
 
-  onCreateEvent = () => {
+  componentDidMount () {
+    this.props.clearSingleEvent()
+  }
+
+  onCreateEvent = async () => {
     const { title, location } = this.state
 
     if(!title.length){
       alert('Title required')
     } else if (!location.length) {
       alert('Location required')
+
     } else {
-    this.props.createEvent(this.state);
+    await this.props.createEvent(this.state);
+
+    }
+    if (this.props.singleEvent.id)  {
     this.props.navigation.navigate('Itinerary');
     }
   };
@@ -163,10 +171,12 @@ class CreateEvent extends Component {
 
 const mapState = (state) => ({
   tripId: state.trips.singleTrip.id,
+  singleEvent: state.events.singleEvent
 });
 
 const mapDispatch = (dispatch) => ({
   createEvent: (eventInfo) => dispatch(createEvent(eventInfo)),
+  clearSingleEvent: () => dispatch(clearSingleEvent())
 });
 
 export default connect(mapState, mapDispatch)(CreateEvent);
