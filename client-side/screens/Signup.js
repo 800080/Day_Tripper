@@ -23,7 +23,7 @@ class Signup extends Component {
     };
   }
 
-  onRegisterPress = () => {
+  onRegisterPress = async () => {
     const { name, username, email, password, confirmPassword } = this.state
     if (password !== confirmPassword) {
       alert('Passwords do not match!')
@@ -34,15 +34,12 @@ class Signup extends Component {
     } else if (name === "") {
       alert('Name is required!')
     } else {
-      this.props.signup(name, username, email, password, this.props.navigation)
+      await this.props.signup(name, username, email, password, this.props.navigation)
     }
 
     if (this.props.error && this.props.error.response){
-
-    alert(`${this.props.error.response.data}. Please sign in.`)
-    this.props.removeUser(this.props.navigation)
-    // this.props.navigation.navigate('Login')
-
+      alert(`${this.props.error.response.data}. Please sign in.`)
+      this.props.removeUser(this.props.navigation)
     }
   };
 
