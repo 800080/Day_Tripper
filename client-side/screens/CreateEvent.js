@@ -32,8 +32,16 @@ class CreateEvent extends Component {
   }
 
   onCreateEvent = () => {
+    const { title, location } = this.state
+
+    if(!title.length){
+      alert('Title required')
+    } else if (!location.length) {
+      alert('Location required')
+    } else {
     this.props.createEvent(this.state);
     this.props.navigation.navigate('Itinerary');
+    }
   };
 
   onChange = (selectedValue) => {
