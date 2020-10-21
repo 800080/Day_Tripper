@@ -39,7 +39,7 @@ class Login extends Component {
             style={styles.input}
             placeholder="E-mail"
             placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => this.setState({email: text})}
+            onChangeText={(text) => this.setState({ email: text })}
             value={this.state.email}
             autoCapitalize="none"
           />
@@ -48,13 +48,13 @@ class Login extends Component {
             placeholderTextColor="#aaaaaa"
             secureTextEntry
             placeholder="Password"
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={(text) => this.setState({ password: text })}
             value={this.state.password}
             autoCapitalize="none"
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() =>{
+            onPress={() => {
 
               this.props.login(this.state.email, this.state.password, this.props.navigation);
               this.clearState()

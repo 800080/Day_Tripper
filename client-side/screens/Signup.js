@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { auth } from '../store/user';
+import { auth, logout } from '../store/user';
 import { connect } from 'react-redux';
 
 class Signup extends Component {
@@ -19,16 +19,27 @@ class Signup extends Component {
       username: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     };
   }
 
-  onRegisterPress = () => {
-    const {name, username, email, password, confirmPassword} = this.state
+  onRegisterPress = async () => {
+    const { name, username, email, password, confirmPassword } = this.state
     if (password !== confirmPassword) {
       alert('Passwords do not match!')
+    } else if (!email.includes("@") || !email.includes(".")) {
+      alert('Email is not valid!')
+    } else if (username === "") {
+      alert('Username is required!')
+    } else if (name === "") {
+      alert('Name is required!')
     } else {
-      this.props.signup(name, username, email, password, this.props.navigation)
+      await this.props.signup(name, username, email, password, this.props.navigation)
+    }
+
+    if (this.props.error && this.props.error.response){
+      alert(`${this.props.error.response.data}. Please sign in.`)
+      this.props.removeUser(this.props.navigation)
     }
   };
 
@@ -51,7 +62,7 @@ class Signup extends Component {
             style={styles.input}
             placeholder="E-mail"
             placeholderTextColor="#aaaaaa"
-            onChangeText={(email) => this.setState({email})}
+            onChangeText={(email) => this.setState({ email })}
             value={this.state.email}
             autoCapitalize="none"
           />
@@ -60,7 +71,7 @@ class Signup extends Component {
             placeholderTextColor="#aaaaaa"
             secureTextEntry
             placeholder="Password"
-            onChangeText={(password) => this.setState({password})}
+            onChangeText={(password) => this.setState({ password })}
             value={this.state.password}
             autoCapitalize="none"
           />
@@ -69,7 +80,7 @@ class Signup extends Component {
             placeholderTextColor="#aaaaaa"
             secureTextEntry
             placeholder="Confirm Password"
-            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+            onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
             value={this.state.confirmPassword}
             autoCapitalize="none"
           />
@@ -112,9 +123,14 @@ class Signup extends Component {
 const mapDispatch = (dispatch) => ({
   signup: (name, username, email, password, navigation) =>
     dispatch(auth(email, password, 'signup', navigation, name, username)),
+  removeUser: (navigation) => dispatch(logout(navigation))
 });
 
-export default connect(null, mapDispatch)(Signup);
+const mapState = (state) => ({
+  error: state.user.error
+})
+
+export default connect(mapState, mapDispatch)(Signup);
 
 const styles = StyleSheet.create({
   container: {
