@@ -5,7 +5,6 @@ import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux'
 import { fetchAllEvents, getSingleEvent } from '../store'
 import moment from 'moment'
-import { NavigationEvents } from "react-navigation";
 
 class Itinerary extends Component {
   constructor() {
@@ -32,14 +31,6 @@ class Itinerary extends Component {
     this.unsubscribe()
   }
 
-  // componentDidMount = async () => {
-  //   console.log('Itinerary componentDidMount')
-  //   await this.props.fetchEvents(this.props.trip.id)
-  //   const newEvts = this.formatEvents()
-  //   const stickyHeader = this.stickyHeaderArr(newEvts)
-  //   this.setState({data: newEvts, stickyHeader})
-
-  // }
 
   getEvents = async () => {
     await this.props.fetchEvents(this.props.trip.id)
