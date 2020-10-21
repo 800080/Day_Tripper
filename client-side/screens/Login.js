@@ -54,7 +54,7 @@ class Login extends Component {
             autoCapitalize="none"
           />
           <TouchableOpacity
-            style={defaultStyles.defaultButton}
+            style={defaultStyles.button}
             onPress={() => {
 
               this.props.login(this.state.email, this.state.password, this.props.navigation);

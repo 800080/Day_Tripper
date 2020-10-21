@@ -48,16 +48,17 @@ function App() {
     <Provider store={store}>
       <PaperProvider>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: '#0d3b66',
+              },
+              headerTitleStyle: {
+                color: 'white',
+              }
+            }}
+          >
             <Stack.Screen name="Login"
-              options={{
-                headerStyle: {
-                  backgroundColor: '#0d3b66',
-                },
-                headerTitleStyle: {
-                  color: 'white',
-                }
-              }}
               component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="CreateTrip" component={CreateTrip} />
@@ -99,11 +100,11 @@ function App() {
                         iconName = 'ios-compass'
                       }
                       // You can return any component that you like here!
-                      return <Ionicons name={iconName} size={size*1.6} color={color} />;
+                      return <Ionicons name={iconName} size={size * 1.6} color={color} />;
                     },
                   })}
                   tabBarOptions={{
-                    activeTintColor: 'tomato',
+                    activeTintColor: '#ee964b',
                     inactiveTintColor: 'gray',
                     showLabel: false,
                     style: {

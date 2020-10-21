@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, Button, StyleSheet, Dimensions, Image } from 'react-native'
+import { Text, View, Button, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchAllTrips, updateStatus, fetchAllEvents, setCoords } from '../store'
 import { List } from 'react-native-paper'
 import MapView, { Marker } from 'react-native-maps';
+import defaultStyles from './styles'
 
 export class SingleTrip extends Component {
   constructor() {
@@ -27,18 +28,20 @@ export class SingleTrip extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={defaultStyles.singleContainer}>
         {
           this.props.singleTrip.userTrips && this.props.singleTrip.userTrips[0].status === "pending" ?
-            <View>
-              <Button
-                title="Accept"
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity
+                style={defaultStyles.button}
                 onPress={() => this.acceptInvite()}>
-              </Button>
-              <Button
-                title="Decline"
+                <Text style={defaultStyles.buttonTitle}>Accept</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={defaultStyles.button}
                 onPress={() => this.declineInvite()}>
-              </Button>
+                <Text style={defaultStyles.buttonTitle}>Decline</Text>
+              </TouchableOpacity>
             </View>
             : true
         }
@@ -58,7 +61,7 @@ export class SingleTrip extends Component {
             title={this.props.singleTrip.title}
             description={this.props.singleTrip.notes}
           >
-            <Image source={require('../assets/house.png')} style={{height: 22, width: 22, tintColor: "#60656F"}}/>
+            <Image source={require('../assets/house.png')} style={{ height: 22, width: 22, tintColor: "#60656F" }} />
           </Marker>
         </MapView>
       </View >
@@ -82,14 +85,6 @@ const mapDispatch = (dispatch) => ({
 export default connect(mapState, mapDispatch)(SingleTrip)
 
 const styles = StyleSheet.create({
-  container: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
   list: {
     color: 'white',
   },
