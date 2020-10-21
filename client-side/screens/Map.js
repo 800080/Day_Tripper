@@ -1,6 +1,6 @@
 import React from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
 import { connect } from 'react-redux'
 import { fetchAllEvents } from '../store'
 
@@ -13,6 +13,14 @@ class Map extends React.Component {
           initialRegion={this.props.mapCoords}
           style={styles.mapStyle}
         >
+          <Marker
+            coordinate={this.props.mapCoords}
+            title={this.props.singleTrip.title}
+            description={this.props.singleTrip.notes}
+          >
+           <Image source={require('../assets/house.png')} style={{height: 22, width: 22, tintColor: "#60656F"}}/>
+          </Marker>
+
           {this.props.events.map((event => {
             return (
               <Marker
@@ -31,7 +39,8 @@ class Map extends React.Component {
 
 const mapState = (state) => ({
   events: state.events.allEvents,
-  mapCoords: state.map
+  mapCoords: state.map,
+  singleTrip: state.trips.singleTrip
 })
 
 const mapDispatch = (dispatch) => ({

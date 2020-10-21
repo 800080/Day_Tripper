@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, Button, StyleSheet, Dimensions } from 'react-native'
+import { Text, View, Button, StyleSheet, Dimensions, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchAllTrips, updateStatus, fetchAllEvents, setCoords } from '../store'
 import { List } from 'react-native-paper'
 import MapView, { Marker } from 'react-native-maps';
+import {Svg} from 'react-native-svg'
 
 export class SingleTrip extends Component {
   constructor() {
@@ -57,7 +58,9 @@ export class SingleTrip extends Component {
             coordinate={this.props.mapCoords}
             title={this.props.singleTrip.title}
             description={this.props.singleTrip.notes}
-          />
+          >
+            <Image source={require('../assets/house.png')} style={{height: 22, width: 22, tintColor: "#60656F"}}/>
+          </Marker>
         </MapView>
       </View >
     )
