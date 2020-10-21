@@ -42,13 +42,11 @@ class CreateEvent extends Component {
       alert('Title required')
     } else if (!location.length) {
       alert('Location required')
-
     } else {
-    await this.props.createEvent(this.state);
-
+      await this.props.createEvent(this.state);
     }
     if (this.props.singleEvent.id)  {
-    this.props.navigation.navigate('Itinerary');
+      this.props.navigation.navigate('Itinerary');
     }
   };
 

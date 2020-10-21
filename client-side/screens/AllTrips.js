@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchAllTrips, fetchSingleTrip, setCoords } from '../store';
 import { List, FAB } from 'react-native-paper';
+import defaultStyles from './styles'
 
 class AllTrips extends Component {
   constructor() {
@@ -27,7 +28,7 @@ class AllTrips extends Component {
       (trip) => trip.userTrips[0].status === 'pending'
     );
     return (
-      <View style={styles.scrollView}>
+      <View style={defaultStyles.mainView}>
         <ScrollView>
           <List.Section>
             <List.Subheader style={styles.listSubheader}>
@@ -67,7 +68,7 @@ class AllTrips extends Component {
           </List.Section>
         </ScrollView>
         <FAB
-          style={styles.fab}
+          style={defaultStyles.fab}
           large
           icon="plus"
           onPress={() => this.props.navigation.navigate('CreateTrip')}
@@ -92,20 +93,11 @@ const mapDispatch = (dispatch) => ({
 export default connect(mapState, mapDispatch)(AllTrips);
 
 const styles = StyleSheet.create({
-  scrollView: {
-    height: '100%',
-  },
   listSubheader: {
     fontSize: 20,
-    color: 'white',
-    backgroundColor: '#800080',
+    color: '#2e2e2d',
+    backgroundColor: '#f4d35e',
     alignSelf: 'flex-start',
     marginLeft: 20,
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 20,
-    bottom: 20,
   },
 });

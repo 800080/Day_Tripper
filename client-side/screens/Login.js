@@ -3,6 +3,7 @@ import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'reac
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { auth } from '../store/user'
 import { connect } from 'react-redux'
+import defaultStyles from './styles'
 
 class Login extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class Login extends Component {
             source={require('../assets/DayTripperLogo.png')}
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholder="E-mail"
             placeholderTextColor="#aaaaaa"
             onChangeText={(text) => this.setState({ email: text })}
@@ -44,7 +45,7 @@ class Login extends Component {
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholderTextColor="#aaaaaa"
             secureTextEntry
             placeholder="Password"
@@ -53,7 +54,7 @@ class Login extends Component {
             autoCapitalize="none"
           />
           <TouchableOpacity
-            style={styles.button}
+            style={defaultStyles.button}
             onPress={() => {
 
               this.props.login(this.state.email, this.state.password, this.props.navigation);
@@ -61,12 +62,12 @@ class Login extends Component {
             }
             }
           >
-            <Text style={styles.buttonTitle}>Log in</Text>
+            <Text style={defaultStyles.buttonTitle}>Log in</Text>
           </TouchableOpacity>
-          <View style={styles.footerView}>
-            <Text style={styles.footerText}>
+          <View style={defaultStyles.footerView}>
+            <Text style={defaultStyles.footerText}>
               Don't have an account?{' '}
-              <Text onPress={this.onFooterLinkPress} style={styles.footerLink}>
+              <Text onPress={this.onFooterLinkPress} style={defaultStyles.footerLink}>
                 Sign up
               </Text>
             </Text>
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: '#fdfaec'
   },
   logo: {
     flex: 1,
@@ -95,45 +97,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     margin: 30,
     borderRadius: 5
-  },
-  input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-  },
-  button: {
-    backgroundColor: '#788eec',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonTitle: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  footerView: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    color: '#2e2e2d',
-  },
-  footerLink: {
-    color: '#788eec',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
 });

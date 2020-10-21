@@ -10,6 +10,7 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { auth, logout } from '../store/user';
 import { connect } from 'react-redux';
+import defaultStyles from './styles'
 
 class Signup extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class Signup extends Component {
       await this.props.signup(name, username, email, password, this.props.navigation)
     }
 
-    if (this.props.error && this.props.error.response){
+    if (this.props.error && this.props.error.response) {
       alert(`${this.props.error.response.data}. Please sign in.`)
       this.props.removeUser(this.props.navigation)
     }
@@ -54,12 +55,8 @@ class Signup extends Component {
           style={{ flex: 1, width: '100%' }}
           keyboardShouldPersistTaps="always"
         >
-          {/* <Image
-          style={styles.logo}
-          source={require('../../../assets/icon.png')}
-        /> */}
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholder="E-mail"
             placeholderTextColor="#aaaaaa"
             onChangeText={(email) => this.setState({ email })}
@@ -67,7 +64,7 @@ class Signup extends Component {
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholderTextColor="#aaaaaa"
             secureTextEntry
             placeholder="Password"
@@ -76,7 +73,7 @@ class Signup extends Component {
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholderTextColor="#aaaaaa"
             secureTextEntry
             placeholder="Confirm Password"
@@ -85,7 +82,7 @@ class Signup extends Component {
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholder="Full Name"
             placeholderTextColor="#aaaaaa"
             onChangeText={(name) => this.setState({ name })}
@@ -93,7 +90,7 @@ class Signup extends Component {
             autoCapitalize="words"
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholder="Username"
             placeholderTextColor="#aaaaaa"
             onChangeText={(username) => this.setState({ username })}
@@ -101,15 +98,15 @@ class Signup extends Component {
             autoCapitalize="none"
           />
           <TouchableOpacity
-            style={styles.button}
+            style={defaultStyles.button}
             onPress={() => this.onRegisterPress()}
           >
-            <Text style={styles.buttonTitle}>Create account</Text>
+            <Text style={defaultStyles.buttonTitle}>Create account</Text>
           </TouchableOpacity>
-          <View style={styles.footerView}>
-            <Text style={styles.footerText}>
+          <View style={defaultStyles.footerView}>
+            <Text style={defaultStyles.footerText}>
               Already got an account?{' '}
-              <Text onPress={this.onFooterLinkPress} style={styles.footerLink}>
+              <Text onPress={this.onFooterLinkPress} style={defaultStyles.footerLink}>
                 Log in
               </Text>
             </Text>
@@ -136,52 +133,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-  logo: {
-    flex: 1,
-    height: 120,
-    width: 90,
-    alignSelf: 'center',
-    margin: 30,
-  },
-  input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-  },
-  button: {
-    backgroundColor: '#788eec',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonTitle: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  footerView: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    color: '#2e2e2d',
-  },
-  footerLink: {
-    color: '#788eec',
-    fontWeight: 'bold',
-    fontSize: 16,
+    backgroundColor: '#fdfaec',
   },
 });
