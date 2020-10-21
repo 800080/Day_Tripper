@@ -15,11 +15,29 @@ class Itinerary extends Component {
     }
     this.handleClick = this.handleClick.bind(this)
   }
-  componentDidMount = async () => {
+
+
+  componentDidMount () {
+    this.unsubscribe = this.props.navigation.addListener('focus', async () => {
+      //Will execute when screen is focused
+      await this.props.fetchEvents(this.props.trip.id)
+      const newEvts = this.formatEvents()
+      const stickyHeader = this.stickyHeaderArr(newEvts)
+      this.setState({data: newEvts, stickyHeader})
+    })
+  }
+
+  componentWillUnmount () {
+    this.unsubscribe()
+  }
+
+
+  getEvents = async () => {
     await this.props.fetchEvents(this.props.trip.id)
     const newEvts = this.formatEvents()
     const stickyHeader = this.stickyHeaderArr(newEvts)
     this.setState({data: newEvts, stickyHeader})
+
   }
 
   handleClick = async (eventId) => {
@@ -32,7 +50,7 @@ class Itinerary extends Component {
     const itinEvents = this.props.events
     const newEvts = []
     itinEvents.forEach(evt => {
-      const subHeader = {title: moment(evt.startTime).format("dddd MMMM Do"), header: true}
+      const subHeader = {title: moment(evt.startTime).format("dddd MMMM Do"), header: true }
       if (!newEvts.length) {
         newEvts.push(subHeader)
       } else {
@@ -89,7 +107,7 @@ class Itinerary extends Component {
         <FlatList
         data={this.state.data}
         renderItem={this.renderItem}
-        keyExtractor={item => item.title}
+        keyExtractor={item => item.title+Math.floor(Math.random()*100000)}
         stickyHeaderIndices={this.state.stickyHeader}
       />
       <FAB
