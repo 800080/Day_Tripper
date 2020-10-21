@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { fetchAllTrips, updateStatus, fetchAllEvents, setCoords } from '../store'
 import { List } from 'react-native-paper'
 import MapView, { Marker } from 'react-native-maps';
-import {Svg} from 'react-native-svg'
 
 export class SingleTrip extends Component {
   constructor() {

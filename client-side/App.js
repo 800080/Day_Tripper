@@ -10,7 +10,6 @@ import { Ionicons } from '@expo/vector-icons';
 import store from "./store";
 import {
   Login,
-  HomeScreen,
   Chat,
   AllTrips,
   SingleTrip,
@@ -50,7 +49,16 @@ function App() {
       <PaperProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Login"
+              options={{
+                headerStyle: {
+                  backgroundColor: '#0d3b66',
+                },
+                headerTitleStyle: {
+                  color: 'white',
+                }
+              }}
+              component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="CreateTrip" component={CreateTrip} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
