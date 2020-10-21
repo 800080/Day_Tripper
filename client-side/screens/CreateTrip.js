@@ -38,8 +38,16 @@ class CreateTrip extends Component {
   }
 
   onCreateTrip = () => {
+    const { title, location } = this.state
+
+    if(!title.length){
+      alert('Title required')
+    } else if (!location.length) {
+      alert('Location required')
+    } else {
     this.props.createTrip(this.state);
     this.props.navigation.navigate('AllTrips')
+    }
   };
 
   onAddGuest = () => {
