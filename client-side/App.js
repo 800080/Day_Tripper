@@ -107,7 +107,7 @@ function App() {
                   <Tab.Screen
                     name="Itinerary"
                     component={Itinerary}
-                    key="itin"/>
+                  />
                   <Tab.Screen name="Chat" component={Chat} />
                   <Tab.Screen name="Guest List" component={GuestList} />
                   <Tab.Screen name="Map" component={Map} />
