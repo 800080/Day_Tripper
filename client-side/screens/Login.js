@@ -33,7 +33,7 @@ class Login extends Component {
         >
           <Image
             style={styles.logo}
-            source={require('../assets/DayTripperLogoSmall.png')}
+            source={require('../assets/DayTripperLogo.png')}
           />
           <TextInput
             style={styles.input}
@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     flex: 1,
-    height: 100,
-    width: 100,
+    height: 150,
+    width: 210,
     alignSelf: 'center',
     margin: 30,
     borderRadius: 5

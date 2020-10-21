@@ -41,7 +41,7 @@ export const auth = (email, password, method, navigation, name, username) => asy
 
   try {
     dispatch(getUser(res.data))
-    navigation.navigate('Home')
+    navigation.navigate('AllTrips')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }

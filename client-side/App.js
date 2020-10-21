@@ -5,6 +5,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Provider as PaperProvider } from "react-native-paper";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from '@expo/vector-icons';
+
 import store from "./store";
 import {
   Login,
@@ -51,19 +53,13 @@ function App() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="CreateTrip" component={CreateTrip} />
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={() => ({
-                headerLeft: null,
-              })}
-            />
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen
               name="AllTrips"
               component={AllTrips}
               options={({ navigation }) => ({
                 title: "All Trips",
+                headerLeft: null,
                 headerRight: () => <UserButton navigation={navigation} />,
               })}
             />
@@ -76,7 +72,37 @@ function App() {
               })}
             >
               {() => (
-                <Tab.Navigator>
+                <Tab.Navigator
+                  screenOptions={({ route }) => ({
+                    tabBarIcon: ({ focused, color, size }) => {
+                      let iconName;
+
+                      if (route.name === 'SingleTrip') {
+                        iconName = focused
+                          ? 'ios-information-circle'
+                          : 'ios-information-circle-outline';
+                      } else if (route.name === 'Itinerary') {
+                        iconName = 'ios-calendar';
+                      } else if (route.name === 'Chat') {
+                        iconName = 'ios-chatbubbles';
+                      } else if (route.name === 'Guest List') {
+                        iconName = 'md-people';
+                      } else if (route.name === 'Map') {
+                        iconName = 'ios-compass'
+                      }
+                      // You can return any component that you like here!
+                      return <Ionicons name={iconName} size={size*1.6} color={color} />;
+                    },
+                  })}
+                  tabBarOptions={{
+                    activeTintColor: 'tomato',
+                    inactiveTintColor: 'gray',
+                    showLabel: false,
+                    style: {
+                      height: 100
+                    }
+                  }}
+                >
                   <Tab.Screen name="SingleTrip" component={SingleTrip} />
                   <Tab.Screen name="Itinerary" component={Itinerary} />
                   <Tab.Screen name="Chat" component={Chat} />
@@ -85,7 +111,14 @@ function App() {
                 </Tab.Navigator>
               )}
             </Stack.Screen>
-            <Stack.Screen name="Event Details" component={SingleEvent} />
+            <Stack.Screen
+              name="Event Details"
+              component={SingleEvent}
+              options={({ navigation }) => ({
+                title: "Event",
+                headerRight: () => <UserButton navigation={navigation} />,
+              })}
+            />
             <Stack.Screen name="Create Event" component={CreateEvent} />
           </Stack.Navigator>
         </NavigationContainer>

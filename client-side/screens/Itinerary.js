@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { View, Button, FlatList } from 'react-native'
+import { View, Button, FlatList, StyleSheet } from 'react-native'
 import { Text, ListItem, Left, Body, Icon, Right, Title } from "native-base";
-import { List } from 'react-native-paper'
+import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux'
 import { fetchAllEvents, getSingleEvent } from '../store'
 import moment from 'moment'
@@ -85,30 +85,19 @@ class Itinerary extends Component {
   render() {
 
     return (
-      <View>
+      <View style= {styles.scrollView}>
         <FlatList
         data={this.state.data}
         renderItem={this.renderItem}
         keyExtractor={item => item.title}
         stickyHeaderIndices={this.state.stickyHeader}
       />
-        {/* <List.Section>
-          {
-            itinEvents.map((event) => {
-              return <List.Item
-              key={event.id}
-              title={event.title}
-              description={event.notes}
-              left={() => <List.Icon color="#800080" icon="airplane-takeoff" />}
-              onPress={() => this.handleClick(event.id)}
-            />
-            })
-          }
-        </List.Section> */}
-        <Button
-        title="Create Event"
-        onPress={() => this.props.navigation.navigate('Create Event')}
-      />
+      <FAB
+          style={styles.fab}
+          large
+          icon="plus"
+          onPress={() => this.props.navigation.navigate('Create Event')}
+        />
     </View>
       )
   }
@@ -123,3 +112,15 @@ const mapDispatch = (dispatch) => ({
   fetchSingleEvent: (event) => dispatch(getSingleEvent(event))
 })
 export default connect(mapState, mapDispatch)(Itinerary)
+
+const styles = StyleSheet.create({
+  scrollView: {
+    height: '100%',
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 20,
+    bottom: 20,
+  },
+});
