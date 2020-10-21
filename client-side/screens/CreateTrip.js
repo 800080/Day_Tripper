@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  StyleSheet,
   Button,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -13,6 +12,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { createTripServer, findAddGuest, clearGuestList } from '../store';
 import { List } from 'react-native-paper'
+import defaultStyles from './styles'
 
 class CreateTrip extends Component {
   constructor(props) {
@@ -52,16 +52,16 @@ class CreateTrip extends Component {
 
   onAddGuest = () => {
     this.props.addsGuest(this.state.guest);
-    this.setState({guest: ''})
+    this.setState({ guest: '' })
   };
 
   onChange = (currentDate) => {
     if (this.state.selected === this.state.startDate) {
-      this.setState({startDate: currentDate});
+      this.setState({ startDate: currentDate });
     } else {
-      this.setState({endDate: currentDate});
+      this.setState({ endDate: currentDate });
     }
-    this.setState({show: false})
+    this.setState({ show: false })
   };
 
   showDatePicker = (selected) => {
@@ -75,17 +75,13 @@ class CreateTrip extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={defaultStyles.inputContainer}>
         <KeyboardAwareScrollView
           style={{ flex: 1, width: '100%' }}
           keyboardShouldPersistTaps="always"
         >
-          {/* <Image
-          style={styles.logo}
-          source={require('../../../assets/icon.png')}
-        /> */}
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholder="Title"
             placeholderTextColor="#aaaaaa"
             onChangeText={(title) => this.setState({ title })}
@@ -93,21 +89,21 @@ class CreateTrip extends Component {
             autoCapitalize="words"
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholderTextColor="#aaaaaa"
             placeholder="Location"
             onChangeText={(location) => this.setState({ location })}
             value={this.state.location}
             autoCapitalize="none"
           />
-          <View style={styles.dateTimeButtonView}>
+          <View style={defaultStyles.dateTimeButtonView}>
             <Text>Start Date:</Text>
             <Button
               onPress={() => this.showDatePicker(this.state.startDate)}
               title={moment(this.state.startDate).format("MMM D, YYYY")}
             />
           </View>
-          <View style={styles.dateTimeButtonView}>
+          <View style={defaultStyles.dateTimeButtonView}>
             <Text>End Date:</Text>
             <Button
               onPress={() => this.showDatePicker(this.state.endDate)}
@@ -115,7 +111,7 @@ class CreateTrip extends Component {
             />
           </View>
           <DateTimePickerModal
-            isVisible= {this.state.show}
+            isVisible={this.state.show}
             date={this.state.selected}
             mode='date'
             display="default"
@@ -123,7 +119,7 @@ class CreateTrip extends Component {
             onCancel={this.hideDatePicker}
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholder="Notes"
             placeholderTextColor="#aaaaaa"
             onChangeText={(notes) => this.setState({ notes })}
@@ -131,7 +127,7 @@ class CreateTrip extends Component {
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholder="Guest's Email"
             placeholderTextColor="#aaaaaa"
             onChangeText={(guest) => this.setState({ guest })}
@@ -139,25 +135,25 @@ class CreateTrip extends Component {
             autoCapitalize="none"
           />
           <TouchableOpacity
-            style={styles.button}
+            style={defaultStyles.button}
             onPress={() => this.onAddGuest()}
           >
-            <Text style={styles.buttonTitle}>Add Guest</Text>
+            <Text style={defaultStyles.buttonTitle}>Add Guest</Text>
           </TouchableOpacity>
           {this.props.guestList.map((guest) => {
             return (
               <List.Item
-              key={guest.id}
+                key={guest.id}
                 title={guest.name}
-                // left={(props) => <List.Icon {...props} icon="folder" />}
+              // left={(props) => <List.Icon {...props} icon="folder" />}
               />
             );
           })}
           <TouchableOpacity
-            style={styles.button}
+            style={defaultStyles.button}
             onPress={() => this.onCreateTrip()}
           >
-            <Text style={styles.buttonTitle}>Create Trip</Text>
+            <Text style={defaultStyles.buttonTitle}>Create Trip</Text>
           </TouchableOpacity>
         </KeyboardAwareScrollView>
       </View>
@@ -177,58 +173,3 @@ const mapDispatch = (dispatch) => ({
 });
 
 export default connect(mapState, mapDispatch)(CreateTrip);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  logo: {
-    flex: 1,
-    height: 120,
-    width: 90,
-    alignSelf: 'center',
-    margin: 30,
-  },
-  input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-  },
-  button: {
-    backgroundColor: '#788eec',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonTitle: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  dateTimeButtonView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-    paddingRight: 16
-  },
-});

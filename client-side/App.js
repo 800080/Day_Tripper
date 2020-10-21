@@ -10,7 +10,6 @@ import { Ionicons } from '@expo/vector-icons';
 import store from "./store";
 import {
   Login,
-  HomeScreen,
   Chat,
   AllTrips,
   SingleTrip,
@@ -49,8 +48,18 @@ function App() {
     <Provider store={store}>
       <PaperProvider>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Login" component={Login} />
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: '#0d3b66',
+              },
+              headerTitleStyle: {
+                color: 'white',
+              }
+            }}
+          >
+            <Stack.Screen name="Login"
+              component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="CreateTrip" component={CreateTrip} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
@@ -91,11 +100,11 @@ function App() {
                         iconName = 'ios-compass'
                       }
                       // You can return any component that you like here!
-                      return <Ionicons name={iconName} size={size*1.6} color={color} />;
+                      return <Ionicons name={iconName} size={size * 1.6} color={color} />;
                     },
                   })}
                   tabBarOptions={{
-                    activeTintColor: 'tomato',
+                    activeTintColor: '#ee964b',
                     inactiveTintColor: 'gray',
                     showLabel: false,
                     style: {
