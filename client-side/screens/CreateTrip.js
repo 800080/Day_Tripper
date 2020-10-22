@@ -37,7 +37,7 @@ class CreateTrip extends Component {
     this.props.clearGuestList()
   }
 
-  onCreateTrip = () => {
+  onCreateTrip = async () => {
     const { title, location } = this.state
 
     if(!title.length){
@@ -45,7 +45,7 @@ class CreateTrip extends Component {
     } else if (!location.length) {
       alert('Location required')
     } else {
-    this.props.createTrip(this.state);
+    await this.props.createTrip(this.state);
     this.props.navigation.navigate('AllTrips')
     }
   };

@@ -70,6 +70,7 @@ export const createTripServer = (tripInfo) => async (dispatch, getState) => {
     await axios.post(`${serverUrl}/api/maps/trip`, {tripId: newTrip.data.id, coordinate})
     const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
     dispatch(createTrip(trip.data))
+    dispatch(updateStatus(trip.data.id, user.id, 'accepted', true))
     dispatch(clearGuestList())
   } catch (error) {
     console.error(error)
@@ -107,9 +108,9 @@ export const fetchGuests = (tripId) => async dispatch => {
   }
 }
 
-export const updateStatus = (tripId, userId, status) => async dispatch => {
+export const updateStatus = (tripId, userId, status, isHost = false) => async dispatch => {
   try {
-    await axios.put(`${serverUrl}/api/trips/${tripId}/user/${userId}`, {"status": status})
+    await axios.put(`${serverUrl}/api/trips/${tripId}/user/${userId}`, {status, isHost})
     const updatedTrip = await axios.get(`${serverUrl}/api/trips/${tripId}/user/${userId}`)
     dispatch(getSingleTrip(updatedTrip.data))
   } catch (error) {
