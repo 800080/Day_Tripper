@@ -1,11 +1,13 @@
 const router = require('express').Router();
 const { User, UserTrip } = require('../db/models');
+const adminOnly = require('../utils/adminOnly.js');
+const userOnly = require('../utils/userOnly.js')
+
 module.exports = router;
 
 // GET mounted on /api/users/
-router.get('/', async (req, res, next) => {
+router.get('/', adminOnly, async (req, res, next) => {
   try {
-    console.log('IN USERS ROUTE');
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
       // users' passwords are encrypted, it won't help if we just
@@ -20,7 +22,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // GET mounted on /api/users/email/:email (get guest to add to create trip list)
-router.get('/email/:email', async (req, res, next) => {
+router.get('/email/:email', userOnly, async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
@@ -38,7 +40,7 @@ router.get('/email/:email', async (req, res, next) => {
 });
 
 // GET mounted on /api/users/email/:email (get guest to add to guest list)
-router.get('/email/:email/trips/:tripId', async (req, res, next) => {
+router.get('/email/:email/trips/:tripId', userOnly, async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
@@ -58,7 +60,7 @@ router.get('/email/:email/trips/:tripId', async (req, res, next) => {
 });
 
 // GET /api/users/trip/:tripId (get guests for single trip)
-router.get('/trip/:tripId', async (req, res, next) => {
+router.get('/trip/:tripId', userOnly, async (req, res, next) => {
   try {
     const guests = await User.findAll({
       attributes: ['id', 'name', 'username', 'email'],

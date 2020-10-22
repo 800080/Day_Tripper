@@ -88,6 +88,7 @@ const mapDispatch = (dispatch) => ({
   fetchAllTrips: (userId) => dispatch(fetchAllTrips(userId)),
   fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId)),
   setCoords: (coords) => dispatch(setCoords(coords))
+
 });
 
 export default connect(mapState, mapDispatch)(AllTrips);
