@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchAllTrips, updateStatus, fetchAllEvents, setCoords } from '../store'
-import { List } from 'react-native-paper'
+import { List, Divider } from 'react-native-paper'
 import MapView, { Marker } from 'react-native-maps';
 import defaultStyles from './styles'
 
@@ -49,11 +49,14 @@ export class SingleTrip extends Component {
             : true
         }
         <ScrollView>
-          <List.Section style={styles.list}>
-            <Text style={styles.text}>{this.props.singleTrip.title}</Text>
-            <Text style={styles.text}>Start: {startDate.toLocaleString('en-US')}</Text>
-            <Text style={styles.text}>End: {endDate.toLocaleString('en-US')}</Text>
-            <Text style={styles.text}>Notes: {this.props.singleTrip.notes}</Text>
+          <List.Section >
+            <Text style={{...defaultStyles.text, textAlign: "center", fontSize: 25, fontWeight: "bold"}}>{this.props.singleTrip.title}</Text>
+            <Divider style={defaultStyles.divider}/>
+            <Text style={defaultStyles.text}>Start: {startDate.toLocaleString('en-US')}</Text>
+            <Divider style={defaultStyles.divider}/>
+            <Text style={defaultStyles.text}>End: {endDate.toLocaleString('en-US')}</Text>
+            <Divider style={defaultStyles.divider}/>
+            <Text style={defaultStyles.text}>Notes: {this.props.singleTrip.notes}</Text>
           </List.Section>
           <View style={defaultStyles.singleContainer}>
             <MapView
@@ -97,17 +100,9 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
   },
-  list: {
-    color: 'white',
-  },
-  text: {
-    fontSize: 20,
-    padding: 10,
-    textAlign: 'center',
-  },
   mapStyle: {
-    width: '60%',
-    height: '30%',
+    width: '90%',
+    height: '35%',
     borderWidth: 1,
     borderRadius: 7
   }

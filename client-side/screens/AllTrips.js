@@ -41,7 +41,7 @@ class AllTrips extends Component {
                   title={trip.title}
                   description={trip.notes}
                   left={() => (
-                    <List.Icon color="#800080" icon="airplane-takeoff" />
+                    <List.Icon color={defaultStyles.button.backgroundColor} icon="airplane-takeoff" />
                   )}
                   onPress={() => this.handleClick(trip.id)}
                 />
@@ -59,7 +59,7 @@ class AllTrips extends Component {
                   title={trip.title}
                   description={trip.notes}
                   left={() => (
-                    <List.Icon color="#800080" icon="alert-outline" />
+                    <List.Icon color={defaultStyles.button.backgroundColor} icon="alert-outline" />
                   )}
                   onPress={() => this.handleClick(trip.id)}
                 />

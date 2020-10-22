@@ -39,7 +39,7 @@ function GuestList(props) {
 
   return (
     <View
-      style={{ flex: 1, width: '100%', height: '100%' }}
+      style={{ backgroundColor: defaultStyles.singleContainer.backgroundColor, flex: 1, width: '100%', height: '100%' }}
     >
       <ScrollView keyboardShouldPersistTaps="handled">
         <List.Section>
