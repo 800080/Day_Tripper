@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { MapLocation } = require("../db/models");
+const { MapLocation, Event } = require("../db/models");
 const userOnly = require('../utils/userOnly.js')
 
 module.exports = router;
@@ -22,7 +22,8 @@ router.post('/event', userOnly, async (req, res, next) =>{
   try {
     const { eventId, coordinate } = req.body
     const mapLocation = await MapLocation.create({coordinate})
-    await mapLocation.addEvent(eventId)
+    const event = await Event.findByPk(eventId)
+    await event.setMapLocation(mapLocation)
     res.sendStatus(200)
   } catch (error) {
     next(error)

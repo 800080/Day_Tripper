@@ -21,6 +21,7 @@ import {
   GuestList,
   Map,
   UserProfile,
+  UpdateEvent
 } from "./screens";
 import "./socket";
 
@@ -132,6 +133,7 @@ function App() {
               })}
             />
             <Stack.Screen name="Create Event" component={CreateEvent} />
+            <Stack.Screen name="Update Event" component={UpdateEvent} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

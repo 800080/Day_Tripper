@@ -7,6 +7,11 @@ const Trip = db.define('trip', {
     allowNull: false,
     validate: { notEmpty: true }
   },
+  location: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: { notEmpty: true }
+  },
   startDate: {
     type: Sequelize.DATE,
     allowNull: false,

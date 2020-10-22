@@ -41,6 +41,17 @@ router.post('/', userOnly, async (req, res, next) => {
   }
 })
 
+// PUT mounted on /api/events
+router.put('/:evtId', userOnly, async (req, res, next) => {
+  try {
+    const foundEvent = await Event.findByPk(req.params.evtId)
+    const updatedEvent = await foundEvent.update(req.body)
+    res.send(updatedEvent)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // DELETE mounted on /api/events/:evtId
 router.delete('/:evtId', userOnly, async (req, res, next) => {
   try {
