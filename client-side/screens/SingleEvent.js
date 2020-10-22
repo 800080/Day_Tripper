@@ -1,18 +1,30 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView , StyleSheet, Dimensions} from 'react-native'
+import { Text, View, ScrollView , StyleSheet, Dimensions, TouchableOpacity} from 'react-native'
 import MapView, { Marker } from 'react-native-maps';
 import { List } from 'react-native-paper'
+import Modal from 'react-native-modal';
 import { connect } from 'react-redux'
-import { setCoords } from '../store'
+import { setCoords, deleteEvent } from '../store'
+import defaultStyles from './styles'
 
 class SingleEvent extends Component {
   constructor() {
     super()
+    this.state = {
+      isVisible: false,
+    };
   }
 
   componentDidMount = () => {
     console.log("IN CDM!!!!")
     this.props.setCoords(this.props.event.mapLocation.coordinate)
+  }
+
+  toggleModal = () => this.setState({ isVisible: !this.state.isVisible });
+
+  delete = async () => {
+    await this.props.deleteEvent(this.props.event.id)
+    this.props.navigation.navigate('Itinerary')
   }
 
   onClick = () => {
@@ -45,6 +57,38 @@ class SingleEvent extends Component {
             description={this.props.event.notes}
           />
         </MapView>
+
+        {
+          this.props.singleTrip.userTrips[0].isHost &&
+          <TouchableOpacity
+            style={defaultStyles.button}
+            onPress={this.toggleModal}
+          >
+            <Text style={defaultStyles.buttonTitle}>Delete Event</Text>
+          </TouchableOpacity>
+        }
+
+        <Modal
+          style={styles.modal}
+          isVisible={this.state.isVisible}
+          onBackdropPress={this.toggleModal}
+        >
+          <View>
+            <Text style={styles.text}>Are you sure?</Text>
+            <TouchableOpacity
+              style={defaultStyles.button}
+              onPress={this.delete}
+            >
+              <Text style={defaultStyles.buttonTitle}>Delete Event</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={defaultStyles.button}
+              onPress={this.toggleModal}
+            >
+              <Text style={defaultStyles.buttonTitle}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </View>
     )
   }
@@ -52,10 +96,12 @@ class SingleEvent extends Component {
 
 const mapState = (state) => ({
   event: state.events.singleEvent,
-  mapCoords: state.map
+  mapCoords: state.map,
+  singleTrip: state.trips.singleTrip,
 })
 const mapDispatch = (dispatch) => ({
-  setCoords: (coords) => dispatch(setCoords(coords))
+  setCoords: (coords) => dispatch(setCoords(coords)),
+  deleteEvent: (evtId) => dispatch(deleteEvent(evtId))
 })
 
 export default connect(mapState, mapDispatch)(SingleEvent)
@@ -78,11 +124,18 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     padding: 10,
+    textAlign: 'center',
   },
   mapStyle: {
     width: '60%',
     height: '30%',
     borderWidth: 1,
     borderRadius: 7
+  },
+  modal: {
+    backgroundColor: '#E8E8E8',
+    borderRadius: 10,
+    maxHeight: 250,
+    marginTop: '50%'
   }
 })

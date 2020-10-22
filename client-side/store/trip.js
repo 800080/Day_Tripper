@@ -9,6 +9,8 @@ const ADD_GUEST = 'ADD_GUEST'
 const CREATE_TRIP = 'CREATE_TRIP'
 const CLEAR_GUEST_LIST = 'CLEAR_GUEST_LIST'
 const GET_GUESTS_SINGLETRIP = 'GET_GUESTS_SINGLETRIP'
+const DELETE_TRIP = 'DELETE_TRIP'
+const REMOVE_GUEST = 'REMOVE_GUEST'
 
 //Action Creator
 const getAllTrips = (trips) => ({
@@ -38,6 +40,16 @@ export const clearGuestList = () => ({
 const getGuestSingleTrip = (guests) => ({
   type: GET_GUESTS_SINGLETRIP,
   guests
+})
+
+const dltTrip = (tripId) => ({
+  type: DELETE_TRIP,
+  tripId
+})
+
+export const rmvGuest = (userId) => ({
+  type: REMOVE_GUEST,
+  userId
 })
 
 //Thunk Creator
@@ -70,6 +82,7 @@ export const createTripServer = (tripInfo) => async (dispatch, getState) => {
     await axios.post(`${serverUrl}/api/maps/trip`, {tripId: newTrip.data.id, coordinate})
     const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
     dispatch(createTrip(trip.data))
+    dispatch(updateStatus(trip.data.id, user.id, 'accepted', true))
     dispatch(clearGuestList())
   } catch (error) {
     console.error(error)
@@ -107,9 +120,9 @@ export const fetchGuests = (tripId) => async dispatch => {
   }
 }
 
-export const updateStatus = (tripId, userId, status) => async dispatch => {
+export const updateStatus = (tripId, userId, status, isHost = false) => async dispatch => {
   try {
-    await axios.put(`${serverUrl}/api/trips/${tripId}/user/${userId}`, {"status": status})
+    await axios.put(`${serverUrl}/api/trips/${tripId}/user/${userId}`, {status, isHost})
     const updatedTrip = await axios.get(`${serverUrl}/api/trips/${tripId}/user/${userId}`)
     dispatch(getSingleTrip(updatedTrip.data))
   } catch (error) {
@@ -117,6 +130,23 @@ export const updateStatus = (tripId, userId, status) => async dispatch => {
   }
 }
 
+export const removeGuest = (tripId, userId) => async dispatch => {
+  try {
+    await axios.delete(`${serverUrl}/api/trips/${tripId}/user/${userId}`)
+    dispatch(rmvGuest(userId))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const deleteTrip = (tripId) => async dispatch => {
+  try {
+    await axios.delete(`${serverUrl}/api/trips/${tripId}`)
+    dispatch(dltTrip(tripId))
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 //Initial State
 const initialState = {
@@ -140,6 +170,11 @@ export default function (state = initialState, action) {
       return { ...state, guestList: action.guests }
     case CLEAR_GUEST_LIST:
       return { ...state, guestList: [] }
+    case DELETE_TRIP:
+      const filteredTrips = state.allTrips.filter(trip => trip.id !== action.tripId)
+      return {...state, allTrips: filteredTrips}
+    case REMOVE_GUEST:
+      return {...state, guestList: state.guestList.filter(guest => guest.id !== action.userId)}
     default:
       return state
   }

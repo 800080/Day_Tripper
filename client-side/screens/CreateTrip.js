@@ -10,7 +10,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { createTripServer, findAddGuest, clearGuestList } from '../store';
+import { createTripServer, findAddGuest, clearGuestList, rmvGuest, removeGuest } from '../store';
 import { List } from 'react-native-paper'
 import defaultStyles from './styles'
 
@@ -37,7 +37,7 @@ class CreateTrip extends Component {
     this.props.clearGuestList()
   }
 
-  onCreateTrip = () => {
+  onCreateTrip = async () => {
     const { title, location } = this.state
 
     if(!title.length){
@@ -45,7 +45,7 @@ class CreateTrip extends Component {
     } else if (!location.length) {
       alert('Location required')
     } else {
-    this.props.createTrip(this.state);
+    await this.props.createTrip(this.state);
     this.props.navigation.navigate('AllTrips')
     }
   };
@@ -146,6 +146,16 @@ class CreateTrip extends Component {
                 key={guest.id}
                 title={guest.name}
               // left={(props) => <List.Icon {...props} icon="folder" />}
+                right={() => (
+                  <TouchableOpacity
+                    style={defaultStyles.button}
+                    onPress={() => {
+                      this.props.removeGuest(guest.id)
+                    }}
+                  >
+                    <Text style={defaultStyles.buttonTitle}>x</Text>
+                  </TouchableOpacity>
+                )}
               />
             );
           })}
@@ -169,7 +179,8 @@ const mapDispatch = (dispatch) => ({
   createTrip: (tripInfo) =>
     dispatch(createTripServer(tripInfo)),
   addsGuest: (email) => dispatch(findAddGuest(email)),
-  clearGuestList: () => dispatch(clearGuestList())
+  clearGuestList: () => dispatch(clearGuestList()),
+  removeGuest: (guestId) => dispatch(rmvGuest(guestId))
 });
 
 export default connect(mapState, mapDispatch)(CreateTrip);
