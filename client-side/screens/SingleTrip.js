@@ -101,12 +101,16 @@ export class SingleTrip extends Component {
             />
           </Marker>
         </MapView>
-        <TouchableOpacity
-          style={defaultStyles.button}
-          onPress={this.toggleModal}
-        >
-          <Text style={defaultStyles.buttonTitle}>Delete Trip</Text>
-        </TouchableOpacity>
+        {
+          this.props.singleTrip.userTrips[0].isHost &&
+          <TouchableOpacity
+            style={defaultStyles.button}
+            onPress={this.toggleModal}
+          >
+            <Text style={defaultStyles.buttonTitle}>Delete Trip</Text>
+          </TouchableOpacity>
+        }
+
         <Modal
           style={styles.modal}
           isVisible={this.state.isVisible}

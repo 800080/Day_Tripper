@@ -55,8 +55,9 @@ function GuestList(props) {
                 left={() => (
                   <List.Icon color="#800080" icon="airplane-takeoff" />
                 )}
-                right={() => (
-                  <TouchableOpacity
+                right={() => {
+                  if (props.singleTrip.userTrips[0].isHost){
+                    return  <TouchableOpacity
                     style={styles.delete}
                     onPress={() => {
                       setGuestId(guest.id)
@@ -65,7 +66,8 @@ function GuestList(props) {
                   >
                     <Text style={styles.buttonTitle}>x</Text>
                   </TouchableOpacity>
-                )}
+                  }}
+                }
               />
             );
           })}
@@ -78,8 +80,9 @@ function GuestList(props) {
                 key={guest.id}
                 title={guest.name}
                 left={() => <List.Icon color="#800080" icon="alert-outline" />}
-                right={() => (
-                  <TouchableOpacity
+                right={() => {
+                  if (props.singleTrip.userTrips[0].isHost){
+                    return  <TouchableOpacity
                     style={styles.delete}
                     onPress={() => {
                       setGuestId(guest.id)
@@ -88,7 +91,8 @@ function GuestList(props) {
                   >
                     <Text style={styles.buttonTitle}>x</Text>
                   </TouchableOpacity>
-                )}
+                  }}
+                }
               />
             );
           })}

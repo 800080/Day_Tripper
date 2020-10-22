@@ -57,12 +57,17 @@ class SingleEvent extends Component {
             description={this.props.event.notes}
           />
         </MapView>
-        <TouchableOpacity
-          style={defaultStyles.button}
-          onPress={this.toggleModal}
-        >
-          <Text style={defaultStyles.buttonTitle}>Delete Event</Text>
-        </TouchableOpacity>
+
+        {
+          this.props.singleTrip.userTrips[0].isHost &&
+          <TouchableOpacity
+            style={defaultStyles.button}
+            onPress={this.toggleModal}
+          >
+            <Text style={defaultStyles.buttonTitle}>Delete Event</Text>
+          </TouchableOpacity>
+        }
+
         <Modal
           style={styles.modal}
           isVisible={this.state.isVisible}
@@ -91,7 +96,8 @@ class SingleEvent extends Component {
 
 const mapState = (state) => ({
   event: state.events.singleEvent,
-  mapCoords: state.map
+  mapCoords: state.map,
+  singleTrip: state.trips.singleTrip,
 })
 const mapDispatch = (dispatch) => ({
   setCoords: (coords) => dispatch(setCoords(coords)),
