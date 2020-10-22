@@ -47,7 +47,7 @@ const dltTrip = (tripId) => ({
   tripId
 })
 
-const rmvGuest = (userId) => ({
+export const rmvGuest = (userId) => ({
   type: REMOVE_GUEST,
   userId
 })
