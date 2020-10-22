@@ -1,10 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native'
 
 export default StyleSheet.create({
-  mainView: {
-    backgroundColor: '#fdfaec',
-    height: '100%'
-  },
   button: {
     backgroundColor: '#ee964b', //color also used for airplane icons
     marginLeft: 30,
@@ -14,6 +10,11 @@ export default StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonTitle: {
+    color: '#2e2e2d',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   dateTimeButtonView: {
     flexDirection: 'row',
@@ -31,6 +32,27 @@ export default StyleSheet.create({
     marginRight: 30,
     paddingLeft: 16,
     paddingRight: 16
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 20,
+    bottom: 20,
+    backgroundColor: '#ee964b'
+  },
+  footerLink: {
+    color: '#f95738',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  footerText: {
+    fontSize: 16,
+    color: '#2e2e2d',
+  },
+  footerView: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20,
   },
   input: {
     height: 48,
@@ -50,38 +72,16 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fdfaec',
   },
-  buttonTitle: {
-    color: '#2e2e2d',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 20,
-    bottom: 20,
-    backgroundColor: '#ee964b'
-  },
-  footerView: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    color: '#2e2e2d',
-  },
-  footerLink: {
-    color: '#f95738',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
   listSubheader: {
     fontSize: 20,
     color: '#2e2e2d',
     backgroundColor: '#f4d35e',
     alignSelf: 'flex-start',
     marginLeft: 20,
+  },
+  mainView: {
+    backgroundColor: '#fdfaec',
+    height: '100%'
   },
   singleContainer: {
     width: Dimensions.get('window').width,
