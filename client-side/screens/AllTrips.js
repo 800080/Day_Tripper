@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchAllTrips, fetchSingleTrip, setCoords } from '../store';
-import { List, FAB } from 'react-native-paper';
+import { List, FAB, Divider } from 'react-native-paper';
 import defaultStyles from './styles'
 
 class AllTrips extends Component {
@@ -16,7 +16,7 @@ class AllTrips extends Component {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unsubscribe()
   }
 
@@ -40,6 +40,7 @@ class AllTrips extends Component {
             <List.Subheader style={defaultStyles.listSubheader}>
               Upcoming Trips
             </List.Subheader>
+            <Divider style={defaultStyles.divider} />
             {upcomingTrips.map((trip) => {
               return (
                 <List.Item
@@ -58,6 +59,7 @@ class AllTrips extends Component {
             <List.Subheader style={defaultStyles.listSubheader}>
               Pending Trips
             </List.Subheader>
+            <Divider style={defaultStyles.divider} />
             {pendingTrips.map((trip) => {
               return (
                 <List.Item

@@ -40,13 +40,13 @@ class CreateTrip extends Component {
   onCreateTrip = async () => {
     const { title, location } = this.state
 
-    if(!title.length){
+    if (!title.length) {
       alert('Title required')
     } else if (!location.length) {
       alert('Location required')
     } else {
-    await this.props.createTrip(this.state);
-    this.props.navigation.navigate('AllTrips')
+      await this.props.createTrip(this.state);
+      this.props.navigation.navigate('AllTrips')
     }
   };
 
@@ -145,10 +145,10 @@ class CreateTrip extends Component {
               <List.Item
                 key={guest.id}
                 title={guest.name}
-              // left={(props) => <List.Icon {...props} icon="folder" />}
+                // left={(props) => <List.Icon {...props} icon="folder" />}
                 right={() => (
                   <TouchableOpacity
-                    style={defaultStyles.button}
+                    style={defaultStyles.cancelButton}
                     onPress={() => {
                       this.props.removeGuest(guest.id)
                     }}

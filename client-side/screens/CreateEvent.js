@@ -12,6 +12,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { createEvent, clearSingleEvent } from '../store';
+import defaultStyle from './styles'
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -31,21 +32,21 @@ class CreateEvent extends Component {
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.clearSingleEvent()
   }
 
   onCreateEvent = async () => {
     const { title, location } = this.state
 
-    if(!title.length){
+    if (!title.length) {
       alert('Title required')
     } else if (!location.length) {
       alert('Location required')
     } else {
       await this.props.createEvent(this.state);
     }
-    if (this.props.singleEvent.id)  {
+    if (this.props.singleEvent.id) {
       this.props.navigation.navigate('Itinerary');
     }
   };
@@ -54,14 +55,14 @@ class CreateEvent extends Component {
     const current = this.state.selected === this.state.startTime ? 'start' : 'end'
     if (this.state.mode == 'date') {
       const currentDate = selectedValue;
-      this.setState({date: currentDate});
+      this.setState({ date: currentDate });
       this.formatDate(currentDate, this.state.selected, current)
     } else {
       const selectedTime = selectedValue;
-      this.setState({time: selectedTime});
+      this.setState({ time: selectedTime });
       this.formatDate(this.state.selected, selectedTime, current)
     }
-    this.setState({show: false})
+    this.setState({ show: false })
   };
 
   showDatePicker = (selected) => {
@@ -92,17 +93,13 @@ class CreateEvent extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={defaultStyle.singleContainer}>
         <KeyboardAwareScrollView
           style={{ flex: 1, width: '100%' }}
           keyboardShouldPersistTaps="always"
         >
-          {/* <Image
-          style={styles.logo}
-          source={require('../../../assets/icon.png')}
-        /> */}
           <TextInput
-            style={styles.input}
+            style={defaultStyle.input}
             placeholder="Title"
             placeholderTextColor="#aaaaaa"
             onChangeText={(title) => this.setState({ title })}
@@ -110,14 +107,14 @@ class CreateEvent extends Component {
             autoCapitalize="words"
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyle.input}
             placeholderTextColor="#aaaaaa"
             placeholder="Location"
             onChangeText={(location) => this.setState({ location })}
             value={this.state.location}
             autoCapitalize="none"
           />
-          <View style={styles.dateTimeButtonView}>
+          <View style={defaultStyle.dateTimeButtonView}>
             <Text>Start:</Text>
             <Button
               onPress={() => this.showDatePicker(this.state.startTime)}
@@ -128,7 +125,7 @@ class CreateEvent extends Component {
               title={moment(this.state.startTime).format("h:mm a")}
             />
           </View>
-          <View style={styles.dateTimeButtonView}>
+          <View style={defaultStyle.dateTimeButtonView}>
             <Text>End:</Text>
             <Button
               onPress={() => this.showDatePicker(this.state.endTime)}
@@ -140,7 +137,7 @@ class CreateEvent extends Component {
             />
           </View>
           <DateTimePickerModal
-            isVisible= {this.state.show}
+            isVisible={this.state.show}
             date={this.state.selected}
             mode={this.state.mode}
             display="default"
@@ -148,7 +145,7 @@ class CreateEvent extends Component {
             onCancel={this.hideDatePicker}
           />
           <TextInput
-            style={styles.input}
+            style={defaultStyle.input}
             placeholder="Notes"
             placeholderTextColor="#aaaaaa"
             onChangeText={(notes) => this.setState({ notes })}
@@ -156,10 +153,10 @@ class CreateEvent extends Component {
             autoCapitalize="none"
           />
           <TouchableOpacity
-            style={styles.button}
+            style={defaultStyle.button}
             onPress={() => this.onCreateEvent()}
           >
-            <Text style={styles.buttonTitle}>Create Event</Text>
+            <Text style={defaultStyle.buttonTitle}>Create Event</Text>
           </TouchableOpacity>
         </KeyboardAwareScrollView>
       </View>
@@ -179,57 +176,3 @@ const mapDispatch = (dispatch) => ({
 
 export default connect(mapState, mapDispatch)(CreateEvent);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  logo: {
-    flex: 1,
-    height: 120,
-    width: 90,
-    alignSelf: 'center',
-    margin: 30,
-  },
-  input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-  },
-  button: {
-    backgroundColor: '#788eec',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonTitle: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  dateTimeButtonView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-    paddingRight: 16
-  },
-});
