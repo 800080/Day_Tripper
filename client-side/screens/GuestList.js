@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { List } from 'react-native-paper';
 import { fetchGuests, findAddGuest } from '../store';
+import defaultStyles from './styles'
 
 function GuestList(props) {
   const [email, setEmail] = useState('');
@@ -75,7 +76,7 @@ function GuestList(props) {
       >
         <View>
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholder="Guest's Email"
             placeholderTextColor="#aaaaaa"
             onChangeText={(email) => setEmail(email)}
@@ -83,16 +84,23 @@ function GuestList(props) {
             autoCapitalize="none"
           />
           <TouchableOpacity
-            style={styles.button}
+            style={defaultStyles.button}
             onPress={() => onAddGuest()}
           >
-            <Text style={styles.buttonTitle}>Add Guest</Text>
+            <Text style={defaultStyles.buttonTitle}>Add Guest</Text>
           </TouchableOpacity>
+          {/* <TouchableOpacity
+            style={defaultStyles.button}
+            onPress={toggleModal}
+          >
+            <Text style={defaultStyles.buttonTitle}>Cancel</Text>
+          </TouchableOpacity> */}
+
           <Button title="Cancel" onPress={toggleModal} />
         </View>
       </Modal>
       <FAB
-        style={styles.fab}
+        style={defaultStyles.fab}
         large
         icon="plus"
         onPress={toggleModal}

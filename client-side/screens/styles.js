@@ -1,10 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native'
 
 export default StyleSheet.create({
-  mainView: {
-    backgroundColor: '#fdfaec',
-    height: '100%'
-  },
+
   button: {
     backgroundColor: '#ee964b',
     marginLeft: 30,
@@ -14,6 +11,11 @@ export default StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonTitle: {
+    color: '#2e2e2d',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   dateTimeButtonView: {
     flexDirection: 'row',
@@ -31,29 +33,6 @@ export default StyleSheet.create({
     marginRight: 30,
     paddingLeft: 16,
     paddingRight: 16
-  },
-  input: {
-    height: 48,
-    borderColor: '#d3d3d3',
-    borderWidth: 2,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-  },
-  inputContainer: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#fdfaec',
-  },
-  buttonTitle: {
-    color: '#2e2e2d',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   fab: {
     position: 'absolute',
@@ -76,6 +55,28 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  input: {
+    height: 48,
+    borderColor: '#d3d3d3',
+    borderWidth: 2,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: 'white',
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+  },
+  inputContainer: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#fdfaec',
+  },
+  mainView: {
+    backgroundColor: '#fdfaec',
+    height: '100%'
+  },
   singleContainer: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
@@ -84,4 +85,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
+  text: {
+    fontSize: 20,
+    padding: 10,
+    textAlign: 'center',
+    color: '#2e2e2d',
+  }
 })
