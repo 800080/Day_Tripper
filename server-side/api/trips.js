@@ -61,6 +61,24 @@ router.put("/:tripId/user/:userId", userOrAdmin, async (req, res, next) => {
   }
 });
 
+//DELETE mounted on /api/trips
+router.delete("/:tripId/user/:userId", userOnly, async (req, res, next) => {
+  try {
+    const currentUserTrip = await UserTrip.findOne({
+      where: {
+        userId: req.params.userId,
+        tripId: req.params.tripId,
+      },
+    });
+    currentUserTrip.destroy();
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+})
+
+
+
 //POST mounted on /api/trips
 router.post("/", userOnly, async (req, res, next) => {
   try {

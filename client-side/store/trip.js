@@ -10,6 +10,7 @@ const CREATE_TRIP = 'CREATE_TRIP'
 const CLEAR_GUEST_LIST = 'CLEAR_GUEST_LIST'
 const GET_GUESTS_SINGLETRIP = 'GET_GUESTS_SINGLETRIP'
 const DELETE_TRIP = 'DELETE_TRIP'
+const REMOVE_GUEST = 'REMOVE_GUEST'
 
 //Action Creator
 const getAllTrips = (trips) => ({
@@ -44,6 +45,11 @@ const getGuestSingleTrip = (guests) => ({
 const dltTrip = (tripId) => ({
   type: DELETE_TRIP,
   tripId
+})
+
+const rmvGuest = (userId) => ({
+  type: REMOVE_GUEST,
+  userId
 })
 
 //Thunk Creator
@@ -124,6 +130,15 @@ export const updateStatus = (tripId, userId, status, isHost = false) => async di
   }
 }
 
+export const removeGuest = (tripId, userId) => async dispatch => {
+  try {
+    await axios.delete(`${serverUrl}/api/trips/${tripId}/user/${userId}`)
+    dispatch(rmvGuest(userId))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const deleteTrip = (tripId) => async dispatch => {
   try {
     await axios.delete(`${serverUrl}/api/trips/${tripId}`)
@@ -158,6 +173,8 @@ export default function (state = initialState, action) {
     case DELETE_TRIP:
       const filteredTrips = state.allTrips.filter(trip => trip.id !== action.tripId)
       return {...state, allTrips: filteredTrips}
+    case REMOVE_GUEST:
+      return {...state, guestList: state.guestList.filter(guest => guest.id !== action.userId)}
     default:
       return state
   }
