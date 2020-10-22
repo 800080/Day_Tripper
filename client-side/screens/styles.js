@@ -6,7 +6,7 @@ export default StyleSheet.create({
     height: '100%'
   },
   button: {
-    backgroundColor: '#ee964b',
+    backgroundColor: '#ee964b', //color also used for airplane icons
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
@@ -75,6 +75,13 @@ export default StyleSheet.create({
     color: '#f95738',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  listSubheader: {
+    fontSize: 20,
+    color: '#2e2e2d',
+    backgroundColor: '#f4d35e',
+    alignSelf: 'flex-start',
+    marginLeft: 20,
   },
   singleContainer: {
     width: Dimensions.get('window').width,

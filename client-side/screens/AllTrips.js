@@ -31,7 +31,7 @@ class AllTrips extends Component {
       <View style={defaultStyles.mainView}>
         <ScrollView>
           <List.Section>
-            <List.Subheader style={styles.listSubheader}>
+            <List.Subheader style={defaultStyles.listSubheader}>
               Upcoming Trips
             </List.Subheader>
             {upcomingTrips.map((trip) => {
@@ -49,7 +49,7 @@ class AllTrips extends Component {
             })}
           </List.Section>
           <List.Section>
-            <List.Subheader style={styles.listSubheader}>
+            <List.Subheader style={defaultStyles.listSubheader}>
               Pending Trips
             </List.Subheader>
             {pendingTrips.map((trip) => {
@@ -91,13 +91,3 @@ const mapDispatch = (dispatch) => ({
 });
 
 export default connect(mapState, mapDispatch)(AllTrips);
-
-const styles = StyleSheet.create({
-  listSubheader: {
-    fontSize: 20,
-    color: '#2e2e2d',
-    backgroundColor: '#f4d35e',
-    alignSelf: 'flex-start',
-    marginLeft: 20,
-  },
-});
