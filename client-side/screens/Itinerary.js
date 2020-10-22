@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Button, FlatList, StyleSheet } from 'react-native'
-import { Text, ListItem, Left, Body, Icon, Right, Title } from "native-base";
+import { View, FlatList, StyleSheet } from 'react-native'
+import { Text, ListItem, Left, Body, Right } from "native-base";
 import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux'
 import { fetchAllEvents, getSingleEvent } from '../store'
 import moment from 'moment'
+import defaultStyles from './styles'
 
 class Itinerary extends Component {
   constructor() {
@@ -79,10 +80,10 @@ class Itinerary extends Component {
   renderItem = ({ item }) => {
     if (item.header) {
       return (
-        <ListItem itemDivider>
+        <ListItem itemDivider style={{backgroundColor: defaultStyles.singleContainer.backgroundColor}}>
           <Left />
           <Body style={{ marginRight: 40 }}>
-            <Text style={{ fontWeight: "bold" }}>
+            <Text style={{ fontWeight: "bold"}}>
               {item.title}
             </Text>
           </Body>
@@ -135,6 +136,7 @@ export default connect(mapState, mapDispatch)(Itinerary)
 const styles = StyleSheet.create({
   scrollView: {
     height: '100%',
+    backgroundColor: "#fdfaec",
   },
   fab: {
     position: 'absolute',

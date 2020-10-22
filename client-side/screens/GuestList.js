@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { List } from 'react-native-paper';
 import { fetchGuests, findAddGuest } from '../store';
+import defaultStyles from './styles'
 
 function GuestList(props) {
   const [email, setEmail] = useState('');
@@ -38,31 +39,31 @@ function GuestList(props) {
 
   return (
     <View
-      style={{ flex: 1, width: '100%', height: '100%' }}
+      style={{ backgroundColor: defaultStyles.singleContainer.backgroundColor, flex: 1, width: '100%', height: '100%' }}
     >
       <ScrollView keyboardShouldPersistTaps="handled">
         <List.Section>
-          <List.Subheader style={styles.listSubheader}>Going</List.Subheader>
+          <List.Subheader style={defaultStyles.listSubheader}>Going</List.Subheader>
           {goingGuests.map((guest) => {
             return (
               <List.Item
                 key={guest.id}
                 title={guest.name}
                 left={() => (
-                  <List.Icon color="#800080" icon="airplane-takeoff" />
+                  <List.Icon color={defaultStyles.button.backgroundColor} icon="airplane-takeoff" />
                 )}
               />
             );
           })}
         </List.Section>
         <List.Section>
-          <List.Subheader style={styles.listSubheader}>Pending</List.Subheader>
+          <List.Subheader style={defaultStyles.listSubheader}>Pending</List.Subheader>
           {pendingGuests.map((guest) => {
             return (
               <List.Item
                 key={guest.id}
                 title={guest.name}
-                left={() => <List.Icon color="#800080" icon="alert-outline" />}
+                left={() => <List.Icon color={defaultStyles.button.backgroundColor} icon="alert-outline" />}
               />
             );
           })}
@@ -75,7 +76,7 @@ function GuestList(props) {
       >
         <View>
           <TextInput
-            style={styles.input}
+            style={defaultStyles.input}
             placeholder="Guest's Email"
             placeholderTextColor="#aaaaaa"
             onChangeText={(email) => setEmail(email)}
@@ -83,16 +84,16 @@ function GuestList(props) {
             autoCapitalize="none"
           />
           <TouchableOpacity
-            style={styles.button}
+            style={defaultStyles.button}
             onPress={() => onAddGuest()}
           >
-            <Text style={styles.buttonTitle}>Add Guest</Text>
+            <Text style={defaultStyles.buttonTitle}>Add Guest</Text>
           </TouchableOpacity>
           <Button title="Cancel" onPress={toggleModal} />
         </View>
       </Modal>
       <FAB
-        style={styles.fab}
+        style={defaultStyles.fab}
         large
         icon="plus"
         onPress={toggleModal}
@@ -114,47 +115,9 @@ const mapDispatch = (dispatch) => ({
 export default connect(mapState, mapDispatch)(GuestList);
 
 const styles = StyleSheet.create({
-  listSubheader: {
-    fontSize: 20,
-    color: 'white',
-    backgroundColor: '#800080',
-    alignSelf: 'flex-start',
-    marginLeft: 20,
-  },
-  input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-  },
-  button: {
-    backgroundColor: '#788eec',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonTitle: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+
   scrollView: {
     height: '100%',
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 20,
-    bottom: 20,
   },
   modal: {
     backgroundColor: '#E8E8E8',
