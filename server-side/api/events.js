@@ -40,3 +40,17 @@ router.post('/', userOnly, async (req, res, next) => {
     next(error)
   }
 })
+
+// DELETE mounted on /api/events/:evtId
+router.delete('/:evtId', userOnly, async (req, res, next) => {
+  try {
+    await Event.destroy({
+      where: {
+        id: req.params.evtId
+      }
+    })
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})

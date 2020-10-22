@@ -7,6 +7,7 @@ const GET_ALL_EVENTS = 'GET_ALL_EVENTS'
 const GET_SINGLE_EVENT = 'GET_SINGLE_EVENT'
 const CREATE_NEW_EVENT = 'CREATE_NEW_EVENT'
 const CLEAR_SINGLE_EVENT = 'CLEAR_SINGLE_EVENT'
+const DELETE_EVENT = 'DELETE_EVENT'
 
 //Action Creator
 const getAllEvents = (events) => ({
@@ -28,7 +29,10 @@ export const clearSingleEvent = () => ({
   type: CLEAR_SINGLE_EVENT
 })
 
-
+const dltEvent = (evtId) => ({
+  type: DELETE_EVENT,
+  evtId
+})
 
 //Thunk Creator
 export const fetchAllEvents = (tripId) => async dispatch => {
@@ -68,6 +72,15 @@ export const createEvent = (event) => async dispatch => {
   }
 }
 
+export const deleteEvent = (evtId) => async dispatch => {
+  try {
+    await axios.delete(`${serverUrl}/api/events/${evtId}`)
+    dispatch(dltEvent(evtId))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 //Initial State
 const initialState = {
   allEvents: [],
@@ -88,6 +101,9 @@ export default function (state = initialState, action) {
       }
     case CLEAR_SINGLE_EVENT:
       return initialState
+    case DELETE_EVENT:
+      const filteredEvents = state.allEvents.filter(evt => evt.id !== action.evtId)
+      return {...state, allEvents: filteredEvents}
     default:
       return state
   }

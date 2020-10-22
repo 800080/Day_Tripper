@@ -75,3 +75,17 @@ router.post("/", userOnly, async (req, res, next) => {
   }
 });
 
+// DELETE mounted on /api/trips/:tripId
+router.delete('/:tripId', userOnly, async (req, res, next) => {
+  try {
+    await Trip.destroy({
+      where: {
+        id: req.params.tripId
+      },
+      include: UserTrip
+    })
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
