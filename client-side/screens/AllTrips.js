@@ -11,7 +11,13 @@ class AllTrips extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
-    this.props.fetchAllTrips(this.props.user.id);
+    this.unsubscribe = this.props.navigation.addListener('focus', async () => {
+      this.props.fetchAllTrips(this.props.user.id);
+    })
+  }
+
+  componentWillUnmount () {
+    this.unsubscribe()
   }
 
   handleClick = async (tripId) => {
@@ -88,6 +94,7 @@ const mapDispatch = (dispatch) => ({
   fetchAllTrips: (userId) => dispatch(fetchAllTrips(userId)),
   fetchSingleTrip: (tripId) => dispatch(fetchSingleTrip(tripId)),
   setCoords: (coords) => dispatch(setCoords(coords))
+
 });
 
 export default connect(mapState, mapDispatch)(AllTrips);

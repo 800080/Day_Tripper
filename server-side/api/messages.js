@@ -1,9 +1,11 @@
 const router = require('express').Router()
 const { ChatMessage, User } = require('../db/models')
+const userOrAdmin = require('../utils/userOrAdmin.js')
+const userOnly = require('../utils/userOnly.js')
 module.exports = router
 
 //GET mounted on /api/messages
-router.get('/trip/:tripId', async (req, res, next) => {
+router.get('/trip/:tripId', userOnly, async (req, res, next) => {
   try {
     const messages = await ChatMessage.findAll({
       order: [['createdAt', 'DESC']],
@@ -19,7 +21,7 @@ router.get('/trip/:tripId', async (req, res, next) => {
 })
 
 //POST mounted on /api/messages
-router.post('/trip/:tripId/user/:userId', async (req, res, next) => {
+router.post('/trip/:tripId/user/:userId', userOrAdmin, async (req, res, next) => {
   try {
     const newMessage = await ChatMessage.create({
       message: req.body.message,
