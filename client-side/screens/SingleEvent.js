@@ -59,6 +59,7 @@ class SingleEvent extends Component {
         </List.Section>
         <MapView
           initialRegion={this.props.event.mapLocation.coordinate}
+          region={this.props.event.mapLocation.coordinate}
           style={styles.mapStyle}
         >
           <Marker

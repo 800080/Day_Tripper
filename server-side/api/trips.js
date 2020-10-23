@@ -86,8 +86,20 @@ router.post("/", userOnly, async (req, res, next) => {
     const allGuests = [...guestList, user];
     const allGuestsIds = allGuests.map((guest) => guest.id);
     const newTrip = await Trip.create(tripInfo);
-    await newTrip.addUsers(allGuestsIds);
+    await newTrip.setUsers(allGuestsIds);
     res.send(newTrip);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//PUT mounted on /api/trips/:tripId
+router.put("/:tripId", userOnly, async (req, res, next) => {
+  try {
+    const { tripInfo } = req.body;
+    const foundTrip = await Trip.findByPk(req.params.tripId);
+    const updatedTrip = await foundTrip.update(tripInfo)
+    res.send(updatedTrip);
   } catch (error) {
     next(error);
   }
