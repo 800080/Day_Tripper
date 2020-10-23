@@ -16,6 +16,17 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  cancelButton: {
+    backgroundColor: "#ee964b",
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 20,
+    height: 30,
+    width: 30,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   dateTimeButtonView: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -39,7 +50,6 @@ export default StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
   },
-
   fab: {
     position: "absolute",
     margin: 16,
@@ -82,13 +92,18 @@ export default StyleSheet.create({
   listSubheader: {
     fontSize: 20,
     color: "#2e2e2d",
-    backgroundColor: "#f4d35e",
     alignSelf: "flex-start",
     marginLeft: 20,
   },
   mainView: {
     backgroundColor: "#fdfaec",
     height: "100%",
+  },
+  mapStyle: {
+    width: '90%',
+    height: '35%',
+    borderWidth: 1,
+    borderRadius: 7,
   },
   singleContainer: {
     width: Dimensions.get("window").width,

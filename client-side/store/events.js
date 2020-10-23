@@ -8,6 +8,7 @@ const GET_SINGLE_EVENT = 'GET_SINGLE_EVENT'
 const CREATE_NEW_EVENT = 'CREATE_NEW_EVENT'
 const CLEAR_SINGLE_EVENT = 'CLEAR_SINGLE_EVENT'
 const DELETE_EVENT = 'DELETE_EVENT'
+const UPDATE_EVENT = 'UPDATE_EVENT'
 
 //Action Creator
 const getAllEvents = (events) => ({
@@ -32,6 +33,11 @@ export const clearSingleEvent = () => ({
 const dltEvent = (evtId) => ({
   type: DELETE_EVENT,
   evtId
+})
+
+const uptEvent = (event) => ({
+  type: UPDATE_EVENT,
+  event
 })
 
 //Thunk Creator
@@ -72,6 +78,24 @@ export const createEvent = (event) => async dispatch => {
   }
 }
 
+export const updateEvent = (event, evtId) => async dispatch => {
+  try {
+    const { data: mapLocation } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${event.location}&key=${GOOGLE_MAPS_API_KEY}`)
+
+    if (!mapLocation.results.length) {
+      alert ('Invalid location')
+    } else {
+    const coordinate = mapLocation.results[0].geometry.location
+    const singleEvent = await axios.put(`${serverUrl}/api/events/${evtId}`, event)
+    await axios.post(`${serverUrl}/api/maps/event`, {eventId: singleEvent.data.id, coordinate})
+    const fetchedEvent = await axios.get(`${serverUrl}/api/events/${singleEvent.data.id}`)
+    dispatch(uptEvent(fetchedEvent.data))
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const deleteEvent = (evtId) => async dispatch => {
   try {
     await axios.delete(`${serverUrl}/api/events/${evtId}`)
@@ -104,6 +128,8 @@ export default function (state = initialState, action) {
     case DELETE_EVENT:
       const filteredEvents = state.allEvents.filter(evt => evt.id !== action.evtId)
       return {...state, allEvents: filteredEvents}
+    case UPDATE_EVENT:
+      return { ...state, singleEvent: action.event }
     default:
       return state
   }

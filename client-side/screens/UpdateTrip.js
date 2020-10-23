@@ -10,11 +10,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { createTripServer, findAddGuest, clearGuestList, rmvGuest } from '../store';
+import { updateTrip } from '../store';
 import { List } from 'react-native-paper'
 import defaultStyles from './styles'
 
-class CreateTrip extends Component {
+class UpdateTrip extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,23 +30,24 @@ class CreateTrip extends Component {
   }
 
   componentDidMount() {
-    this.props.clearGuestList()
+    const { title, location, startDate, endDate, notes } = this.props.singleTrip
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    this.setState({
+      title, location, startDate: start, endDate: end, notes
+    })
   }
 
-  componentWillUnmount() {
-    this.props.clearGuestList()
-  }
-
-  onCreateTrip = async () => {
+  onUpdateTrip = async () => {
     const { title, location } = this.state
 
-    if (!title.length) {
+    if(!title.length){
       alert('Title required')
     } else if (!location.length) {
       alert('Location required')
     } else {
-      await this.props.createTrip(this.state);
-      this.props.navigation.navigate('AllTrips')
+    await this.props.updateTrip(this.state);
+    this.props.navigation.navigate('SingleTrip')
     }
   };
 
@@ -126,44 +127,11 @@ class CreateTrip extends Component {
             value={this.state.notes}
             autoCapitalize="none"
           />
-          <TextInput
-            style={defaultStyles.input}
-            placeholder="Guest's Email"
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(guest) => this.setState({ guest })}
-            value={this.state.guest}
-            autoCapitalize="none"
-          />
           <TouchableOpacity
             style={defaultStyles.button}
-            onPress={() => this.onAddGuest()}
+            onPress={() => this.onUpdateTrip()}
           >
-            <Text style={defaultStyles.buttonTitle}>Add Guest</Text>
-          </TouchableOpacity>
-          {this.props.guestList.map((guest) => {
-            return (
-              <List.Item
-                key={guest.id}
-                title={guest.name}
-                // left={(props) => <List.Icon {...props} icon="folder" />}
-                right={() => (
-                  <TouchableOpacity
-                    style={defaultStyles.cancelButton}
-                    onPress={() => {
-                      this.props.removeGuest(guest.id)
-                    }}
-                  >
-                    <Text style={defaultStyles.buttonTitle}>x</Text>
-                  </TouchableOpacity>
-                )}
-              />
-            );
-          })}
-          <TouchableOpacity
-            style={defaultStyles.button}
-            onPress={() => this.onCreateTrip()}
-          >
-            <Text style={defaultStyles.buttonTitle}>Create Trip</Text>
+            <Text style={defaultStyles.buttonTitle}>Update Trip</Text>
           </TouchableOpacity>
         </KeyboardAwareScrollView>
       </View>
@@ -172,15 +140,12 @@ class CreateTrip extends Component {
 }
 
 const mapState = (state) => ({
-  guestList: state.trips.guestList,
+  singleTrip: state.trips.singleTrip
 });
 
 const mapDispatch = (dispatch) => ({
-  createTrip: (tripInfo) =>
-    dispatch(createTripServer(tripInfo)),
-  addsGuest: (email) => dispatch(findAddGuest(email)),
-  clearGuestList: () => dispatch(clearGuestList()),
-  removeGuest: (guestId) => dispatch(rmvGuest(guestId))
+  updateTrip: (tripInfo) =>
+    dispatch(updateTrip(tripInfo)),
 });
 
-export default connect(mapState, mapDispatch)(CreateTrip);
+export default connect(mapState, mapDispatch)(UpdateTrip);
