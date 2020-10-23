@@ -11,6 +11,7 @@ const CLEAR_GUEST_LIST = 'CLEAR_GUEST_LIST'
 const GET_GUESTS_SINGLETRIP = 'GET_GUESTS_SINGLETRIP'
 const DELETE_TRIP = 'DELETE_TRIP'
 const REMOVE_GUEST = 'REMOVE_GUEST'
+const UPDATE_TRIP = 'UPDATE_TRIP'
 
 //Action Creator
 const getAllTrips = (trips) => ({
@@ -52,6 +53,11 @@ export const rmvGuest = (userId) => ({
   userId
 })
 
+const updTrip = (trip) => ({
+  type: UPDATE_TRIP,
+  trip
+})
+
 //Thunk Creator
 export const fetchAllTrips = (userId) => async dispatch => {
   try {
@@ -84,6 +90,21 @@ export const createTripServer = (tripInfo) => async (dispatch, getState) => {
     dispatch(createTrip(trip.data))
     dispatch(updateStatus(trip.data.id, user.id, 'accepted', true))
     dispatch(clearGuestList())
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const updateTrip = (tripInfo) => async (dispatch, getState) => {
+  try {
+    const user = getState().user
+    const singleTrip = getState().trips.singleTrip
+    const { data: mapLocation } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${tripInfo.location}&key=${GOOGLE_MAPS_API_KEY}`)
+    const coordinate = mapLocation.results[0].geometry.location
+    const newTrip = await axios.put(`${serverUrl}/api/trips/${singleTrip.id}`, {tripInfo})
+    await axios.post(`${serverUrl}/api/maps/trip`, {tripId: newTrip.data.id, coordinate})
+    const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
+    dispatch(updTrip(trip.data))
   } catch (error) {
     console.error(error)
   }
@@ -175,6 +196,8 @@ export default function (state = initialState, action) {
       return {...state, allTrips: filteredTrips}
     case REMOVE_GUEST:
       return {...state, guestList: state.guestList.filter(guest => guest.id !== action.userId)}
+    case UPDATE_TRIP:
+      return { ...state, singleTrip: action.trip }
     default:
       return state
   }

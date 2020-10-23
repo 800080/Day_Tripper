@@ -1,9 +1,23 @@
-import React, { Component } from 'react'
-import { Text, View, Button, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import {
+  Text,
+  View,
+  Button,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
-import { fetchAllTrips, updateStatus, fetchAllEvents, setCoords, deleteTrip } from '../store'
-import { List, Divider } from 'react-native-paper'
+import {
+  fetchAllTrips,
+  updateStatus,
+  fetchAllEvents,
+  setCoords,
+  deleteTrip,
+} from '../store';
+import { List, Divider } from 'react-native-paper';
 import MapView, { Marker } from 'react-native-maps';
 import defaultStyles from './styles';
 
@@ -23,9 +37,9 @@ export class SingleTrip extends Component {
   toggleModal = () => this.setState({ isVisible: !this.state.isVisible });
 
   delete = async () => {
-    await this.props.deleteTrip(this.props.singleTrip.id)
-    this.props.navigation.navigate('AllTrips')
-  }
+    await this.props.deleteTrip(this.props.singleTrip.id);
+    this.props.navigation.navigate('AllTrips');
+  };
 
   acceptInvite = () => {
     this.props.updateStatus(
@@ -46,28 +60,32 @@ export class SingleTrip extends Component {
   };
 
   render() {
-    const startDate = new Date(this.props.singleTrip.startDate)
-    const endDate = new Date(this.props.singleTrip.endDate)
+    const startDate = new Date(this.props.singleTrip.startDate);
+    const endDate = new Date(this.props.singleTrip.endDate);
 
     return (
       <View style={defaultStyles.singleContainer}>
-        {
-          this.props.singleTrip.userTrips && this.props.singleTrip.userTrips[0].status === "pending" ?
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.acceptInvite()}>
-                <Text style={defaultStyles.buttonTitle}>Accept</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.declineInvite()}>
-                <Text style={defaultStyles.buttonTitle}>Decline</Text>
-              </TouchableOpacity>
-            </View>
-            : true
-        }
+        {this.props.singleTrip.userTrips &&
+        this.props.singleTrip.userTrips[0].status === 'pending' ? (
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.acceptInvite()}
+            >
+              <Text style={defaultStyles.buttonTitle}>Accept</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.declineInvite()}
+            >
+              <Text style={defaultStyles.buttonTitle}>Decline</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          true
+        )}
         <ScrollView>
+
           <List.Section >
             <Text style={{ ...defaultStyles.text, textAlign: "center", fontSize: 25, fontWeight: "bold" }}>{this.props.singleTrip.title}</Text>
             <Divider style={defaultStyles.divider} />
@@ -80,26 +98,37 @@ export class SingleTrip extends Component {
           <View style={defaultStyles.singleContainer}>
             <MapView
               initialRegion={this.props.mapCoords}
-              style={defaultStyles.mapStyle}
+              region={this.props.mapCoords}
+              style={styles.mapStyle}
             >
               <Marker
                 coordinate={this.props.mapCoords}
                 title={this.props.singleTrip.title}
                 description={this.props.singleTrip.notes}
               >
-                <Image source={require('../assets/house.png')} style={{ height: 22, width: 22, tintColor: "#60656F" }} />
+                <Image
+                  source={require('../assets/house.png')}
+                  style={{ height: 22, width: 22, tintColor: '#60656F' }}
+                />
               </Marker>
             </MapView>
 
-            {
-              this.props.singleTrip.userTrips[0].isHost &&
-              <TouchableOpacity
-                style={defaultStyles.button}
-                onPress={this.toggleModal}
-              >
-                <Text style={defaultStyles.buttonTitle}>Delete Trip</Text>
-              </TouchableOpacity>
-            }
+            {this.props.singleTrip.userTrips[0].isHost && (
+              <View>
+                <TouchableOpacity
+                  style={defaultStyles.button}
+                  onPress={this.toggleModal}
+                >
+                  <Text style={defaultStyles.buttonTitle}>Delete Trip</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={defaultStyles.button}
+                  onPress={() => this.props.navigation.navigate('Update Trip')}
+                >
+                  <Text style={defaultStyles.buttonTitle}>Update Trip</Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
             <Modal
               style={styles.modal}
@@ -122,11 +151,10 @@ export class SingleTrip extends Component {
                 </TouchableOpacity>
               </View>
             </Modal>
-
           </View>
         </ScrollView>
-      </View >
-    )
+      </View>
+    );
   }
 }
 
@@ -142,7 +170,7 @@ const mapDispatch = (dispatch) => ({
   fetchAllTrips: (userId) => dispatch(fetchAllTrips(userId)),
   fetchAllEvents: (tripId) => dispatch(fetchAllEvents(tripId)),
   setCoords: (coords) => dispatch(setCoords(coords)),
-  deleteTrip: (tripId) => dispatch(deleteTrip(tripId))
+  deleteTrip: (tripId) => dispatch(deleteTrip(tripId)),
 });
 
 export default connect(mapState, mapDispatch)(SingleTrip);
@@ -158,6 +186,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8E8E8',
     borderRadius: 10,
     maxHeight: 250,
-    marginTop: '50%'
-  }
+    marginTop: '50%',
+  },
 });
