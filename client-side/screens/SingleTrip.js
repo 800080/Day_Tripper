@@ -85,29 +85,15 @@ export class SingleTrip extends Component {
           true
         )}
         <ScrollView>
-          <List.Section>
-            <Text
-              style={{
-                ...defaultStyles.text,
-                textAlign: 'center',
-                fontSize: 25,
-                fontWeight: 'bold',
-              }}
-            >
-              {this.props.singleTrip.title}
-            </Text>
+
+          <List.Section >
+            <Text style={{ ...defaultStyles.text, textAlign: "center", fontSize: 25, fontWeight: "bold" }}>{this.props.singleTrip.title}</Text>
             <Divider style={defaultStyles.divider} />
-            <Text style={defaultStyles.text}>
-              Start: {startDate.toLocaleString('en-US')}
-            </Text>
+            <Text style={defaultStyles.text}>Start: {startDate.toLocaleString('en-US')}</Text>
             <Divider style={defaultStyles.divider} />
-            <Text style={defaultStyles.text}>
-              End: {endDate.toLocaleString('en-US')}
-            </Text>
+            <Text style={defaultStyles.text}>End: {endDate.toLocaleString('en-US')}</Text>
             <Divider style={defaultStyles.divider} />
-            <Text style={defaultStyles.text}>
-              Notes: {this.props.singleTrip.notes}
-            </Text>
+            <Text style={defaultStyles.text}>Notes: {this.props.singleTrip.notes}</Text>
           </List.Section>
           <View style={defaultStyles.singleContainer}>
             <MapView
@@ -195,12 +181,6 @@ const styles = StyleSheet.create({
     width: 125,
     marginLeft: 15,
     marginRight: 15,
-  },
-  mapStyle: {
-    width: '90%',
-    height: '35%',
-    borderWidth: 1,
-    borderRadius: 7,
   },
   modal: {
     backgroundColor: '#E8E8E8',

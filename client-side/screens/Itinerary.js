@@ -18,17 +18,17 @@ class Itinerary extends Component {
   }
 
 
-  componentDidMount () {
+  componentDidMount() {
     this.unsubscribe = this.props.navigation.addListener('focus', async () => {
       //Will execute when screen is focused
       await this.props.fetchEvents(this.props.trip.id)
       const newEvts = this.formatEvents()
       const stickyHeader = this.stickyHeaderArr(newEvts)
-      this.setState({data: newEvts, stickyHeader})
+      this.setState({ data: newEvts, stickyHeader })
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unsubscribe()
   }
 
@@ -37,7 +37,7 @@ class Itinerary extends Component {
     await this.props.fetchEvents(this.props.trip.id)
     const newEvts = this.formatEvents()
     const stickyHeader = this.stickyHeaderArr(newEvts)
-    this.setState({data: newEvts, stickyHeader})
+    this.setState({ data: newEvts, stickyHeader })
 
   }
 
@@ -51,7 +51,7 @@ class Itinerary extends Component {
     const itinEvents = this.props.events
     const newEvts = []
     itinEvents.forEach(evt => {
-      const subHeader = {title: moment(evt.startTime).format("dddd MMMM Do"), header: true }
+      const subHeader = { title: moment(evt.startTime).format("dddd MMMM Do"), header: true }
       if (!newEvts.length) {
         newEvts.push(subHeader)
       } else {
@@ -80,10 +80,10 @@ class Itinerary extends Component {
   renderItem = ({ item }) => {
     if (item.header) {
       return (
-        <ListItem itemDivider style={{backgroundColor: defaultStyles.singleContainer.backgroundColor}}>
+        <ListItem itemDivider style={{ backgroundColor: defaultStyles.singleContainer.backgroundColor }}>
           <Left />
           <Body style={{ marginRight: 40 }}>
-            <Text style={{ fontWeight: "bold"}}>
+            <Text style={{ fontWeight: "bold" }}>
               {item.title}
             </Text>
           </Body>
@@ -104,21 +104,21 @@ class Itinerary extends Component {
   render() {
 
     return (
-      <View style= {styles.scrollView}>
+      <View style={styles.scrollView}>
         <FlatList
-        data={this.state.data}
-        renderItem={this.renderItem}
-        keyExtractor={item => item.title+Math.floor(Math.random()*100000)}
-        stickyHeaderIndices={this.state.stickyHeader}
-      />
-      <FAB
-          style={styles.fab}
+          data={this.state.data}
+          renderItem={this.renderItem}
+          keyExtractor={item => item.title + Math.floor(Math.random() * 100000)}
+          stickyHeaderIndices={this.state.stickyHeader}
+        />
+        <FAB
+          style={defaultStyles.fab}
           large
           icon="plus"
           onPress={() => this.props.navigation.navigate('Create Event')}
         />
-    </View>
-      )
+      </View>
+    )
   }
 }
 
@@ -137,11 +137,5 @@ const styles = StyleSheet.create({
   scrollView: {
     height: '100%',
     backgroundColor: "#fdfaec",
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 20,
-    bottom: 20,
   },
 });

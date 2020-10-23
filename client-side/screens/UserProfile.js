@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, Image, View, Button } from 'react-native'
-import { List } from 'react-native-paper'
+import { Text, StyleSheet, Image, View, Button, TouchableOpacity } from 'react-native'
+import { List, Divider } from 'react-native-paper'
 import { connect } from 'react-redux'
 import { logout } from '../store';
+import defaultStyles from './styles'
 
 class UserProfile extends Component {
   constructor() {
@@ -11,21 +12,27 @@ class UserProfile extends Component {
 
   render() {
     return (
-      <View style={styles.view}>
+      <View style={defaultStyles.singleContainer}>
         <Image
           style={styles.icon}
           source={{ uri: 'https://img.icons8.com/windows/452/person-male.png' }} />
 
         <List.Section style={styles.list}>
-          <Text style={styles.text}>Name: {this.props.user.name}</Text>
-          <Text style={styles.text}>Username: {this.props.user.username}</Text>
-          <Text style={styles.text}>Email: {this.props.user.email}</Text>
+          <Text style={defaultStyles.text}>Name: {this.props.user.name}</Text>
+          <Divider style={defaultStyles.divider} />
+          <Text style={defaultStyles.text}>Username: {this.props.user.username}</Text>
+          <Divider style={defaultStyles.divider} />
+          <Text style={defaultStyles.text}>Email: {this.props.user.email}</Text>
         </List.Section>
 
-        <Button
+        <TouchableOpacity
           title="Logout"
+          style={{ ...defaultStyles.button, width: 125 }}
           onPress={() => this.props.logout(this.props.navigation)}
-        />
+        >
+          <Text style={(defaultStyles.buttonTitle)}>Log out</Text>
+        </TouchableOpacity>
+
 
       </View>
     )
@@ -51,10 +58,6 @@ const styles = StyleSheet.create({
     color: 'white',
     alignSelf: "flex-start",
     marginLeft: 20
-  },
-  text: {
-    fontSize: 20,
-    padding: 10,
   },
   view: {
     flex: 1,

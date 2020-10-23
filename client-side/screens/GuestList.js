@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-native-modal';
-import { FAB } from 'react-native-paper';
+import { FAB, Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import {
   View,
@@ -49,6 +49,7 @@ function GuestList(props) {
       <ScrollView keyboardShouldPersistTaps="handled">
         <List.Section>
           <List.Subheader style={defaultStyles.listSubheader}>Going</List.Subheader>
+          <Divider style={defaultStyles.divider} />
           {goingGuests.map((guest) => {
             return (
               <List.Item
@@ -58,17 +59,18 @@ function GuestList(props) {
                   <List.Icon color={defaultStyles.button.backgroundColor} icon="airplane-takeoff" />
                 )}
                 right={() => {
-                  if (props.singleTrip.userTrips[0].isHost){
-                    return  <TouchableOpacity
-                    style={styles.delete}
-                    onPress={() => {
-                      setGuestId(guest.id)
-                      toggleModalRemove()
-                    }}
-                  >
-                    <Text style={styles.buttonTitle}>x</Text>
-                  </TouchableOpacity>
-                  }}
+                  if (props.singleTrip.userTrips[0].isHost) {
+                    return <TouchableOpacity
+                      style={defaultStyles.cancelButton}
+                      onPress={() => {
+                        setGuestId(guest.id)
+                        toggleModalRemove()
+                      }}
+                    >
+                      <Text style={styles.buttonTitle}>x</Text>
+                    </TouchableOpacity>
+                  }
+                }
                 }
               />
             );
@@ -76,6 +78,7 @@ function GuestList(props) {
         </List.Section>
         <List.Section>
           <List.Subheader style={defaultStyles.listSubheader}>Pending</List.Subheader>
+          <Divider style={defaultStyles.divider} />
           {pendingGuests.map((guest) => {
             return (
               <List.Item
@@ -83,17 +86,18 @@ function GuestList(props) {
                 title={guest.name}
                 left={() => <List.Icon color={defaultStyles.button.backgroundColor} icon="alert-outline" />}
                 right={() => {
-                  if (props.singleTrip.userTrips[0].isHost){
-                    return  <TouchableOpacity
-                    style={styles.delete}
-                    onPress={() => {
-                      setGuestId(guest.id)
-                      toggleModalRemove()
-                    }}
-                  >
-                    <Text style={styles.buttonTitle}>x</Text>
-                  </TouchableOpacity>
-                  }}
+                  if (props.singleTrip.userTrips[0].isHost) {
+                    return <TouchableOpacity
+                      style={defaultStyles.cancelButton}
+                      onPress={() => {
+                        setGuestId(guest.id)
+                        toggleModalRemove()
+                      }}
+                    >
+                      <Text style={styles.buttonTitle}>x</Text>
+                    </TouchableOpacity>
+                  }
+                }
                 }
               />
             );
@@ -125,29 +129,29 @@ function GuestList(props) {
       </Modal>
 
       <Modal
-          style={styles.modal}
-          isVisible={isVisibleRemove}
-          onBackdropPress={toggleModalRemove}
-        >
-          <View>
-            <Text style={styles.text}>Are you sure?</Text>
-            <TouchableOpacity
-              style={defaultStyles.button}
-              onPress={() => {
-                props.removeGuest(props.singleTrip.id, guestId)
-                toggleModalRemove()
-              }}
-            >
-              <Text style={defaultStyles.buttonTitle}>Remove Guest</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={defaultStyles.button}
-              onPress={() => toggleModalRemove()}
-            >
-              <Text style={defaultStyles.buttonTitle}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
+        style={styles.modal}
+        isVisible={isVisibleRemove}
+        onBackdropPress={toggleModalRemove}
+      >
+        <View>
+          <Text style={defaultStyles.text}>Are you sure?</Text>
+          <TouchableOpacity
+            style={defaultStyles.button}
+            onPress={() => {
+              props.removeGuest(props.singleTrip.id, guestId)
+              toggleModalRemove()
+            }}
+          >
+            <Text style={defaultStyles.buttonTitle}>Remove Guest</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={defaultStyles.button}
+            onPress={() => toggleModalRemove()}
+          >
+            <Text style={defaultStyles.buttonTitle}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
 
       <FAB
         style={defaultStyles.fab}
@@ -183,20 +187,4 @@ const styles = StyleSheet.create({
     maxHeight: 250,
     marginTop: '50%'
   },
-  text: {
-    fontSize: 20,
-    padding: 10,
-    textAlign: 'center',
-  },
-  delete: {
-    backgroundColor: 'red',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 25,
-    width: 25,
-    borderRadius: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
 });

@@ -3,6 +3,7 @@ import socket from '../socket';
 import { connect } from 'react-redux';
 import { fetchMessages, sendMessage } from '../store/messages';
 import { GiftedChat } from 'react-native-gifted-chat';
+import { View } from 'native-base';
 
 class Chat extends Component {
   constructor(props) {
@@ -41,12 +42,12 @@ class Chat extends Component {
       return gcm;
     });
     return (
-        <GiftedChat
-          messages={giftedChatMessages}
-          onInputTextChanged={newMessage => this.setState({newMessage})}
-          onSend={this.handlesubmit}
-          user={{ _id: +this.props.user.id }}
-        />
+      <GiftedChat
+        messages={giftedChatMessages}
+        onInputTextChanged={newMessage => this.setState({ newMessage })}
+        onSend={this.handlesubmit}
+        user={{ _id: +this.props.user.id }}
+      />
     );
   }
 }
