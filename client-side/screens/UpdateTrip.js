@@ -46,8 +46,8 @@ class UpdateTrip extends Component {
     } else if (!location.length) {
       alert('Location required')
     } else {
-    await this.props.updateTrip(this.state);
-    this.props.navigation.navigate('SingleTrip')
+      await this.props.updateTrip(this.state);
+      this.props.navigation.navigate('SingleTrip')
     }
   };
 
