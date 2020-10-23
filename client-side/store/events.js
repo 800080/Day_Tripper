@@ -128,6 +128,8 @@ export default function (state = initialState, action) {
     case DELETE_EVENT:
       const filteredEvents = state.allEvents.filter(evt => evt.id !== action.evtId)
       return {...state, allEvents: filteredEvents}
+    case UPDATE_EVENT:
+      return { ...state, singleEvent: action.event }
     default:
       return state
   }

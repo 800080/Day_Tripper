@@ -17,13 +17,30 @@ class UpdateEvent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...this.props.singleEvent,
+      title: '',
+      location: '',
+      startTime: new Date(),
+      endTime: new Date(),
+      notes: '',
       show: false,
       date: new Date(),
       time: new Date(),
       mode: '',
       selected: new Date()
     };
+  }
+
+  componentDidMount () {
+    const { title, location, startTime, endTime, notes } = this.props.singleEvent
+    const start = new Date(startTime)
+    const end = new Date(endTime)
+    this.setState({
+      title,
+      location,
+      startTime: start,
+      endTime: end,
+      notes
+    })
   }
 
   onUpdateEvent = async () => {
@@ -82,7 +99,6 @@ class UpdateEvent extends Component {
   };
 
   render() {
-    console.log('this.state ---->', this.state)
     return (
       <View style={styles.container}>
         <KeyboardAwareScrollView
