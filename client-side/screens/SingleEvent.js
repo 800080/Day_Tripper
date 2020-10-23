@@ -34,7 +34,6 @@ class SingleEvent extends Component {
   render() {
     const startTime = new Date(this.props.event.startTime);
     const endTime = new Date(this.props.event.endTime);
-    console.log('COORDS_--------', this.props.mapCoords);
     return (
       <View style={defaultStyles.singleContainer}>
         <List.Section style={styles.list}>

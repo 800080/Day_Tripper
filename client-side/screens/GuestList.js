@@ -48,7 +48,7 @@ function GuestList(props) {
     >
       <ScrollView keyboardShouldPersistTaps="handled">
         <List.Section>
-          <List.Subheader style={defaultStyles.listSubheader}>Going</List.Subheader>
+          <List.Subheader style={defaultStyles.listSubheader}>Attending</List.Subheader>
           <Divider style={defaultStyles.divider} />
           {goingGuests.map((guest) => {
             return (
@@ -56,7 +56,7 @@ function GuestList(props) {
                 key={guest.id}
                 title={guest.name}
                 left={() => (
-                  <List.Icon color={defaultStyles.button.backgroundColor} icon="airplane-takeoff" />
+                  <List.Icon color={defaultStyles.button.backgroundColor} icon="account" />
                 )}
                 right={() => {
                   if (props.singleTrip.userTrips[0].isHost) {
@@ -84,7 +84,7 @@ function GuestList(props) {
               <List.Item
                 key={guest.id}
                 title={guest.name}
-                left={() => <List.Icon color={defaultStyles.button.backgroundColor} icon="alert-outline" />}
+                left={() => <List.Icon color={defaultStyles.button.backgroundColor} icon="account-question-outline" />}
                 right={() => {
                   if (props.singleTrip.userTrips[0].isHost) {
                     return <TouchableOpacity
@@ -120,7 +120,11 @@ function GuestList(props) {
           />
           <TouchableOpacity
             style={defaultStyles.button}
-            onPress={() => onAddGuest()}
+            onPress={() => {
+              onAddGuest()
+              toggleModal()
+            }
+            }
           >
             <Text style={defaultStyles.buttonTitle}>Add Guest</Text>
           </TouchableOpacity>
@@ -134,7 +138,7 @@ function GuestList(props) {
         onBackdropPress={toggleModalRemove}
       >
         <View>
-          <Text style={defaultStyles.text}>Are you sure?</Text>
+          <Text style={{...defaultStyles.text, textAlign: "center"}}>Are you sure?</Text>
           <TouchableOpacity
             style={defaultStyles.button}
             onPress={() => {

@@ -142,6 +142,9 @@ async function seed() {
   await createdChatMessages[2].setUser(createdUsers[3])
 
   await createdTrips[0].setMapLocation(createdMapLocations[0])
+  await createdTrips[1].setMapLocation(createdMapLocations[0])
+  await createdTrips[2].setMapLocation(createdMapLocations[0])
+
   await createdEvents[0].setMapLocation(createdMapLocations[0])
   await createdEvents[1].setMapLocation(createdMapLocations[1])
   await createdEvents[2].setMapLocation(createdMapLocations[2])

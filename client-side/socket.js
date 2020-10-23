@@ -9,7 +9,7 @@ socket.on('connect', () => {
 })
 
 socket.on('new-message', message => {
-  console.log('received message!!!!!!!!!!!!!!!!!')
+  console.log('Received message!!!!!!!!!!!!!!!!!')
   store.dispatch(getNewMessage(message))
 })
 

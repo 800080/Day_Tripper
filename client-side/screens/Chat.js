@@ -47,6 +47,7 @@ class Chat extends Component {
         onInputTextChanged={newMessage => this.setState({ newMessage })}
         onSend={this.handlesubmit}
         user={{ _id: +this.props.user.id }}
+        renderUsernameOnMessage={true}
       />
     );
   }

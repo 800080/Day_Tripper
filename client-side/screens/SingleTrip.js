@@ -20,6 +20,7 @@ import {
 import { List, Divider } from 'react-native-paper';
 import MapView, { Marker } from 'react-native-maps';
 import defaultStyles from './styles';
+import moment from 'moment'
 
 export class SingleTrip extends Component {
   constructor() {
@@ -89,9 +90,9 @@ export class SingleTrip extends Component {
           <List.Section >
             <Text style={{ ...defaultStyles.text, textAlign: "center", fontSize: 25, fontWeight: "bold" }}>{this.props.singleTrip.title}</Text>
             <Divider style={defaultStyles.divider} />
-            <Text style={defaultStyles.text}>Start: {startDate.toLocaleString('en-US')}</Text>
+            <Text style={defaultStyles.text}>Start: {moment(startDate).format("dddd, MMMM Do")}</Text>
             <Divider style={defaultStyles.divider} />
-            <Text style={defaultStyles.text}>End: {endDate.toLocaleString('en-US')}</Text>
+            <Text style={defaultStyles.text}>End: {moment(endDate).format("dddd, MMMM Do")}</Text>
             <Divider style={defaultStyles.divider} />
             <Text style={defaultStyles.text}>Notes: {this.props.singleTrip.notes}</Text>
           </List.Section>
@@ -99,7 +100,7 @@ export class SingleTrip extends Component {
             <MapView
               initialRegion={this.props.mapCoords}
               region={this.props.mapCoords}
-              style={styles.mapStyle}
+              style={defaultStyles.mapStyle}
             >
               <Marker
                 coordinate={this.props.mapCoords}
@@ -116,13 +117,13 @@ export class SingleTrip extends Component {
             {this.props.singleTrip.userTrips[0].isHost && (
               <View>
                 <TouchableOpacity
-                  style={defaultStyles.button}
+                  style={{...defaultStyles.button, width: 125}}
                   onPress={this.toggleModal}
                 >
                   <Text style={defaultStyles.buttonTitle}>Delete Trip</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={defaultStyles.button}
+                  style={{...defaultStyles.button, width: 125}}
                   onPress={() => this.props.navigation.navigate('Update Trip')}
                 >
                   <Text style={defaultStyles.buttonTitle}>Update Trip</Text>
@@ -136,7 +137,7 @@ export class SingleTrip extends Component {
               onBackdropPress={this.toggleModal}
             >
               <View>
-                <Text style={styles.text}>Are you sure?</Text>
+                <Text style={{...defaultStyles.text, textAlign: "center"}}>Are you sure?</Text>
                 <TouchableOpacity
                   style={defaultStyles.button}
                   onPress={this.delete}
