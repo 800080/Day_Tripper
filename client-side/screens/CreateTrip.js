@@ -46,7 +46,9 @@ class CreateTrip extends Component {
       alert('Location required')
     } else {
       await this.props.createTrip(this.state);
-      this.props.navigation.navigate('AllTrips')
+    }
+    if (this.props.singleTrip.id) {
+      this.props.navigation.navigate('SingleTrip');
     }
   };
 
@@ -173,6 +175,7 @@ class CreateTrip extends Component {
 
 const mapState = (state) => ({
   guestList: state.trips.guestList,
+  singleTrip: state.trips.singleTrip
 });
 
 const mapDispatch = (dispatch) => ({

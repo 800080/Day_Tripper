@@ -51,12 +51,12 @@ class Itinerary extends Component {
     const itinEvents = this.props.events
     const newEvts = []
     itinEvents.forEach(evt => {
-      const subHeader = { title: moment(evt.startTime).format("dddd MMMM Do"), header: true }
+      const subHeader = { title: moment(evt.startTime).format("dddd, MMMM Do"), header: true }
       if (!newEvts.length) {
         newEvts.push(subHeader)
       } else {
-        const lastTime = moment(newEvts[newEvts.length - 1].startTime).format("dddd MMMM Do")
-        const curEvtTime = moment(evt.startTime).format("dddd MMMM Do")
+        const lastTime = moment(newEvts[newEvts.length - 1].startTime).format("dddd, MMMM Do")
+        const curEvtTime = moment(evt.startTime).format("dddd, MMMM Do")
         if (lastTime !== curEvtTime) {
           newEvts.push(subHeader)
         }
@@ -81,20 +81,24 @@ class Itinerary extends Component {
     if (item.header) {
       return (
         <ListItem itemDivider style={{ backgroundColor: defaultStyles.singleContainer.backgroundColor }}>
-          <Left />
-          <Body style={{ marginRight: 40 }}>
-            <Text style={{ fontWeight: "bold" }}>
+
+          <Body style={{ alignItems: "center" }}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
               {item.title}
             </Text>
           </Body>
-          <Right />
+
         </ListItem>
       );
     } else if (!item.header) {
       return (
-        <ListItem style={{ marginLeft: 20 }}>
+        <ListItem
+          style={{ marginLeft: 20, marginRight: 20 }}
+          onPress={() => this.handleClick(item.id)}
+        >
           <Body>
-            <Text onPress={() => this.handleClick(item.id)}>{item.title} {moment(item.startTime).format("h:mm a")} to {moment(item.endTime).format("h:mm a")}</Text>
+            <Text style={{fontSize: 18}}>{item.title}</Text>
+            <Text>{moment(item.startTime).format("h:mm a")} to {moment(item.endTime).format("h:mm a")}</Text>
           </Body>
         </ListItem>
       );

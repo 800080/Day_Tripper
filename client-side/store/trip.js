@@ -83,13 +83,18 @@ export const createTripServer = (tripInfo) => async (dispatch, getState) => {
     const user = getState().user
     const guestList = getState().trips.guestList
     const { data: mapLocation } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${tripInfo.location}&key=${GOOGLE_MAPS_API_KEY}`)
-    const coordinate = mapLocation.results[0].geometry.location
-    const newTrip = await axios.post(`${serverUrl}/api/trips`, {tripInfo, user, guestList})
-    await axios.post(`${serverUrl}/api/maps/trip`, {tripId: newTrip.data.id, coordinate})
-    const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
-    dispatch(createTrip(trip.data))
-    dispatch(updateStatus(trip.data.id, user.id, 'accepted', true))
-    dispatch(clearGuestList())
+
+    if (!mapLocation.results.length) {
+      alert ('Invalid location')
+    } else {
+      const coordinate = mapLocation.results[0].geometry.location
+      const newTrip = await axios.post(`${serverUrl}/api/trips`, {tripInfo, user, guestList})
+      await axios.post(`${serverUrl}/api/maps/trip`, {tripId: newTrip.data.id, coordinate})
+      const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
+      dispatch(createTrip(trip.data))
+      dispatch(updateStatus(trip.data.id, user.id, 'accepted', true))
+      dispatch(clearGuestList())
+    }
   } catch (error) {
     console.error(error)
   }
@@ -100,11 +105,16 @@ export const updateTrip = (tripInfo) => async (dispatch, getState) => {
     const user = getState().user
     const singleTrip = getState().trips.singleTrip
     const { data: mapLocation } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${tripInfo.location}&key=${GOOGLE_MAPS_API_KEY}`)
-    const coordinate = mapLocation.results[0].geometry.location
-    const newTrip = await axios.put(`${serverUrl}/api/trips/${singleTrip.id}`, {tripInfo})
-    await axios.post(`${serverUrl}/api/maps/trip`, {tripId: newTrip.data.id, coordinate})
-    const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
-    dispatch(updTrip(trip.data))
+
+    if (!mapLocation.results.length) {
+      alert ('Invalid location')
+    } else {
+      const coordinate = mapLocation.results[0].geometry.location
+      const newTrip = await axios.put(`${serverUrl}/api/trips/${singleTrip.id}`, {tripInfo})
+      await axios.post(`${serverUrl}/api/maps/trip`, {tripId: newTrip.data.id, coordinate})
+      const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
+      dispatch(updTrip(trip.data))
+    }
   } catch (error) {
     console.error(error)
   }
