@@ -45,18 +45,21 @@ const seedUser = [
 const seedTrip = [
   {
     title:"Graduation Trip",
+    location: 'San Francisco',
     startDate: new Date("10/31/20"),
     endDate:new Date("11/07/20"),
     notes: "Celebration!!!"
   },
   {
     title:"Electric Daisy Carnival",
+    location: 'San Francisco',
     startDate: new Date("05/18/21"),
     endDate: new Date("05/25/21"),
     notes: "Partaaaay!!!"
   },
   {
     title:"Grand Canyon",
+    location: 'San Francisco',
     startDate: new Date("08/10/21"),
     endDate:new Date("08/24/21"),
     notes: "Nature!!!"
@@ -66,18 +69,21 @@ const seedTrip = [
 const seedEvent = [
   {
    title: "Dinner",
+   location: 'San Francisco',
    startTime:new Date("10/31/20 20:00:00"),
    endTime:new Date("10/31/20 22:00:00"),
    notes: "Eat or Die!",
   },
   {
     title:"Snorkeling",
+    location: 'San Francisco',
     startTime:new Date("11/03/20 10:00:00"),
     endTime:new Date("11/03/20 11:00:00"),
     notes: "See pretty fish",
    },
    {
     title:"Jet skiing",
+    location: 'San Francisco',
     startTime:new Date("11/04/20 11:00:00"),
     endTime:new Date("11/04/20 17:00:00"),
     notes: "Life jackets mandatory",

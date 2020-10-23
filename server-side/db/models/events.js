@@ -7,6 +7,11 @@ const Event = db.define('event', {
     allowNull: false,
     validate: { notEmpty: true }
   },
+  location: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: { notEmpty: true }
+  },
   startTime: {
     type: Sequelize.DATE,
     allowNull: false,
