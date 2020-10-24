@@ -10,11 +10,11 @@ class Map extends React.Component {
     return (
       <View style={styles.container}>
         <MapView
-          initialRegion={this.props.mapCoords}
+          initialRegion={this.props.singleTrip.coordinate}
           style={styles.mapStyle}
         >
           <Marker
-            coordinate={this.props.mapCoords}
+            coordinate={this.props.singleTrip.coordinate}
             title={this.props.singleTrip.title}
             description={this.props.singleTrip.notes}
           >
@@ -25,7 +25,7 @@ class Map extends React.Component {
             return (
               <Marker
                 key={event.id}
-                coordinate={event.mapLocation.coordinate}
+                coordinate={event.coordinate}
                 title={event.title}
                 description={event.notes}
               />
@@ -39,7 +39,6 @@ class Map extends React.Component {
 
 const mapState = (state) => ({
   events: state.events.allEvents,
-  mapCoords: state.map,
   singleTrip: state.trips.singleTrip
 })
 

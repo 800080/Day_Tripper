@@ -14,7 +14,6 @@ import {
   fetchAllTrips,
   updateStatus,
   fetchAllEvents,
-  setCoords,
   deleteTrip,
 } from '../store';
 import { List, Divider } from 'react-native-paper';
@@ -32,7 +31,6 @@ export class SingleTrip extends Component {
 
   componentDidUpdate = async () => {
     await this.props.fetchAllEvents(this.props.singleTrip.id);
-    await this.props.setCoords(this.props.singleTrip.mapLocation.coordinate);
   };
 
   toggleModal = () => this.setState({ isVisible: !this.state.isVisible });
@@ -98,12 +96,12 @@ export class SingleTrip extends Component {
           </List.Section>
           <View style={defaultStyles.singleContainer}>
             <MapView
-              initialRegion={this.props.mapCoords}
-              region={this.props.mapCoords}
+              initialRegion={this.props.singleTrip.coordinate}
+              region={this.props.singleTrip.coordinate}
               style={defaultStyles.mapStyle}
             >
               <Marker
-                coordinate={this.props.mapCoords}
+                coordinate={this.props.singleTrip.coordinate}
                 title={this.props.singleTrip.title}
                 description={this.props.singleTrip.notes}
               >
@@ -161,8 +159,7 @@ export class SingleTrip extends Component {
 
 const mapState = (state) => ({
   singleTrip: state.trips.singleTrip,
-  user: state.user,
-  mapCoords: state.map,
+  user: state.user
 });
 
 const mapDispatch = (dispatch) => ({
@@ -170,8 +167,7 @@ const mapDispatch = (dispatch) => ({
     dispatch(updateStatus(tripId, userId, status)),
   fetchAllTrips: (userId) => dispatch(fetchAllTrips(userId)),
   fetchAllEvents: (tripId) => dispatch(fetchAllEvents(tripId)),
-  setCoords: (coords) => dispatch(setCoords(coords)),
-  deleteTrip: (tripId) => dispatch(deleteTrip(tripId)),
+  deleteTrip: (tripId) => dispatch(deleteTrip(tripId))
 });
 
 export default connect(mapState, mapDispatch)(SingleTrip);

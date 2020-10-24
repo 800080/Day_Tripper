@@ -20,12 +20,14 @@ class UpdateTrip extends Component {
     this.state = {
       title: '',
       location: '',
-      startDate: new Date(),
-      endDate: new Date(),
+      startTime: new Date(),
+      endTime: new Date(),
       notes: '',
-      guest: '',
       show: false,
-      selected: new Date(),
+      date: new Date(),
+      time: new Date(),
+      mode: '',
+      selected: new Date()
     };
   }
 
@@ -67,6 +69,7 @@ class UpdateTrip extends Component {
 
   showDatePicker = (selected) => {
     this.setState({ show: true });
+    this.setState({ mode: 'date' });
     this.setState({ selected })
   };
 
@@ -144,8 +147,7 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  updateTrip: (tripInfo) =>
-    dispatch(updateTrip(tripInfo)),
+  updateTrip: (tripInfo) => dispatch(updateTrip(tripInfo))
 });
 
 export default connect(mapState, mapDispatch)(UpdateTrip);

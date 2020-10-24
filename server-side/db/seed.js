@@ -4,7 +4,6 @@ const {
   Trip,
   Event,
   ChatMessage,
-  MapLocation,
   UserTrip,
 } = require("./models")
 
@@ -48,21 +47,40 @@ const seedTrip = [
     location: 'San Francisco',
     startDate: new Date("10/31/20"),
     endDate:new Date("11/07/20"),
-    notes: "Celebration!!!"
+    notes: "Celebration!!!",
+    coordinate:{
+      latitude: 37.78825,
+      longitude: -122.4324,
+      latitudeDelta:0.05,
+      longitudeDelta: 0.05
+    }
   },
+
   {
     title:"Electric Daisy Carnival",
     location: 'San Francisco',
     startDate: new Date("05/18/21"),
     endDate: new Date("05/25/21"),
-    notes: "Partaaaay!!!"
+    notes: "Partaaaay!!!",
+    coordinate:{
+      latitude: 37.78825,
+      longitude: -122.4324,
+      latitudeDelta:0.05,
+      longitudeDelta: 0.05
+    }
   },
   {
     title:"Grand Canyon",
     location: 'San Francisco',
     startDate: new Date("08/10/21"),
     endDate:new Date("08/24/21"),
-    notes: "Nature!!!"
+    notes: "Nature!!!",
+    coordinate:{
+      latitude: 37.78825,
+      longitude: -122.4324,
+      latitudeDelta:0.05,
+      longitudeDelta: 0.05
+    }
   },
 ]
 
@@ -73,6 +91,12 @@ const seedEvent = [
    startTime:new Date("10/31/20 20:00:00"),
    endTime:new Date("10/31/20 22:00:00"),
    notes: "Eat or Die!",
+   coordinate:{
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta:0.05,
+    longitudeDelta: 0.05
+  }
   },
   {
     title:"Snorkeling",
@@ -80,6 +104,12 @@ const seedEvent = [
     startTime:new Date("11/03/20 10:00:00"),
     endTime:new Date("11/03/20 11:00:00"),
     notes: "See pretty fish",
+    coordinate:{
+      latitude: 37.79825,
+      longitude: -122.4324,
+      latitudeDelta:0.05,
+      longitudeDelta: 0.05
+    }
    },
    {
     title:"Jet skiing",
@@ -87,6 +117,12 @@ const seedEvent = [
     startTime:new Date("11/04/20 11:00:00"),
     endTime:new Date("11/04/20 17:00:00"),
     notes: "Life jackets mandatory",
+    coordinate:{
+      latitude: 37.78825,
+      longitude: -122.4224,
+      latitudeDelta:0.05,
+      longitudeDelta: 0.05
+    }
    },
 ]
 
@@ -102,27 +138,6 @@ const seedChatMessages = [
   },
 ]
 
-const seedMapLocations = [
-  {
-    coordinate:{
-      lat: 37.78825,
-      lng: -122.4324,
-    },
-  },
-  {
-    coordinate:{
-      lat: 37.79825,
-      lng: -122.4324,
-    },
-  },
-  {
-    coordinate:{
-      lat: 37.78825,
-      lng: -122.4224,
-    },
-  },
-]
-
 async function seed() {
   await db.sync({ force: true })
 
@@ -130,7 +145,7 @@ async function seed() {
   const createdTrips = await Promise.all(seedTrip.map(trip => Trip.create(trip)))
   const createdEvents = await Promise.all(seedEvent.map(event => Event.create(event)))
   const createdChatMessages = await Promise.all(seedChatMessages.map(message => ChatMessage.create(message)))
-  const createdMapLocations = await Promise.all(seedMapLocations.map(location => MapLocation.create(location)))
+
 
   await createdTrips[0].addEvents(createdEvents)
   await createdTrips[0].addUsers(createdUsers)
@@ -140,14 +155,6 @@ async function seed() {
   await createdChatMessages[0].setUser(createdUsers[1])
   await createdChatMessages[1].setUser(createdUsers[2])
   await createdChatMessages[2].setUser(createdUsers[3])
-
-  await createdTrips[0].setMapLocation(createdMapLocations[0])
-  await createdTrips[1].setMapLocation(createdMapLocations[0])
-  await createdTrips[2].setMapLocation(createdMapLocations[0])
-
-  await createdEvents[0].setMapLocation(createdMapLocations[0])
-  await createdEvents[1].setMapLocation(createdMapLocations[1])
-  await createdEvents[2].setMapLocation(createdMapLocations[2])
 
   const userTrip = await UserTrip.findOne({where: {userId: 2}})
   await userTrip.update({isHost: true, status: "accepted"})

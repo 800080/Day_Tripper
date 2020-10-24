@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { UserTrip, Trip, MapLocation } = require("../db/models");
+const { UserTrip, Trip } = require("../db/models");
 const userOrAdmin = require('../utils/userOrAdmin.js')
 const userOnly = require('../utils/userOnly.js')
 module.exports = router;
@@ -15,8 +15,7 @@ router.get("/user/:userId", userOrAdmin, async (req, res, next) => {
           where: {
             userId: req.params.userId,
           },
-        },
-        MapLocation,
+        }
       ],
     });
     res.send(trips);
@@ -35,8 +34,7 @@ router.get("/:tripId/user/:userId", userOrAdmin, async (req, res, next) => {
           where: {
             userId: req.params.userId,
           },
-        },
-        MapLocation,
+        }
       ],
     });
     res.send(singleTrip);
@@ -77,15 +75,13 @@ router.delete("/:tripId/user/:userId", userOnly, async (req, res, next) => {
   }
 })
 
-
-
 //POST mounted on /api/trips
 router.post("/", userOnly, async (req, res, next) => {
   try {
-    const { tripInfo, user, guestList } = req.body;
+    const { newInfo, user, guestList } = req.body;
     const allGuests = [...guestList, user];
     const allGuestsIds = allGuests.map((guest) => guest.id);
-    const newTrip = await Trip.create(tripInfo);
+    const newTrip = await Trip.create(newInfo);
     await newTrip.setUsers(allGuestsIds);
     res.send(newTrip);
   } catch (error) {
@@ -96,9 +92,10 @@ router.post("/", userOnly, async (req, res, next) => {
 //PUT mounted on /api/trips/:tripId
 router.put("/:tripId", userOnly, async (req, res, next) => {
   try {
-    const { tripInfo } = req.body;
+    const newInfo = req.body;
+    console.log("REQ BODY-------", req.body)
     const foundTrip = await Trip.findByPk(req.params.tripId);
-    const updatedTrip = await foundTrip.update(tripInfo)
+    const updatedTrip = await foundTrip.update(newInfo)
     res.send(updatedTrip);
   } catch (error) {
     next(error);

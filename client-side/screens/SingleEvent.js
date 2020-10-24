@@ -4,7 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { List, Divider } from 'react-native-paper'
 import Modal from 'react-native-modal';
 import { connect } from 'react-redux';
-import { setCoords, deleteEvent } from '../store';
+import { deleteEvent } from '../store';
 import defaultStyles from './styles';
 
 class SingleEvent extends Component {
@@ -15,10 +15,6 @@ class SingleEvent extends Component {
     };
   }
 
-  componentDidMount = () => {
-    this.props.setCoords(this.props.event.mapLocation.coordinate);
-  };
-
   toggleModal = () => this.setState({ isVisible: !this.state.isVisible });
 
   delete = async () => {
@@ -27,7 +23,6 @@ class SingleEvent extends Component {
   };
 
   onClick = () => {
-    this.props.setCoords(this.props.event.mapLocation.coordinate);
     this.props.navigation.navigate('Map');
   };
 
@@ -46,12 +41,12 @@ class SingleEvent extends Component {
           <Text style={defaultStyles.text}>Notes: {this.props.event.notes}</Text>
         </List.Section>
         <MapView
-          initialRegion={this.props.event.mapLocation.coordinate}
-          region={this.props.event.mapLocation.coordinate}
+          initialRegion={this.props.event.coordinate}
+          region={this.props.event.coordinate}
           style={defaultStyles.mapStyle}
         >
           <Marker
-            coordinate={this.props.event.mapLocation.coordinate}
+            coordinate={this.props.event.coordinate}
             title={this.props.event.title}
             description={this.props.event.notes}
           />
@@ -102,11 +97,9 @@ class SingleEvent extends Component {
 
 const mapState = (state) => ({
   event: state.events.singleEvent,
-  mapCoords: state.map,
   singleTrip: state.trips.singleTrip,
 });
 const mapDispatch = (dispatch) => ({
-  setCoords: (coords) => dispatch(setCoords(coords)),
   deleteEvent: (evtId) => dispatch(deleteEvent(evtId)),
 });
 

@@ -23,6 +23,13 @@ const Event = db.define('event', {
   notes: {
     type: Sequelize.TEXT
   },
+  coordinate: {
+    type: Sequelize.JSON,
+    allowNull: false,
+  },
+  address: {
+    type: Sequelize.STRING
+  }
 })
 
 module.exports = Event

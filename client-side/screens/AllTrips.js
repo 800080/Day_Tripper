@@ -22,7 +22,7 @@ class AllTrips extends Component {
 
   handleClick = async (tripId) => {
     await this.props.fetchSingleTrip(tripId);
-    await this.props.setCoords(this.props.singleTrip.mapLocation.coordinate);
+    await this.props.setCoords(this.props.singleTrip.coordinate);
     this.props.navigation.navigate('SingleTrip'); // Maybe refactor?
   };
 

@@ -88,9 +88,17 @@ export const createTripServer = (tripInfo) => async (dispatch, getState) => {
       alert ('Invalid location')
     } else {
       const coordinate = mapLocation.results[0].geometry.location
-      const newTrip = await axios.post(`${serverUrl}/api/trips`, {tripInfo, user, guestList})
-      await axios.post(`${serverUrl}/api/maps/trip`, {tripId: newTrip.data.id, coordinate})
+      const newInfo = {
+        ...tripInfo,
+        "coordinate": {
+          "latitude": coordinate.lat,
+          "longitude": coordinate.lng,
+          "latitudeDelta": 0.05,
+          "longitudeDelta": 0.05
+        } }
+      const newTrip = await axios.post(`${serverUrl}/api/trips`, {newInfo, user, guestList})
       const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
+
       dispatch(createTrip(trip.data))
       dispatch(updateStatus(trip.data.id, user.id, 'accepted', true))
       dispatch(clearGuestList())
@@ -110,8 +118,16 @@ export const updateTrip = (tripInfo) => async (dispatch, getState) => {
       alert ('Invalid location')
     } else {
       const coordinate = mapLocation.results[0].geometry.location
-      const newTrip = await axios.put(`${serverUrl}/api/trips/${singleTrip.id}`, {tripInfo})
-      await axios.post(`${serverUrl}/api/maps/trip`, {tripId: newTrip.data.id, coordinate})
+      const newInfo = {
+        ...tripInfo,
+        "coordinate": {
+          "latitude": coordinate.lat,
+          "longitude": coordinate.lng,
+          "latitudeDelta": 0.05,
+          "longitudeDelta": 0.05
+        } }
+      console.log("NEW INFO.......", newInfo)
+      const newTrip = await axios.put(`${serverUrl}/api/trips/${singleTrip.id}`, newInfo)
       const trip = await axios.get(`${serverUrl}/api/trips/${newTrip.data.id}/user/${user.id}`)
       dispatch(updTrip(trip.data))
     }

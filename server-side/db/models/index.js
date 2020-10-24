@@ -19,12 +19,6 @@ Trip.hasMany(UserTrip)
 Event.belongsTo(Trip)
 Trip.hasMany(Event)
 
-Trip.belongsTo(MapLocation)
-MapLocation.hasMany(Trip)
-
-Event.belongsTo(MapLocation)
-MapLocation.hasMany(Event)
-
 ChatMessage.belongsTo(User)
 User.hasMany(ChatMessage)
 

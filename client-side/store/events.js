@@ -66,12 +66,18 @@ export const createEvent = (event) => async dispatch => {
     if (!mapLocation.results.length) {
       alert ('Invalid location')
     } else {
-    const coordinate = mapLocation.results[0].geometry.location
-    const singleEvent = await axios.post(`${serverUrl}/api/events`, event)
-    await axios.post(`${serverUrl}/api/maps/event`, {eventId: singleEvent.data.id, coordinate})
-    const fetchedEvent = await axios.get(`${serverUrl}/api/events/${singleEvent.data.id}`)
-    dispatch(createNewEvent(fetchedEvent.data))
+      const coordinate = mapLocation.results[0].geometry.location
+      const newEvent = {
+        ...event,
+        "coordinate": {
+          "latitude": coordinate.lat,
+          "longitude": coordinate.lng,
+          "latitudeDelta": 0.05,
+          "longitudeDelta": 0.05
+      }}
+      const singleEvent = await axios.post(`${serverUrl}/api/events`, newEvent)
 
+      dispatch(createNewEvent(singleEvent.data))
     }
   } catch (error) {
     console.error(error)
@@ -85,8 +91,15 @@ export const updateEvent = (event, evtId) => async dispatch => {
       alert ('Invalid location')
     } else {
       const coordinate = mapLocation.results[0].geometry.location
-      const singleEvent = await axios.put(`${serverUrl}/api/events/${evtId}`, event)
-      await axios.post(`${serverUrl}/api/maps/event`, {eventId: singleEvent.data.id, coordinate})
+      const newEvent = {
+        ...event,
+        "coordinate": {
+          "latitude": coordinate.lat,
+          "longitude": coordinate.lng,
+          "latitudeDelta": 0.05,
+          "longitudeDelta": 0.05
+      }}
+      const singleEvent = await axios.put(`${serverUrl}/api/events/${evtId}`,newEvent)
       const fetchedEvent = await axios.get(`${serverUrl}/api/events/${singleEvent.data.id}`)
       dispatch(uptEvent(fetchedEvent.data))
     }
