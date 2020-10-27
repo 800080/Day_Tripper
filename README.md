@@ -4,7 +4,11 @@ Note: currently works for iOS only.
 # Motivation
 To create an application that is a single source for the creation, organization, and communication of group trips.
 # Screen Shots
+<div>
 <img src="client-side/assets/Login screen - background.png" width="200" height="400" />
+<img src="client-side/assets/chat_screen-background.png" width="200" height="400" />
+<img src="client-side/assets/map_screen-background.png" width="200" height="400" />
+</div>
 
 # Tech Stack
 Our application was developed with React native, Redux, Express, and PostgreSQL.
