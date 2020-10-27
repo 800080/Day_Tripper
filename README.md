@@ -8,6 +8,7 @@ To create an application that is a single source for the creation, organization,
 <img src="client-side/assets/Login screen - background.png" width="200" height="400" />
 <img src="client-side/assets/chat_screen-background.png" width="200" height="400" />
 <img src="client-side/assets/map_screen-background.png" width="200" height="400" />
+<img src="client-side/assets/itinerary-background.png" width="200" height="400" /> 
 </div>
 
 # Tech Stack
