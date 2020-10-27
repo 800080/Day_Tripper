@@ -4,7 +4,7 @@ Note: currently works for iOS only.
 # Motivation
 To create an application that is a single source for the creation, organization, and communication of group trips.
 # Screen Shots
-<img src="client-side/assets/DayTripperLogo.png" width="200" height="400" />
+<img src="client-side/assets/Login screen - background.png" width="200" height="400" />
 
 # Tech Stack
 Our application was developed with React native, Redux, Express, and PostgreSQL.
